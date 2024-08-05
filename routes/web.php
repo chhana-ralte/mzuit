@@ -11,7 +11,7 @@ use App\Http\Controllers\DikteiController;
 use App\Http\Controllers\UserController;
 
 Route::get('/', function () {
-    return redirect('/diktei');
+    return view('home');
 });
 
 // Route::get('/dashboard', function () {
@@ -40,7 +40,7 @@ Route::controller(DikteiController::class)->group(function(){
 });
 
 Route::controller(UserController::class)->group(function(){
-    Route::get('/login','login');
+    Route::get('/login','login')->name('login');
     Route::post('/login','logincheck');
     Route::post('/logout','logout');
 });

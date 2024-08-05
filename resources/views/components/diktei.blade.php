@@ -24,7 +24,7 @@
       <ul class="navbar-nav me-auto">
 
         <li class="nav-item">
-          <a class="nav-link" href="/">Entry</a>
+          <a class="nav-link" href="/diktei">Entry</a>
         </li>
         @auth
         <li class="nav-item">
@@ -57,8 +57,9 @@
 </nav>
 
 <div class="container-fluid mt-5">
-  
-  
+@if(Session::has('message'))
+  <x-alert type="{{ session('message')['type'] }}">{{ session("message")['text'] }}</x-alert>
+@endif
   {{ $slot }}
 </div>
 

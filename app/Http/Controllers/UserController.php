@@ -24,7 +24,7 @@ class UserController extends Controller
             return redirect('/');
         }
         else{
-            return view('user.login',['message' => 'Login failed']);
+            return redirect('/login')->with(['message' => ['type'=>'danger','text'=>'Login Failed...']]);
         }
     }
 

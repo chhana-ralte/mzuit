@@ -34,7 +34,7 @@
             <!-- Page Content -->
             <main>
                 @if(Session::has('message'))
-                    <x-alert>{{ session("message")['text'] }}</x-alert>
+                    <x-alert type="{{ session('message')['type']}}">{{ session("message")['text'] }}</x-alert>
                 @endif
 
                 {{ $slot }}

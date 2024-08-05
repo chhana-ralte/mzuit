@@ -11,18 +11,17 @@ use App\Http\Controllers\DikteiController;
 
 Route::get('/', function () {
     return redirect('/diktei');
-    return view('diktei.dashboard');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// Route::get('/dashboard', function () {
+//     return view('dashboard');
+// })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::resource('school', SchoolController::class);
-Route::resource('school.department', DepartmentController::class)->shallow();
-Route::resource('department.course', CourseController::class)->shallow();
-Route::resource('course.syllabus', SyllabusController::class)->shallow();
-Route::resource('enroll', EnrollController::class);
+// Route::resource('school', SchoolController::class);
+// Route::resource('school.department', DepartmentController::class)->shallow();
+// Route::resource('department.course', CourseController::class)->shallow();
+// Route::resource('course.syllabus', SyllabusController::class)->shallow();
+// Route::resource('enroll', EnrollController::class);
 
 Route::controller(DikteiController::class)->group(function(){
     Route::get('/diktei','index');
@@ -39,5 +38,11 @@ Route::controller(DikteiController::class)->group(function(){
     Route::post('/diktei/algorithm','algorithm');
 });
 
-require __DIR__.'/auth.php';
-require __DIR__.'/profile.php';
+Route::controller(UserController::class)->group(function(){
+    Route::get('/login','login');
+    Route::post('/login','logincheck');
+    Route::post('/logout','logout');
+});
+
+// require __DIR__.'/auth.php';
+// require __DIR__.'/profile.php';

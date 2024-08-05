@@ -22,7 +22,7 @@
                 </thead>
                 <tbody>
                     <?php $sl=1 ?>
-                    @foreach(App\Models\Department::orderBy('name')->get() as $dep)
+                    @foreach($departments as $dep)
                         <tr>
                             <td>{{ $sl++ }}</td>
                             <td><a href="/diktei/allotments/{{$dep->id}}">{{ $dep->name }}</td>

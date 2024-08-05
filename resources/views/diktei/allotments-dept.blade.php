@@ -18,7 +18,7 @@
                     @foreach($allots as $allot)
                         <tr>
                             <td>{{ $sl++ }}</td>
-                            <td><a href="/diktei/alotments/{{$allot->id}}">{{ $allot->diktei->name }}</td>
+                            <td>{{ $allot->diktei->name }}</td>
                             <td>{{ $allot->diktei->rollno }}</td>
                             <td>{{ $allot->diktei->department->name }}</td>
                             

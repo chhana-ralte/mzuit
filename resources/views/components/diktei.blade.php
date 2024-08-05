@@ -16,31 +16,24 @@
 <br>
 <nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
   <div class="container-fluid">
-    <a class="navbar-brand" href="/home">MZUIT</a>
+    <a class="navbar-brand" href="/">MZUIT</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="mynavbar">
       <ul class="navbar-nav me-auto">
+
         <li class="nav-item">
           <a class="nav-link" href="/">Entry</a>
         </li>
+        @auth
         <li class="nav-item">
           <a class="nav-link" href="/diktei/deptslotentry">Department seats</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/diktei/allotments">Allotments</a>
         </li>
-        @if(auth()->check())
-            <li class="nav-item">
-              <a class="nav-link" href="/log">Logs</a>
-            </li>
-          @endif
-          @if(auth()->check())
-            <li class="nav-item">
-              <a class="nav-link" href="/user">Users</a>
-            </li>
-          @endif
+        @endauth
       </ul>
 <!--      <ul class="navbar-nav me-auto"> -->
       @auth
@@ -49,7 +42,7 @@
             {{ auth()->user()->username }}
           </button>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="/changepwd">Change password</a></li>
+            
             <li><button class="dropdown-item" form="logout-form">Logout</button></li>          
             <form method="post" id="logout-form" action="/logout" type="hidden">
               @csrf

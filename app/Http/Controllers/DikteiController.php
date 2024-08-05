@@ -83,7 +83,7 @@ class DikteiController extends Controller
     }
 
     public function deptslotentry(){
-        $departments = Department::orderBy('name')->get();
+        $departments = Department::whereNotIn('school_id',[4,8])->orderBy('name')->get();
         return view('diktei.deptslotentry',['departments'=>$departments]);
     }
     public function deptslotentrystore(){

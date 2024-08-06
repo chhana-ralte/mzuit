@@ -28,6 +28,9 @@
                     </td>
                 </tr>
                 @endforeach
+                <tr>
+                    <td>{{ $dikteis->links() }}</td>
+                </tr>
             </table>
         </x-block>
     </x-container>

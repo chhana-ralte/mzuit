@@ -20,7 +20,7 @@ class DikteiController extends Controller
     }
 
     public function home(){
-        $dikteis = Diktei::all();
+        $dikteis = Diktei::paginate(15);
         return view('diktei.home',['dikteis'=>$dikteis]);
     }
 

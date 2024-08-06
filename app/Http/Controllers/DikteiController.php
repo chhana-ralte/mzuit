@@ -13,7 +13,14 @@ use App\Models\Allot;
 class DikteiController extends Controller
 {
     public function index(){
-        $departments = Department::whereNotIn('school_id',[4,8])->orderBy('name')->get();
+        $departments = Department::whereNotIn('school_id',[4,8])
+            ->orderBy('name')
+            ->get();
+        return view('diktei.dashboard',['departments'=>$departments]);
+    }
+
+    public function home(){
+        $dikteis = Department::whereNotIn('school_id',[4,8])->orderBy('name')->get();
         return view('diktei.dashboard',['departments'=>$departments]);
     }
 
@@ -98,7 +105,7 @@ class DikteiController extends Controller
                 'slot' => $slot
             ]);
         }
-        return redirect('/diktei/deptslotentry')->with(['message'=>['type'=>'info', 'text'=>'Updated']]);
+        return redirect('/diktei/deptslotentry')->with(['message' => ['type'=>'info', 'text'=>'Updated']]);
     }
 
     public function allotments(){

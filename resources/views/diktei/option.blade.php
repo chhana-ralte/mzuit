@@ -62,7 +62,9 @@
                             <x-select name="department[]" class="form-control">
                                 <option value='0'>None</option>
                                 @foreach($departments as $dept)
-                                    <option value="{{ $dept->id }}">{{ $dept->name }}</option>
+                                    @if($dept->slot())
+                                        <option value="{{ $dept->id }}">{{ $dept->name }}</option>
+                                    @endif
                                 @endforeach
                             </x-select>
                         </div>

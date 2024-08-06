@@ -31,7 +31,9 @@
                     <div class="col-md-4">
                         <x-select name="department" class="form-control">
                         @foreach($departments as $dept)
-                            <option value="{{ $dept->id }}">{{ $dept->name }}</option>
+                            @if($dept->slot())
+                                <option value="{{ $dept->id }}">{{ $dept->name }}</option>
+                            @endif
                         @endforeach
                         </x-select>
                     </div>

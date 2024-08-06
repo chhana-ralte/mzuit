@@ -30,7 +30,7 @@
                 Departments under {{ $school->name }}
             </x-slot>
             @if(count($school->departments)>0)
-                <table class="table-hover table-auto">
+                <table class="table table-striped">
                     <thead>
                         <tr>
                         <th>School Name</th><th>Department Code</th><th>Department Name</th><tr>

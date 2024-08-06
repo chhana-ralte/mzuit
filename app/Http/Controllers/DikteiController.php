@@ -34,6 +34,7 @@ class DikteiController extends Controller
         $diktei->delete();
         return redirect('/diktei/home')->with(['message' => ['type'=>'info', 'text'=>'Deleted']]);
     }
+
     public function entry(){
         $validated = request()->validate([
             'name' => ['required'],
@@ -44,6 +45,12 @@ class DikteiController extends Controller
         if(!$diktei){
             $diktei = Diktei::create([
                 'rollno' => request()->rollno,
+                'name' => request()->name,
+                'department_id' => request()->department
+            ]);
+        }
+        else{
+            $diktei->update([
                 'name' => request()->name,
                 'department_id' => request()->department
             ]);

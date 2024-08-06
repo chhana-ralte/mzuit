@@ -5,7 +5,7 @@
     <x-container>
         <x-block>
             @if(count($schools)>0)
-                <table class="table-hover table-auto">
+                <table class="table table-striped">
                     <thead>
                         <tr>
                             <th>School Code</th><th>School Name</th><tr>

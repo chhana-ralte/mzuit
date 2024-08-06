@@ -9,7 +9,12 @@
                 {{ $subject->code }}: {{$subject->name}}
             </x-slot>
             <div>
+                @if(count($subject->contents) > 0)
+
                 {{ $subject->contents }}
+                @else
+                    <x-button type="a" href="/subject/{{ $subject->id }}/subjectcontent/create">Add</x-button>
+                @endif
             </div>
             <div>
                 <x-button type="a" href="/subject/{{$subject->id}}/edit">EDIT</x-button>

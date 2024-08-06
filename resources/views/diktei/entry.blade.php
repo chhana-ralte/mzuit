@@ -27,6 +27,7 @@
                     <x-input-error class="mt-2" :messages="$errors->get('department')" />
                 </div>
                 <div class="flex items-center gap-4 pt-4">
+                    There will be option to select your choice after this page.
                     <x-button type="submit">{{ __('Proceed') }}</x-button>
                 </div>
             </form>

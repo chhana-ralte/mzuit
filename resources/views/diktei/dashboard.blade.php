@@ -43,6 +43,7 @@
                     <div class="col-md-3">
                     </div>
                     <div class="col-md-4">
+                        There will be option to select your options after this page.
                         <x-button type="submit">{{ __('Proceed') }}</x-button>
                     </div>
                 </div>

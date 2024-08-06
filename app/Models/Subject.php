@@ -19,11 +19,11 @@ class Subject extends Model
     }
 
     public function contents(){
-        return $this->hasmany(Subjectcontent);
+        return $this->hasmany(Subjectcontent::class);
     }
 
     public function subjectcontents(){
-        return $this->hasmany(Subjectcontent);
+        return $this->hasmany(Subjectcontent::class);
     }
 
 }

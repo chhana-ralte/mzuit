@@ -19,7 +19,7 @@
             </div>
             <div>
                 @if(count($subjects)>0)
-                    <table class="table-fixed">
+                    <table class="table table-striped">
                         <thead>
                             <tr>
                                 <th>Sl</th>
@@ -32,7 +32,7 @@
                             @foreach($subjects as $sj)
                                 <tr>
                                     <td>{{ $sl++ }}</td>
-                                    <td>{{ $sj->code }}</td>
+                                    <td><a href="/subject/{{$sj->id}}">{{ $sj->code }}</a></td>
                                     <td>{{ $sj->name }}</td>
                                 </tr>
                             @endforeach

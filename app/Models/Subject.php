@@ -11,10 +11,19 @@ class Subject extends Model
     protected $guarded = [];
     
     public function enrolls(){
-        $this->belongsToMany(Enroll::class);
+        return $this->belongsToMany(Enroll::class);
     }
 
     public function syllabus(){
-        $this->belongsTo(Syllabus::class);
+        return $this->belongsTo(Syllabus::class);
     }
+
+    public function contents(){
+        return $this->hasmany(Subjectcontent);
+    }
+
+    public function subjectcontents(){
+        return $this->hasmany(Subjectcontent);
+    }
+
 }

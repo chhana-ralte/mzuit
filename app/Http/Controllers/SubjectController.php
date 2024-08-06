@@ -36,7 +36,7 @@ class SubjectController extends Controller
      */
     public function show(Subject $subject)
     {
-        //
+        return view('common.subject.show',['subject' => $subject]);
     }
 
     /**

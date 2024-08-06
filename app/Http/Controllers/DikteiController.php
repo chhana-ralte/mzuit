@@ -98,7 +98,7 @@ class DikteiController extends Controller
                 'slot' => $slot
             ]);
         }
-        return redirect('/diktei/deptslotentry');
+        return redirect('/diktei/deptslotentry')->with(['message'=>['type'=>'info', 'text'=>'Updated']]);
     }
 
     public function allotments(){

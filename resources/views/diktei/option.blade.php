@@ -43,11 +43,7 @@
                 Already done for the student. Preferences are:
             </x-slot:heading>
                 @foreach($diktei->options as $opt)
-                    @if($diktei->allotted() && $diktei->allotted()->department->id == $opt->department->id)
-                        <div><b>Option {{$opt->option}}: {{$opt->department->name}}</b> - Allotted</div>
-                    @else
-                        <div>Option {{$opt->option}}: {{$opt->department->name}}</div>
-                    @endif
+                    <div>Option {{$opt->option}}: {{$opt->department->name}}</div>
                 @endforeach
             @else
             <x-slot:heading>

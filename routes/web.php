@@ -6,6 +6,7 @@ use App\Http\Controllers\SchoolController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\SyllabusController;
+use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\EnrollController;
 use App\Http\Controllers\DikteiController;
 use App\Http\Controllers\UserController;
@@ -22,6 +23,7 @@ Route::get('/', function () {
 // Route::resource('school.department', DepartmentController::class)->shallow();
 // Route::resource('department.course', CourseController::class)->shallow();
 // Route::resource('course.syllabus', SyllabusController::class)->shallow();
+// Route::resource('syllabus.subject', SubjectController::class)->shallow();
 // Route::resource('enroll', EnrollController::class);
 
 Route::controller(DikteiController::class)->group(function(){

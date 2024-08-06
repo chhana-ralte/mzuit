@@ -29,19 +29,20 @@ Route::get('/', function () {
 Route::controller(DikteiController::class)->group(function(){
     Route::get('/diktei','index');
     Route::get('/diktei/home','home');
-    Route::get('/diktei/{diktei}','show');
-    Route::delete('/diktei/{diktei}','destroy');
     Route::post('/diktei/entry','entry');
     Route::get('/diktei/entry/{diktei}','option');
     Route::post('/diktei/store/','store');
 
     Route::get('/diktei/deptslotentry','deptslotentry')->middleware(['auth']);
     Route::post('/diktei/deptslotentry','deptslotentrystore');
+    Route::post('/diktei/algorithm','algorithm');
 
     Route::get('/diktei/allotments','allotments')->middleware(['auth']);
     Route::get('/diktei/allotments/{department}','allotments_dept')->middleware(['auth']);
 
-    Route::post('/diktei/algorithm','algorithm');
+    Route::get('/diktei/{diktei}','show');
+    Route::delete('/diktei/{diktei}','destroy');
+
 });
 
 Route::controller(UserController::class)->group(function(){

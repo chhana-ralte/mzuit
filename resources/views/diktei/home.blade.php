@@ -4,10 +4,26 @@
             <x-slot name="heading">
                 List
             </x-slot>
+            <div>
+
+                <ul class="nav nav-tabs">
+                    <li class="nav-item">
+                        <a class="nav-link">Dept</a>
+                    </li>
+                    @foreach(App\Models\Department::orderBy('name')->get() as $dept)
+                        @if($dept->slot())
+                            <li class="nav-item">
+                                <a class="nav-link" href="/diktei/home?dept_id={{$dept->id}}">{{ $dept->code }}</a>
+                            </li>
+                        @endif
+                    @endforeach
+                </ul>
+
+            </div>
             <table class="table table-striped">
                 <tr>
                     <td>Sl</td>
-                    <td>name</td>
+                    <td>Name</td>
                     <td>Rollno</td>
                     <td>Department</td>
                     <td>Options</td>

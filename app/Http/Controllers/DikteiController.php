@@ -20,7 +20,14 @@ class DikteiController extends Controller
     }
 
     public function home(){
-        $dikteis = Diktei::paginate(15);
+        if(isset($_GET['dept_id'])){
+            $department = Department::findOrFail($_GET['dept_id']);
+            $dikteis = Diktei::where('department_id',$department->id)->paginate(50);
+        }
+        else{
+            $dikteis = Diktei::paginate(15);
+        }
+        
         return view('diktei.home',['dikteis'=>$dikteis]);
     }
 

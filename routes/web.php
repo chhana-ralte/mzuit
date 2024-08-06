@@ -29,6 +29,8 @@ Route::get('/', function () {
 Route::controller(DikteiController::class)->group(function(){
     Route::get('/diktei','index');
     Route::get('/diktei/home','home');
+    Route::get('/diktei/{diktei}','show');
+    Route::delete('/diktei/{diktei}','destroy');
     Route::post('/diktei/entry','entry');
     Route::get('/diktei/entry/{diktei}','option');
     Route::post('/diktei/store/','store');

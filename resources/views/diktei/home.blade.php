@@ -12,21 +12,22 @@
                     <td>Department</td>
                     <td>Options</td>
                 </tr>
-                @foreach(@dikteis as $dik)
+                <?php $sl =1 ?>
+                @foreach($dikteis as $dik)
                 <tr>
-                    <td>{{ $sl }}</td>
-                    <td>{{ $dik->name }}</td>
+                    <td>{{ $sl++ }}</td>
+                    <td><a href="/diktei/{{$dik->id}}">{{ $dik->name }}</a></td>
                     <td>{{ $dik->rollno }}</td>
                     <td>{{ $dik->department->name }}</td>
-                    
                     <td>
                         <select class="form-control">
                             @foreach($dik->options as $opt)
-                                <option>{{$dik->option}} - {{$dik->option->department->name}}</option>
+                                <option>{{$opt->option}} - {{$opt->department->name}}</option>
                             @endforeach
                         </select>
                     </td>
                 </tr>
+                @endforeach
             </table>
         </x-block>
     </x-container>

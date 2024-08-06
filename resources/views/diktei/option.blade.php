@@ -32,8 +32,6 @@
                     <div class="col-md-4">
                         <x-text-input id="department" name="department" type="text" class="form-control" value="{{ $diktei->department->name }}" required disabled autocomplete="department" />
                         <x-input-error class="mt-2" :messages="$errors->get('department')" />
-
-                    
                     </div>
                 </div>
         </x-block>

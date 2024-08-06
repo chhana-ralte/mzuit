@@ -20,10 +20,20 @@ class DikteiController extends Controller
     }
 
     public function home(){
-        $dikteis = Department::whereNotIn('school_id',[4,8])->orderBy('name')->get();
-        return view('diktei.dashboard',['departments'=>$departments]);
+        $dikteis = Diktei::all();
+        return view('diktei.home',['dikteis'=>$dikteis]);
     }
 
+    public function show(Diktei $diktei){
+        return view('diktei.show',['diktei' => $diktei]);
+    }
+
+    public function destroy(Diktei $diktei){
+        Option::where('diktei_id',$diktei->id)->delete();
+        Allot::where('diktei_id',$diktei->id)->delete();
+        $diktei->delete();
+        return redirect('/diktei/home')->with(['message' => ['type'=>'info', 'text'=>'Deleted']]);
+    }
     public function entry(){
         $validated = request()->validate([
             'name' => ['required'],

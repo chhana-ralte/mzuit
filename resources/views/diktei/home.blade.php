@@ -28,8 +28,8 @@
                     </td>
                 </tr>
                 @endforeach
-                <tr colspan="5">
-                    <td>{{ $dikteis->links() }}</td>
+                <tr>
+                    <td colspan="5">{{ $dikteis->links() }}</td>
                 </tr>
             </table>
         </x-block>

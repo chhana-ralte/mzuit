@@ -28,7 +28,7 @@ Route::get('/', function () {
 
 Route::controller(DikteiController::class)->group(function(){
     Route::get('/diktei','index');
-    Route::get('/diktei/home','home');
+    Route::get('/diktei/home','home')->middleware(['auth']);
     Route::post('/diktei/entry','entry');
     Route::get('/diktei/entry/{diktei}','option');
     Route::post('/diktei/store/','store');
@@ -40,7 +40,7 @@ Route::controller(DikteiController::class)->group(function(){
     Route::get('/diktei/allotments','allotments')->middleware(['auth']);
     Route::get('/diktei/allotments/{department}','allotments_dept')->middleware(['auth']);
 
-    Route::get('/diktei/{diktei}','show');
+    Route::get('/diktei/{diktei}','show')->middleware(['auth']);
     Route::delete('/diktei/{diktei}','destroy');
 
 });

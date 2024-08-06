@@ -22,10 +22,10 @@ class DikteiController extends Controller
     public function home(){
         if(isset($_GET['dept_id'])){
             $department = Department::findOrFail($_GET['dept_id']);
-            $dikteis = Diktei::where('department_id',$department->id)->paginate(50);
+            $dikteis = Diktei::where('department_id',$department->id)->paginate(50)->withQueryString();
         }
         else{
-            $dikteis = Diktei::paginate(15);
+            $dikteis = Diktei::paginate(15)->withQueryString();
         }
         
         return view('diktei.home',['dikteis'=>$dikteis]);

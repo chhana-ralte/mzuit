@@ -28,7 +28,7 @@
                     </td>
                 </tr>
                 @endforeach
-                <tr>
+                <tr colspan="5">
                     <td>{{ $dikteis->links() }}</td>
                 </tr>
             </table>

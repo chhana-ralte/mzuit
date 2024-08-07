@@ -45,6 +45,7 @@ Route::controller(DikteiController::class)->group(function(){
     Route::get('/diktei/allotments/{department}','allotments_dept')->middleware(['auth']);
 
     Route::get('/diktei/{diktei}','show')->middleware(['auth']);
+    Route::post('/diktei/{diktei}/assigndept','assigndept');
     Route::delete('/diktei/{diktei}','destroy');
 
 });

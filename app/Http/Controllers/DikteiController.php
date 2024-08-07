@@ -201,4 +201,18 @@ class DikteiController extends Controller
         $dikteis = Diktei::where('name','like','%' . $str . '%')->paginate()->withQueryString();
         return view('diktei.search');
     }
+
+    public function assigndept(Diktei $diktei){
+        //dd(request()->all());
+        Allot::updateOrCreate([
+            'diktei_id' => $diktei->id
+        ],
+        [
+            'diktei_id' => $diktei->id,
+            'department_id' => request()->newdept
+        ]
+        );
+
+        return redirect('/diktei/' . $diktei->id)->with(['message' => ['type' => 'info', 'text' => 'Allotted to new department']]);
+    }
 }

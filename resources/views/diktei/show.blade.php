@@ -7,13 +7,17 @@
             <table class="table table-striped">
                 <tr>
                     <td>ID</td><td>{{ $diktei->id }}</td>
-                    </tr>
+                </tr>
+                <tr>
                     <td>name</td><td>{{ $diktei->name }}</td>
-                    </tr>
+                </tr>
+                <tr>
                     <td>Rollno</td><td>{{ $diktei->rollno }}</td>
-                    </tr>
+                </tr>
+                <tr>
                     <td>Department</td><td>{{ $diktei->department->name }}</td>
-                    </tr>
+                </tr>
+                <tr>
                     <td>Options</td>
                     <td>
                     @foreach($diktei->options as $opt)
@@ -21,6 +25,26 @@
                     @endforeach
                     </td>
                 </tr>
+                <tr>
+                    <td>Currently allotted in</td><td>{{ $diktei->allotted()?$diktei->allotted()->department->name:'None'}}</td>
+                </tr>
+                <tr>
+                    <td>Newly allot to..</td>
+                    <td>
+                        <form method="post" type="hidden" id="assign-dept" action="/diktei/{{ $diktei->id }}/assigndept">
+                        <select name="newdept" class="form-control">
+                        @foreach(App\Models\Department::orderBy('name')->get() as $dept)
+                            @if($dept->slot())
+                                <option value="{{$dept->id }}">{{ $dept->name }}</option>
+                            @endif
+                        @endforeach
+                        </select>
+                        <x-button type="submit" form="assign-dept">Assign</x-button>
+                        
+                            @csrf
+                        </form>
+                    </td>
+                </tr>                
                 <tr>
                     <td></td>
                     <td><x-button type="delete" form="delete-form">DELETE</x-button></td>

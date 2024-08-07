@@ -23,13 +23,15 @@
                 <tbody>
                     <?php $sl=1 ?>
                     @foreach($departments as $dep)
-                        <tr>
-                            <td>{{ $sl++ }}</td>
-                            <td><a href="/diktei/allotments/{{$dep->id}}">{{ $dep->name }}</td>
-                            <td>{{ $dep->slot() }}</td>
-                            <td>{{ $dep->allotted() }}</td>
-                            <td>{{ $dep->slot()-$dep->allotted() }}</td>
-                        </tr>
+                        @if($dep->slot())
+                            <tr>
+                                <td>{{ $sl++ }}</td>
+                                <td><a href="/diktei/allotments/{{$dep->id}}">{{ $dep->name }}</td>
+                                <td>{{ $dep->slot() }}</td>
+                                <td>{{ $dep->allotted() }}</td>
+                                <td {{ $dep->slot()-$dep->allotted()<0?" class=bg-danger":""}}>{{ $dep->slot()-$dep->allotted() }}</td>
+                            </tr>
+                        @endif
                     @endforeach
                 </tbody>
             </table>

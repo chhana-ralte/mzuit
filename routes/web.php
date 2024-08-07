@@ -34,12 +34,14 @@ Route::controller(DikteiController::class)->group(function(){
     Route::post('/diktei/entry','entry');
     Route::get('/diktei/entry/{diktei}','option');
     Route::post('/diktei/store/','store');
+    Route::get('/diktei/search/','search');
 
     Route::get('/diktei/deptslotentry','deptslotentry')->middleware(['auth']);
     Route::post('/diktei/deptslotentry','deptslotentrystore');
     Route::post('/diktei/algorithm','algorithm');
 
     Route::get('/diktei/allotments','allotments')->middleware(['auth']);
+    Route::get('/diktei/unallotted','unallotted')->middleware(['auth']);
     Route::get('/diktei/allotments/{department}','allotments_dept')->middleware(['auth']);
 
     Route::get('/diktei/{diktei}','show')->middleware(['auth']);

@@ -13,7 +13,7 @@
                     @foreach(App\Models\Department::orderBy('name')->get() as $dept)
                         @if($dept->slot())
                             <li class="nav-item">
-                                <a class="nav-link" href="/diktei/home?dept_id={{$dept->id}}">{{ $dept->code }}</a>
+                                <a class="nav-link" href="/diktei/unallotted?dept_id={{$dept->id}}">{{ $dept->code }}</a>
                             </li>
                         @endif
                     @endforeach

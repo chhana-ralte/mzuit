@@ -36,6 +36,12 @@
         <li class="nav-item">
           <a class="nav-link" href="/diktei/home">List</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/diktei/search">Search</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/diktei/unallotted">Unallotted</a>
+        </li>
         @endauth
       </ul>
 <!--      <ul class="navbar-nav me-auto"> -->

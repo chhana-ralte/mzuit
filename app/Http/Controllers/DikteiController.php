@@ -22,10 +22,10 @@ class DikteiController extends Controller
     public function home(){
         if(isset($_GET['dept_id'])){
             $department = Department::findOrFail($_GET['dept_id']);
-            $dikteis = Diktei::where('department_id',$department->id)->paginate(50)->withQueryString();
+            $dikteis = Diktei::where('department_id',$department->id)->paginate()->withQueryString();
         }
         else{
-            $dikteis = Diktei::paginate(15)->withQueryString();
+            $dikteis = Diktei::paginate()->withQueryString();
         }
         
         return view('diktei.home',['dikteis'=>$dikteis]);
@@ -146,7 +146,7 @@ class DikteiController extends Controller
     public function algorithm(){
         Allot::truncate();
         foreach(Diktei::orderBy('id')->get() as $diktei){
-            foreach($diktei->options as $opt){
+            foreach(Option::where('diktei_id',$diktei->id)->orderBy('option')->get() as $opt){
                 $department = Department::find($opt->department_id);
                 $allotted = $department->allotted();
                 if($allotted < $department->slot()){
@@ -164,5 +164,41 @@ class DikteiController extends Controller
             }
         }
         return redirect('/diktei/allotments');
+    }
+
+    public function search(){
+        if(isset($_GET['search'])){
+            $str = $_GET['search'];
+            $dikteis = Diktei::where('name','like','%' . $str . '%')->paginate()->withQueryString();
+            return view('diktei.search',['dikteis'=>$dikteis,'str'=>$str]);
+    
+        }
+        else{
+            return view('diktei.search',['str'=>'']);    
+        }
+        
+    }
+
+    public function unallotted(){
+        if(isset($_GET['dept_id'])){
+            $department = Department::findOrFail($_GET['dept_id']);
+            $dikteis = Diktei::whereNotIn('id',Allot::all()->pluck('diktei_id'))
+            ->where('department_id',$department->id)
+            ->paginate()
+            ->withQueryString();
+        }
+        else{
+            $dikteis = Diktei::whereNotIn('id',Allot::all()->pluck('diktei_id'))
+            ->paginate()
+            ->withQueryString();
+        }
+        
+        return view('diktei.unallotted',['dikteis'=>$dikteis]);
+    }
+
+    public function searchresults(){
+        $str = $_GET['search'];
+        $dikteis = Diktei::where('name','like','%' . $str . '%')->paginate()->withQueryString();
+        return view('diktei.search');
     }
 }

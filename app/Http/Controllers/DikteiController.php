@@ -201,6 +201,13 @@ class DikteiController extends Controller
         $dikteis = Diktei::where('name','like','%' . $str . '%')->paginate()->withQueryString();
         return view('diktei.search');
     }
+    
+    public function clear(Diktei $diktei){
+        
+        Allot::where('diktei_id',$diktei->id)->delete();
+        Option::where('diktei_id',$diktei->id)->delete();
+        return redirect('/diktei/' . $diktei->id)->with(['message' => ['type' => 'info', 'text' => 'Cleared the options.']]);
+    }
 
     public function assigndept(Diktei $diktei){
         //dd(request()->all());

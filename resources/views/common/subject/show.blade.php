@@ -5,19 +5,22 @@
     </x-slot>
     <x-container>
         <x-block>
-            <x-slot name="block_header">
+            <x-slot name="heading">
                 {{ $subject->code }}: {{$subject->name}}
             </x-slot>
             <div>
+                    
                 @if(count($subject->contents) > 0)
-
-                {{ $subject->contents }}
+                <table class="table table-striped">
+                    @foreach($subject->contents as $con)
+                    <tr><td>
+                        {!! $con->content !!}
+                    </td></tr>
+                    @endforeach
+                </table>
                 @else
                     <x-button type="a" href="/subject/{{ $subject->id }}/subjectcontent/create">Add</x-button>
                 @endif
-            </div>
-            <div>
-                <x-button type="a" href="/subject/{{$subject->id}}/edit">EDIT</x-button>
             </div>
         </x-block>
     </x-container>

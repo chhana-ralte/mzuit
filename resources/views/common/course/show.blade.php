@@ -24,7 +24,7 @@
             </div>
             <div>
                 @if(count($enrolls)>0)
-                    <table class="table-fixed">
+                    <table class="table table-striped">
                         <thead>
                             <tr>
                                 <th>Sl</th>

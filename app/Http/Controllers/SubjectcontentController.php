@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Subject;
+use App\Models\Subjectcontent;
 
 class SubjectcontentController extends Controller
 {
@@ -12,6 +13,12 @@ class SubjectcontentController extends Controller
     }
 
     public function store(Subject $subject){
-        return "Hello";
+        Subjectcontent::create([
+            'subject_id' => $subject->id,
+            'version' => 'Default',
+            'content' => request()->content
+        ]);
+        return redirect('/subject/' . $subject->id)->with(['message' => ['type'=>'info', 'text' => 'Subject Updated']]);
+        dd(request()->all());
     }
 }

@@ -47,10 +47,16 @@
                 </tr>                
                 <tr>
                     <td></td>
-                    <td><x-button type="delete" form="delete-form">DELETE</x-button></td>
+                    <td>
+                        <x-button type="delete" form="delete-form" value='delete'>DELETE</x-button>
+                        <x-button type="delete" form="clear-form" value='clear'>CLEAR OPTIONS</x-button>
+                    </td>
                     <form method="post" type="hidden" id="delete-form" action="/diktei/{{$diktei->id}}" onsubmit="return confirm('Are you sure? The record will be deleted.')">
                         @csrf
                         @method('delete')
+                    </form>
+                    <form method="post" type="hidden" id="clear-form" action="/diktei/{{$diktei->id}}/clear" onsubmit="return confirm('Are you sure? The options will be cleared.')">
+                        @csrf
                     </form>
                 </tr>
             </table>

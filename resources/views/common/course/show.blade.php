@@ -1,28 +1,29 @@
 <x-layout>
-    <x-slot name="header">
-    <x-button type="a" href="{{ route('department.show',[$course->department_id]) }}">Back</x-button>
-        {{ $course->name }}
-    </x-slot>
     <x-container>
         <x-block>
-            <x-slot name="block_header">
-                List of Students
+            <x-slot name="heading">
+                <x-button type="a" href="{{ route('department.show',[$course->department->id]) }}">Back</x-button>
+                List of {{ $course->name }} Students
             </x-slot>
-            <div>
-                <x-select>
-                @foreach($sessns as $ss)
-                    <option value="{{ $ss->id }}" {{$ss->id==$sessn->id?' selected ':''}}>{{$ss->name()}}</option>
-                @endforeach
-                </x-select>
-                @foreach($semesters as $sem)
-                    @if($sem == $semester)
-                        <x-button :selected=true type="a" href="{{ route('course.show',[$course->id,'semester'=>$sem,'sessn'=>$sessn->id]) }}">{{$sem}}</a></x-button>
-                    @else
-                        <x-button type="a" href="{{ route('course.show',[$course->id,'semester'=>$sem,'sessn'=>$sessn->id]) }}">{{$sem}}</a></x-button>
-                    @endif
-                @endforeach
+            <div class="form-group row pt-2">
+                <div class="col-md-4">
+                    <x-select id="sessn_id" class="form-control" onchange="submit()">
+                    @foreach($sessns as $ss)
+                        <option value="{{ $ss->id }}" {{$ss->id==$sessn->id?' selected ':''}}>{{$ss->name()}}</option>
+                    @endforeach
+                    </x-select>
+                </div>
+                <div class="col-md-8">
+                    @foreach($semesters as $sem)
+                        @if($sem == $semester)
+                            <x-button :selected=true type="a" href="{{ route('course.show',[$course->id,'semester'=>$sem,'sessn'=>$sessn->id]) }}">{{$sem}}</a></x-button>
+                        @else
+                            <x-button type="a" href="{{ route('course.show',[$course->id,'semester'=>$sem,'sessn'=>$sessn->id]) }}">{{$sem}}</a></x-button>
+                        @endif
+                    @endforeach
+                </div>
             </div>
-            <div>
+            <div class="pt-2">
                 @if(count($enrolls)>0)
                     <table class="table table-striped">
                         <thead>
@@ -41,19 +42,61 @@
                                     <td>{{ $e->student->person->name }}</td>
                                 </tr>
                             @endforeach
-                            
                         </tbody>
                     </table>
                 @endif
             </div>
         </x-block>
+
         <x-block>
-            <x-slot:block_header>
+            <x-slot name="heading">
                 List of Syllabi
-            </x-slot:block_header>
-            @foreach($course->syllabi as $syl)
-                <div><a href="{{ route('syllabus.show',$syl->id) }}">{{ $syl->name }}</a></div>
-            @endforeach
+            </x-slot>
+            <table class="table table-striped">
+                <tr>
+                    <th>Syllabus name</th>
+                    <th>Year range for batches</th>
+                </tr>
+                @foreach($course->syllabi as $syl)
+                    <tr>
+                        <td><a href="{{ route('syllabus.show',$syl->id) }}">{{ $syl->name }}</a></td>
+                        <td>{{ $syl->from_batch }} - {{ $syl->to_batch }}</td>
+                    </tr>
+                @endforeach
+            </table>
         </x-block>
     </x-container>
+<script>
+$(document).ready(function(){
+    $.ajaxSetup({
+        headers : {
+            'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+    $("select#sessn_id").change(function(){
+        location.replace('/course/{{ $course->id }}?sessn=' + $(this).val());
+        //alert('chaged' + $(this).val());
+    });
+    $("button[name='delete']").click(function(){
+        //alert($(this).attr('id'));
+        if(confirm("I delete duh tak tak em?")){
+            $.ajax({
+                url : "/user/" + $(this).attr('id'),
+                type : "delete",
+                data : {
+                    user_id : $(this).attr('id'),
+                },
+                success : function(data,status){
+                    alert(data);
+                    location.replace("/user");
+                },
+                error : function(){
+                    alert("error");
+                }
+            })
+        }
+    });
+});
+
+</script>
 </x-layout>

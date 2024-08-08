@@ -1,12 +1,10 @@
 <x-layout>
-    <x-slot name="header">
-    <x-button type="a" href="{{ route('course.show',[$syllabus->course_id]) }}">Back</x-button>
-        {{ __('Syllabi') }}
-    </x-slot>
+
     <x-container>
         <x-block>
-            <x-slot name="block_header">
-                List of Subjects under Syllabus {{ $syllabus->name }}
+            <x-slot name="heading">
+                <x-button type="a" href="{{ route('course.show',[$syllabus->course_id]) }}">Back</x-button>
+                Syllabi under {{ $syllabus->course->name }}
             </x-slot>
             <div>
                 @foreach($syllabus->course->syllabi as $syl)
@@ -17,7 +15,7 @@
                     @endif
                 @endforeach
             </div>
-            <div>
+            <div class="pt-2">
                 @if(count($subjects)>0)
                     <table class="table table-striped">
                         <thead>

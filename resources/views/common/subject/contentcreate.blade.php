@@ -5,21 +5,31 @@
     </x-slot>
     <x-container>
         <x-block>
-            <x-slot name="block_header">
+            <x-slot name="heading">
                 {{ $subject->code }}: {{$subject->name}}
             </x-slot>
             <form method="post" action="/subject/{{ $subject->id }}/subjectcontent">
                 @csrf
-                <div class="form-group row">
-                    <div class="col-md-12">
-                        <textarea id="editor" name="content" rows="10" placeholder="Content">
-                            <p></p>
-                        </textarea>
-                    </div>
-                </div>
-                <div>
-                    <x-button type="submit" >Submit</x-button>
-                </div>
+                <table class="table table-striped">
+                    <tr>
+                        <td>
+                            <div class="form-group row">
+                                <div class="col-md-12">
+                                    <textarea id="editor" name="content" rows="10" placeholder="Content">
+                                        <p></p>
+                                    </textarea>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div>
+                                <x-button type="submit" >Submit</x-button>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
             </form>
         </x-block>
     </x-container>

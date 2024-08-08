@@ -51,13 +51,24 @@ class EnrollController extends Controller
      */
     public function update(Request $request, Enroll $enroll)
     {
-        if($request->type == "personal"){
-
+        if($request->updateType == "personal"){
+            $enroll->student->person->update([
+                'name' => $request->name,
+                'father' => $request->father,
+                'dob' => $request->dob,
+                'category' => $request->category
+            ]);
         }
-        else if($request->type == "student"){
-            
+        else if($request->updateType == "student"){
+            $sessn = \App\Models\Sessn::where('start_yr',$request->batch)->first();
+            $enroll->student->update([
+                'rollno' => $request->rollno,
+                'type' => $request->type,
+                'registration' => $request->registration,
+                'sessn_id' => $sessn?$sessn->id:0
+            ]);
         }
-        dd($request);
+        return redirect('/enroll/' . $enroll->id)->with(['message' => ['type'=>'info', 'text'=>"Updated..."]]);
     }
 
     /**

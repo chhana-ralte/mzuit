@@ -1,8 +1,8 @@
 <div class="mt-4 p-2 bg-info text-white rounded">
     @isset($heading)
-        <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
+        <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100">
             {{ $heading }}
-        </h2>
+        </h3>
     @endisset
     {{ $slot }}
 </div>

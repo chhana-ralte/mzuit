@@ -5,37 +5,59 @@
     </x-slot>
     <x-container>
         <x-block>
-            <x-slot name="block_header">
+            <x-slot name="heading">
+                <x-button type="a" href="{{ route('school.show',[$department->school->id]) }}">Back</x-button>
                 Details of {{ $department->name }}
             </x-slot>
             
-            <div>
-                <x-input-label>School Code</x-input-label>
-                <x-text-input disabled value="{{ $department->school->code }}"/>
+            <div class="form-group row pt-2">
+                <div class="col-md-3">
+                    <x-input-label>School Code</x-input-label>
+                </div>
+                <div class="col-md-4">
+                    <x-text-input class="form-control" disabled value="{{ $department->school->code }}"/>
+                </div>
             </div>
-            <div>
-                <x-input-label>Department Code</x-input-label>
-                <x-text-input disabled value="{{ $department->code }}"/>
+                
+
+            <div class="form-group row pt-2">
+                <div class="col-md-3">
+                    <x-input-label>Department Code</x-input-label>
+                </div>
+                <div class="col-md-4">
+                    <x-text-input class="form-control" disabled value="{{ $department->code }}"/>
+                </div>
             </div>
-            <div>
-                <x-input-label>Department Name</x-input-label>
-                <x-text-input disabled value="{{ $department->name }}"/>
+            <div class="form-group row pt-2">
+                <div class="col-md-3">
+                    <x-input-label>Department Name</x-input-label>
+
+                </div>
+                <div class="col-md-4">
+                    <x-text-input class="form-control" disabled value="{{ $department->name }}"/>
+
+                </div>
             </div>
-            <div>
-                <x-button type='a' href="/department/{{ $department->id }}/edit">{{ __('Edit') }}</x-button>
-                <x-button type="delete" form="delete-form">Delete</x-button>
-                <form method="post" id="delete-form" action="/department/{{ $department->id }}" onsubmit="return confirm('Are you sure you want to delete?')">
-                    @csrf
-                    @method('delete')
-                </form>
+            @auth
+            <div class="form-group row pt-2">
+                <div class="col-md-3"></div>
+                <div class="col-md-4">
+                    <x-button type='a' href="/department/{{ $department->id }}/edit">{{ __('Edit') }}</x-button>
+                    <x-button type="delete" form="delete-form">Delete</x-button>
+                    <form method="post" id="delete-form" action="/department/{{ $department->id }}" onsubmit="return confirm('Are you sure you want to delete?')">
+                        @csrf
+                        @method('delete')
+                    </form>
+                </div>
             </div>
+            @endauth
         </x-block>
         <x-block>
-            <x-slot name="block_header">
+            <x-slot name="heading">
                 Courses under {{ $department->name }}
             </x-slot>
             @if(count($department->courses)>0)
-                <table class="table-hover table-auto">
+                <table class="table table-striped">
                     <thead>
                         <tr>
                         <th>Department Name</th><th>Course Code</th><th>Course Name</th><th>Max sem</th><tr>

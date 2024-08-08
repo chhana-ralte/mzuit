@@ -1,12 +1,13 @@
 <x-layout>
-    <x-slot name="header">
-        <x-button type="a" href="{{ route('course.show',[$enroll->course_id,'sessn'=>$enroll->sessn_id,'semester'=>$enroll->semester]) }}">Back</x-button>
+    <x-slot name="heading">
+        
         {{ $enroll->student->person->name }}
         <x-button type="a" href="{{ route('enroll.edit', $enroll->id) }}">Edit</x-button>
     </x-slot>
     <x-container>
         <x-block class="col-md-4">
-            <x-slot name="block_header">
+            <x-slot name="heading">
+                <x-button type="a" href="{{ route('course.show',[$enroll->course_id,'sessn'=>$enroll->sessn_id,'semester'=>$enroll->semester]) }}">Back</x-button>
                 Personal Details
             </x-slot>
             
@@ -26,7 +27,7 @@
             </table>
         </x-block>
         <x-block>
-            <x-slot name="block_header">
+            <x-slot name="heading">
                 Student's Details
             </x-slot>
             <table class="table-fixed">
@@ -51,7 +52,7 @@
 
 
         <x-block>
-            <x-slot name="block_header">
+            <x-slot name="heading">
                 Enrollment details
             </x-slot>
             <table class="table-fixed">

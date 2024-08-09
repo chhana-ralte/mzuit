@@ -11,7 +11,7 @@ class Subject extends Model
     protected $guarded = [];
     
     public function enrolls(){
-        return $this->belongsToMany(Enroll::class);
+        return $this->belongsToMany(Enroll::class)->withPivot('internal');
     }
 
     public function syllabus(){

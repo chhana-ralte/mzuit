@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Sessn;
+Use App\Models\CurrentSessn;
 use Illuminate\Http\Request;
 
 class SessnController extends Controller
@@ -12,7 +13,7 @@ class SessnController extends Controller
      */
     public function index()
     {
-        //
+        return view('common.sessn.index',['sessns' => Sessn::orderby('start_yr')->orderBy('odd_even')->paginate()]);
     }
 
     /**
@@ -20,7 +21,9 @@ class SessnController extends Controller
      */
     public function create()
     {
-        //
+        // $last_sessn = Sessn::last();
+        // dd($last_sessn);
+        return view('common.sessn.create');
     }
 
     /**
@@ -28,7 +31,23 @@ class SessnController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //dd($request->all());
+        if(isset($request->type) && $request->type=="default_sessn"){
+            $sessn = CurrentSessn::find(1);
+            $sessn->update(['current_sessn' => $request->sessn_id ]);
+            return "Current session updated";
+        }
+        else{
+            Sessn::updateOrCreate([
+                'start_yr' => $request->start_yr,
+                'odd_even' => $request->odd_even
+            ],[
+                'start_yr' => $request->start_yr,
+                'end_yr' => $request->start_yr+1,
+                'odd_even' => $request->odd_even
+            ]);
+            return redirect('/sessn')->with(['message' => ['type' => 'info', 'text' => 'Session created..']]);    
+        }
     }
 
     /**

@@ -10,4 +10,5 @@ class CurrentSessn extends Model
     use HasFactory;
 
     public $table = "current_sessn";
+    protected $guarded = [];
 }

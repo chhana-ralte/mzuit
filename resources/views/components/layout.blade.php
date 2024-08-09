@@ -24,14 +24,16 @@
       <ul class="navbar-nav me-auto">
 
         <li class="nav-item">
-          <a class="nav-link" href="/diktei">Entry</a>
+          <a class="nav-link" href="/school">School</a>
         </li>
         @auth
+          @if(auth()->user()->department_id)
+          <li class="nav-item">
+            <a class="nav-link" href="/department/{{auth()->user()->department_id}}">My Department</a>
+          </li>
+          @endif
         <li class="nav-item">
-          <a class="nav-link" href="/diktei/deptslotentry">Department seats</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/diktei/allotments">Allotments</a>
+          <a class="nav-link" href="/sessn">Sessions</a>
         </li>
         @endauth
       </ul>

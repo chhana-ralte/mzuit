@@ -117,9 +117,10 @@ class DikteiController extends Controller
         $departments = Department::whereNotIn('school_id',[4,8])->orderBy('name')->get();
         return view('diktei.deptslotentry',['departments'=>$departments]);
     }
+
     public function deptslotentrystore(){
         //dd(request()->all());
-        $str = "";
+
         foreach(request()->department as $dep_id=>$slot){
             Deptslot::updateOrCreate([
                 'department_id' => $dep_id
@@ -163,7 +164,7 @@ class DikteiController extends Controller
                 }
             }
         }
-        return redirect('/diktei/allotments');
+        return redirect('/diktei/allotments')->with(['message' => ['type'=>'info', 'text'=>'Algorithm executed successfully.']]);
     }
 
     public function search(){
@@ -171,12 +172,10 @@ class DikteiController extends Controller
             $str = $_GET['search'];
             $dikteis = Diktei::where('name','like','%' . $str . '%')->paginate()->withQueryString();
             return view('diktei.search',['dikteis'=>$dikteis,'str'=>$str]);
-    
         }
         else{
             return view('diktei.search',['str'=>'']);    
         }
-        
     }
 
     public function unallotted(){
@@ -192,7 +191,6 @@ class DikteiController extends Controller
             ->paginate()
             ->withQueryString();
         }
-        
         return view('diktei.unallotted',['dikteis'=>$dikteis]);
     }
 
@@ -203,7 +201,6 @@ class DikteiController extends Controller
     }
     
     public function clear(Diktei $diktei){
-        
         Allot::where('diktei_id',$diktei->id)->delete();
         Option::where('diktei_id',$diktei->id)->delete();
         return redirect('/diktei/' . $diktei->id)->with(['message' => ['type' => 'info', 'text' => 'Cleared the options.']]);
@@ -219,7 +216,6 @@ class DikteiController extends Controller
             'department_id' => request()->newdept
         ]
         );
-
         return redirect('/diktei/' . $diktei->id)->with(['message' => ['type' => 'info', 'text' => 'Allotted to new department']]);
     }
 }

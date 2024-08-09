@@ -9,6 +9,8 @@ use App\Http\Controllers\SyllabusController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\SubjectcontentController;
 use App\Http\Controllers\EnrollController;
+use App\Http\Controllers\SessnController;
+use App\Http\Controllers\MassController;
 use App\Http\Controllers\DikteiController;
 use App\Http\Controllers\UserController;
 
@@ -27,6 +29,12 @@ Route::resource('course.syllabus', SyllabusController::class)->shallow();
 Route::resource('syllabus.subject', SubjectController::class)->shallow();
 Route::resource('subject.subjectcontent', SubjectcontentController::class)->shallow();
 Route::resource('enroll', EnrollController::class);
+Route::resource('sessn', SessnController::class);
+
+Route::controller(MassController::class)->group(function(){
+    Route::get('/mass/enrollsubject','enrollSubject');
+    Route::post('/mass/enrollsubject','enrollSubjectStore');
+});
 
 Route::controller(DikteiController::class)->group(function(){
     Route::get('/diktei','index');

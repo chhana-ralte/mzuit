@@ -11,7 +11,7 @@
                 Personal Details
             </x-slot>
             
-            <table class="table-fixed">
+            <table class="table table-striped">
                 <tr>
                     <td><strong>Name</strong></td>
                     <td>{{ $enroll->student->person->name }}</td>
@@ -30,7 +30,7 @@
             <x-slot name="heading">
                 Student's Details
             </x-slot>
-            <table class="table-fixed">
+            <table class="table table-striped">
                 <tr>
                     <td><strong>Rollno</strong></th>
                     <td>{{ $enroll->student->rollno }}</td>
@@ -55,15 +55,21 @@
             <x-slot name="heading">
                 Enrollment details
             </x-slot>
-            <table class="table-fixed">
+            <table class="table table-striped">
                 <tr>
                     <th>Enrolment session</th>
                     <th>Semester in which enrolled</th>
+                    <th>Subjects</th>
                 </tr>
                 @foreach($enroll->student->enrolls as $e)
                 <tr>
                     <td>{{ $e->sessn->name() }}</th>
                     <td class="text-center">{{ $e->semester }}</td>
+                    <td>
+                        @foreach($e->subjects as $sj)
+                            {{ $sj->code }} - {{$sj->name }} <br>
+                        @endforeach
+                    </td>
                 </tr>
                 @endforeach
             </table>

@@ -21,6 +21,9 @@ class UserController extends Controller
             request()->session()->regenerate();
             //if(auth()->user()->level < 5)
             //    Log::create(['user_id' => auth()->user()->id]);
+            if(auth()->user()->department_id){
+                return redirect('/department/' . auth()->user()->department_id);
+            }
             return redirect('/');
         }
         else{

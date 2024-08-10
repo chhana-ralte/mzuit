@@ -9,6 +9,7 @@ class Enroll_Subject extends Model
 {
     //use HasFactory;
     protected $guarded = [];
+    protected $table = 'enroll_subject';
     
     public function enroll(){
         return $this->belongsTo(Enroll::class);

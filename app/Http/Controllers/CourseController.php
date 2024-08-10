@@ -6,6 +6,7 @@ use App\Models\Course;
 use App\Models\Department;
 use App\Models\Sessn;
 use App\Models\Enroll;
+use App\Models\Enroll_Subject;
 
 
 use Illuminate\Http\Request;
@@ -80,8 +81,11 @@ class CourseController extends Controller
             'semesters' => $semesters,
             'sessn' => $sessn,
             'enrolls' => $enrolls,
-            'course' => $course
+            'course' => $course,
+            'enrollSubjectExists' => Enroll_Subject::whereIn('enroll_id',$enrolls->pluck('id'))->exists(),
+            'nextSemesterExists' => Enroll::whereIn('student_id',$enrolls->pluck('student_id'))->where('semester',$semester+1)->where('sessn_id',$sessn->nextSessn()?$sessn->nextSessn()->id:0)->exists()
         ];
+
         return view('common.course.show',$data);
     }
 

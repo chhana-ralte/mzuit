@@ -44,8 +44,14 @@ class MassController extends Controller
         $subjects = Subject::where('syllabus_id',$syllabus->id)
             ->where('semester',$semester)
             ->get();
-
-        return view('mass.enrollsubject',['subjects'=>$subjects, 'enrolls'=>$enrolls]);
+        $data = [
+            'subjects' => $subjects,
+            'enrolls' => $enrolls,
+            'course' => $course,
+            'semester' => $semester,
+            'sessn' =>$sessn
+        ];
+        return view('mass.enrollsubject',$data);
     }
     public function enrollSubjectStore(){
         
@@ -55,6 +61,59 @@ class MassController extends Controller
             $e->subjects()->attach(request()->subjects);
         }
 
-        //return redirect('/mass/enrollsubject?')
+        return redirect('/course/' . request()->course . '?sessn=' . request()->sessn . '&semester=' . request()->semester)
+            ->with(['message' => ['type'=>'info', 'text'=>'Mass assignment of subjects completed']]);
+    }
+    public function promote(){
+        if(isset($_GET['course'])){
+            $course = Course::findOrFail($_GET['course']);
+        }
+        else{
+            abort(403);
+        }
+        if(isset($_GET['sessn'])){
+            $sessn = Sessn::findOrFail($_GET['sessn']);
+        }
+        else{
+            abort(403);
+        }
+        if(isset($_GET['semester'])){
+            $semester = $_GET['semester'];
+        }
+        else{
+            abort(403);
+        }
+        $enrolls = Enroll::where('sessn_id',$sessn->id)
+            ->where('semester',$semester)
+            ->where('course_id',$course->id)
+            ->get();
+        $data = [
+            
+            'enrolls' => $enrolls,
+            'course' => $course,
+            'semester' => $semester,
+            'sessn' =>$sessn
+        ];
+        return view('mass.promote',$data);
+
+    }
+    public function promoteStore(){
+        //dd(Sessn::findOrFail(request()->sessn)->nextSessn()->id);
+        $enrolls = Enroll::whereIn('id',request()->enrolls)->get();
+        foreach($enrolls as $e){
+            Enroll::updateOrCreate([
+                'student_id' => $e->student->id,
+                'semester' => request()->semester + 1,
+                'sessn_id' => Sessn::findOrFail(request()->sessn)->nextSessn()->id,
+                'course_id' => request()->course
+            ],[
+                'student_id' => $e->student->id,
+                'semester' => request()->semester + 1,
+                'sessn_id' => Sessn::findOrFail(request()->sessn)->nextSessn()->id,
+                'course_id' => request()->course
+            ]);
+        }
+        return redirect('/course/' . request()->course . '?sessn=' . request()->sessn . '&semester=' . request()->semester)
+            ->with(['message' => ['type'=>'info', 'text'=>'Mass promotion is done']]);
     }
 }

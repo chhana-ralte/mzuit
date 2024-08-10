@@ -34,6 +34,8 @@ Route::resource('sessn', SessnController::class);
 Route::controller(MassController::class)->group(function(){
     Route::get('/mass/enrollsubject','enrollSubject');
     Route::post('/mass/enrollsubject','enrollSubjectStore');
+    Route::get('/mass/promote','promote');
+    Route::post('/mass/promote','promoteStore');
 });
 
 Route::controller(DikteiController::class)->group(function(){

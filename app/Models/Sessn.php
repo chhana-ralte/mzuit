@@ -28,4 +28,41 @@ class Sessn extends Model
             return false;
         }
     }
+
+    public function nextSessn(){
+        if($this->odd_even == 1){
+            if(Sessn::where('start_yr',$this->start_yr)->where('odd_even',2)->exists()){
+                return Sessn::where('start_yr',$this->start_yr)->where('odd_even',2)->first();
+            }
+            else{
+                return false;
+            }
+        }
+        else{
+            if(Sessn::where('start_yr',$this->start_yr+1)->where('odd_even',1)->exists()){
+                return Sessn::where('start_yr',$this->start_yr+1)->where('odd_even',1)->first();
+            }
+            else{
+                return false;
+            }
+        }
+    }
+    public function prevSessn(){
+        if($this->odd_even == 1){
+            if(Sessn::where('start_yr',$this->start_yr-1)->where('odd_even',2)->exists()){
+                return Sessn::where('start_yr',$this->start_yr-1)->where('odd_even',2)->first();
+            }
+            else{
+                return false;
+            }
+        }
+        else{
+            if(Sessn::where('start_yr',$this->start_yr)->where('odd_even',1)->exists()){
+                return Sessn::where('start_yr',$this->start_yr)->where('odd_even',1)->first();
+            }
+            else{
+                return false;
+            }
+        }
+    }
 }

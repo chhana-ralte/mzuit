@@ -1,14 +1,10 @@
 <x-layout>
-    <x-slot name="heading">
-        
-        {{ $enroll->student->person->name }}
-        <x-button type="a" href="{{ route('enroll.edit', $enroll->id) }}">Edit</x-button>
-    </x-slot>
     <x-container>
         <x-block class="col-md-4">
             <x-slot name="heading">
                 <x-button type="a" href="{{ route('course.show',[$enroll->course_id,'sessn'=>$enroll->sessn_id,'semester'=>$enroll->semester]) }}">Back</x-button>
-                Personal Details
+                    Personal Details
+                <x-button type="a" href="{{ route('enroll.edit', $enroll->id) }}">Edit</x-button>
             </x-slot>
             
             <table class="table table-striped">
@@ -22,7 +18,37 @@
                 </tr>
                 <tr>
                     <td><strong>Date of Birth</strong></th>
-                    <td>{{ $enroll->student->person->dob }}</td>
+                    <td>{{ $enroll->student->person->dob?date_format(date_create($enroll->student->person->dob),'d-m-Y'):'' }}</td>
+                </tr>
+                <tr>
+                    <td><strong>Email(s)</strong></th>
+                    <td>
+                        @foreach($enroll->student->person->emails as $em)
+                            {{ $em->email }}<br>
+                        @endforeach
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>Phone(s)</strong></th>
+                    <td>
+                        @foreach($enroll->student->person->phones as $ph)
+                            {{ $ph->phone }}<br>
+                        @endforeach
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>Address(s)</strong></th>
+                    <td>
+                        @foreach($enroll->student->person->addresses as $ad)
+                            {{ $ad->address }}<br>
+                        @endforeach
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>Category</strong></th>
+                    <td>
+                    {{ $enroll->student->person->category }}
+                    </td>
                 </tr>
             </table>
         </x-block>
@@ -34,6 +60,10 @@
                 <tr>
                     <td><strong>Rollno</strong></th>
                     <td>{{ $enroll->student->rollno }}</td>
+                </tr>
+                <tr>
+                    <td><strong>Registration</strong></th>
+                    <td>{{ $enroll->student->registration }}</td>
                 </tr>
                 <tr>
                     <td><strong>Batch</strong></th>

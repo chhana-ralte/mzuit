@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Teacher;
+use App\Models\Department;
 use Illuminate\Http\Request;
 
 class TeacherController extends Controller
@@ -10,9 +11,14 @@ class TeacherController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Department $department)
     {
-        //
+        $teachers  = $department->teachers;
+        $data = [
+            'department' => $department,
+            'teachers' => $teachers
+        ];
+        return view('common.teacher.index',$data);
     }
 
     /**
@@ -60,6 +66,12 @@ class TeacherController extends Controller
      */
     public function destroy(Teacher $teacher)
     {
-        //
+        //return request()->ajaxed;
+        $teacher->delete();
+        if(request()->ajax=='yes'){
+            return "Teacher deleted";
+        }
+        return redirect('/department/' . $teacher->department->id)
+            ->with(['message' => ['type'=>'info', 'text'=>'Teacher deleted']]);
     }
 }

@@ -77,6 +77,34 @@
             @else
                 No School available
             @endif
-        </x-block>            
+        </x-block>
+        
+        <x-block>
+            <x-slot name="heading">
+                Teachers in the department 
+                <x-button type="a" href="/department/{{$department->id}}/teacher">Manage</x-button>
+            </x-slot>
+            <div class="pt-2">
+                @if(count($department->teachers)>0)
+                <table class="table table-striped">
+                    <tr>
+                        <th>Sl</th>
+                        <th>Name</th>
+                        <th>Designation</th>
+                    </tr>
+                    <?php $sl=1 ?>
+                    @foreach($department->teachers as $t)
+                    <tr>
+                        <td>{{ $sl++ }}</td>
+                        <td>{{ $t->person->name }}</td>
+                        <td>{{ $t->designation }}</td>
+                    </tr>
+                    @endforeach
+                </table>
+                @else
+                No teacher in the department
+                @endif
+            </div>
+        </x-block>
     </x-container>
 </x-layout>

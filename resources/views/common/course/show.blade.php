@@ -29,6 +29,11 @@
                     @endif
                 </div>
             </div>
+            @if($semester <= 3)
+            <div class="pt-2">
+                <x-button type="a" href="/enroll/create?course={{ $course->id }}&semester={{ $semester }}&sessn={{ $sessn->id }}">Add student</x-button>
+            </div>
+            @endif
             <div class="pt-2">
                 @if(count($enrolls)>0)
                     <table class="table table-striped">
@@ -48,6 +53,7 @@
                                     <td>{{ $e->student->person->name }}</td>
                                 </tr>
                             @endforeach
+
                         </tbody>
                     </table>
                 @endif

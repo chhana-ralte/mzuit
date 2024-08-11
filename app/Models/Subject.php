@@ -26,4 +26,8 @@ class Subject extends Model
         return $this->hasmany(Subjectcontent::class);
     }
 
+    public function teachers(Sessn $sessn){
+        return $this->belongsToMany(Teacher::class)->where('sessn_id',$sessn->id)->get();
+    }
+
 }

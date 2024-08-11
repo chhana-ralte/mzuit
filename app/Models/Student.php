@@ -22,6 +22,10 @@ class Student extends Model
         return $this->belongsTo(Sessn::class);
     }
 
+    public function batch(){
+        return $this->sessn()->start_yr;
+    }
+    
     public function enrolls(){
         return $this->hasMany(Enroll::class);
     }

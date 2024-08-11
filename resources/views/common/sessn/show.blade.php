@@ -2,25 +2,28 @@
     <x-container>
         <x-block>
             <x-slot:heading>
-                Sessions <x-button type="a" href="/sessn/create">New session</x-button>
+                Courses that are being offered
             </x-slot:heading>
             <table class="table table-striped pt-2">
                 <tr>
                     <th>Sl</th>
-                    <th>Session</th>
-                    <th>Default session</th>
+                    <th>Code</th>
+                    <th>Name</th>
+                    <th>Teacher</th>
                 </tr>
                 <?php $sl=1 ?>
-                @foreach($sessns as $ses)
+                @foreach($subjects as $sj)
                 <tr>
                     <td>{{ $sl++ }}</td>
-                    <td><a href="/sessn/{{$ses->id}}">{{ $ses->name() }} </a></td>
-                    <td><input type="radio" name="default_sessn" value="{{ $ses->id }}" {{ $ses->cur_ssn()?' checked ':''}}></td>
+                    <td>{{ $sj->code }}</td>
+                    <td>{{ $sj->name }}</td>
+                    <td>
+                        @foreach($sj->teachers($sessn) as $t)
+                            {{ $t->person->name }}<br>
+                        @endforeach
+                    </td>
                 </tr>
                 @endforeach
-                <tr>
-                    <td colspan=3>{{ $sessns->links() }}</td>
-                </tr>
             </table>
         </x-block>
     </x-container>

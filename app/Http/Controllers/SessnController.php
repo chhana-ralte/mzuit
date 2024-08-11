@@ -16,19 +16,12 @@ class SessnController extends Controller
         return view('common.sessn.index',['sessns' => Sessn::orderby('start_yr')->orderBy('odd_even')->paginate()]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+
     public function create()
     {
-        // $last_sessn = Sessn::last();
-        // dd($last_sessn);
         return view('common.sessn.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         //dd($request->all());
@@ -55,7 +48,27 @@ class SessnController extends Controller
      */
     public function show(Sessn $sessn)
     {
-        //
+        //dd(auth()->user());
+        if(auth()->user()->department_id){
+            $department = auth()->user()->department();
+        }
+        //dd($department);
+        $enrolls = \App\Models\Enroll::where('sessn_id',$sessn->id)
+            ->whereIn('course_id',$department->courses->pluck('id'))
+            ->get();
+         // dd($enrolls);  
+        $enroll_subject = \App\Models\Enroll_Subject::whereIn('enroll_id',$enrolls->pluck('id'))
+            ->get();
+        $subjects = \App\Models\Subject::whereIn('id',$enroll_subject->pluck('subject_id'))
+            ->orderBy('semester')
+            ->get();
+       // dd($subjects);
+        $data = [
+            'department' => $department,
+            'subjects' => $subjects,
+            'sessn' => $sessn
+        ];
+        return view('common.sessn.show',$data);
     }
 
     /**

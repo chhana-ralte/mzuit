@@ -17,6 +17,10 @@ class Department extends Model
         return $this->hasMany(Course::class);
     }
 
+    public function teachers(){
+        return $this->hasMany(Teacher::class);
+    }
+
     public function slot(){
         if(Deptslot::where('department_id',$this->id)->exists()){
             return Deptslot::where('department_id',$this->id)->first()->slot;

@@ -18,7 +18,7 @@
                         <x-input-label for="name" :value="__('Name')" />
                     </div>
                     <div class="col-md-4">
-                        <x-text-input id="name" name="name" type="text" class="form-control" :value="old('name', $enroll->student->person->name)" required autofocus autocomplete="name" />
+                        <x-text-input id="name" name="name" type="text" class="form-control" :value="old('name', $person->name)" required autofocus autocomplete="name" />
                         <x-input-error class="mt-2" :messages="$errors->get('name')" />
                     </div>
                 </div>
@@ -28,7 +28,7 @@
                         <x-input-label for="father" value="Father's name" />
                     </div>
                     <div class="col-md-4">
-                        <x-text-input id="father" name="father" type="text" class="form-control" :value="old('father', $enroll->student->person->father)" autocomplete="father" />
+                        <x-text-input id="father" name="father" type="text" class="form-control" :value="old('father', $person->father)" autocomplete="father" />
                         <x-input-error class="mt-2" :messages="$errors->get('father')" />
                     </div>
                 </div>
@@ -38,7 +38,7 @@
                         <x-input-label for="dob" :value="__('Date of birth')" />
                     </div>
                     <div class="col-md-4">
-                        <x-text-input id="dob" name="dob" type="date" class="form-control" :value="old('dob', $enroll->student->person->dob)" autocomplete="dob" />
+                        <x-text-input id="dob" name="dob" type="date" class="form-control" :value="old('dob', $person->dob)" autocomplete="dob" />
                         <x-input-error class="mt-2" :messages="$errors->get('dob')" />  
                     </div>  
                 </div>
@@ -48,18 +48,28 @@
                         <x-input-label for="email" :value="__('Email')" />
                     </div>
                     <div class="col-md-4">
-                        <x-text-input id="email" name="email" type="email" class="form-control" :value="old('email', $enroll->student->person->email)" autocomplete="email" />
+                        <x-text-input id="email" name="email" type="email" class="form-control" :value="old('email', $email?$email->email:'')" autocomplete="email" />
                         <x-input-error class="mt-2" :messages="$errors->get('email')" />    
                     </div>
                 </div>
 
                 <div class="form-group row pt-2">
                     <div class="col-md-3">
-                        <x-input-label for="phone" :value="__('phone')" />
+                        <x-input-label for="phone" :value="__('Phone')" />
                     </div>
                     <div class="col-md-4">
-                        <x-text-input id="phone" name="phone" type="text" class="form-control" :value="old('phone', $enroll->student->person->phone)" autocomplete="phone" />
+                        <x-text-input id="phone" name="phone" type="text" class="form-control" :value="old('phone', $phone?$phone->phone:'')" autocomplete="phone" />
                         <x-input-error class="mt-2" :messages="$errors->get('phone')" />    
+                    </div>
+                </div>
+
+                <div class="form-group row pt-2">
+                    <div class="col-md-3">
+                        <x-input-label for="address" :value="__('Address')" />
+                    </div>
+                    <div class="col-md-4">
+                        <textarea id="address" name="address" type="text" class="form-control" autocomplete="address">{{ $address?$address->address:'' }}</textarea>
+                        <x-input-error class="mt-2" :messages="$errors->get('address')" />
                     </div>
                 </div>
 
@@ -70,12 +80,12 @@
                     </div>
                     <div class="col-md-4">
                         <x-select name='category' class="form-control">
-                            <option value="" {{$enroll->student->person->category==""?' selected ':''}}>Select Category</option>
-                            <option value="General" {{$enroll->student->person->category=="General"?' selected ':''}}>General</option>
-                            <option value="SC" {{$enroll->student->person->category=="SC"?' selected ':''}}>SC</option>
-                            <option value="ST" {{$enroll->student->person->category=="ST"?' selected ':''}}>ST</option>
-                            <option value="OBC" {{$enroll->student->person->category=="OBC"?' selected ':''}}>OBC</option>
-                            <option value="EWS" {{$enroll->student->person->category=="EWS"?' selected ':''}}>EWS</option>
+                            <option value="" {{$person->category==""?' selected ':''}}>Select Category</option>
+                            <option value="General" {{$person->category=="General"?' selected ':''}}>General</option>
+                            <option value="SC" {{$person->category=="SC"?' selected ':''}}>SC</option>
+                            <option value="ST" {{$person->category=="ST"?' selected ':''}}>ST</option>
+                            <option value="OBC" {{$person->category=="OBC"?' selected ':''}}>OBC</option>
+                            <option value="EWS" {{$person->category=="EWS"?' selected ':''}}>EWS</option>
                         </x-select>
                         <x-input-error class="mt-2" :messages="$errors->get('category')" />    
                     </div>
@@ -111,16 +121,6 @@
 
                 <div class="form-group row pt-2">
                     <div class="col-md-3">
-                        <x-input-label for="phone" :value="__('Phone')" />
-                    </div>
-                    <div class="col-md-4">
-                        <x-text-input id="phone" name="phone" type="text" class="form-control" :value="old('phone', $enroll->student->person->phone)" autocomplete="phone" />
-                        <x-input-error class="mt-2" :messages="$errors->get('phone')" />    
-                    </div>
-                </div>
-
-                <div class="form-group row pt-2">
-                    <div class="col-md-3">
                         <x-input-label for="registration" value="Registration" />
                     </div>
                     <div class="col-md-4">
@@ -146,12 +146,25 @@
 
                 <div class="form-group row pt-2">
                     <div class="col-md-3">
-
                         <x-input-label for="batch" value="Batch" />
                     </div>
                     <div class="col-md-4">
                         <x-text-input name="batch" type="text" class="form-control" value='{{ $enroll->student->sessn->start_yr }}' autocomplete="batch"/>
                         <x-input-error class="mt-2" :messages="$errors->get('batch')" />
+                    </div>
+                </div>
+
+                <div class="form-group row pt-2">
+                    <div class="col-md-3">
+                        <x-input-label for="status" value="Status" />
+                    </div>
+                    <div class="col-md-4">
+                        <select name="status" class="form-control">
+                            <option value="Ongoing">Ongoing</option>
+                            <option value="Completed"  {{$student->completed?' selected ':'' }}>Completed</option>
+                            <option value="Dropped out" {{$student->dropout?' selected ':'' }}>Dropped out</option>
+                        </select>
+                        <x-input-error class="mt-2" :messages="$errors->get('status')" />
                     </div>
                 </div>
 

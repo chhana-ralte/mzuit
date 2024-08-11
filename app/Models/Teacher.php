@@ -10,6 +10,13 @@ class Teacher extends Model
     use HasFactory;
     protected $guarded = [];
     public function person(){
-        $this->belongsTo(Person::class);
+        return $this->belongsTo(Person::class);
+    }
+
+    public function department(){
+        return $this->belongsTo(Department::class);
+    }
+    public function subjects(){
+        return $this->belongsToMany(Teacher::class)->withPivot('sessn_id');
     }
 }

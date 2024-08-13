@@ -18,4 +18,9 @@ class Subject_Teacher extends Model
     public function teacher(){
         return $this->belongsTo(Teacher::class);
     }
+
+    public function sessn(){
+        return $this->belongsTo(Sessn::class);
+    }
+
 }

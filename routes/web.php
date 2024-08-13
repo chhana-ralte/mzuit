@@ -11,6 +11,7 @@ use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\SubjectcontentController;
 use App\Http\Controllers\EnrollController;
 use App\Http\Controllers\SessnController;
+use App\Http\Controllers\SubjectTeacherController;
 use App\Http\Controllers\MassController;
 use App\Http\Controllers\DikteiController;
 use App\Http\Controllers\UserController;
@@ -32,6 +33,15 @@ Route::resource('syllabus.subject', SubjectController::class)->shallow();
 Route::resource('subject.subjectcontent', SubjectcontentController::class)->shallow();
 Route::resource('enroll', EnrollController::class);
 Route::resource('sessn', SessnController::class);
+//Route::resource('sessn.subject_teacher', SubjectTeacherController::class)->shallow();
+
+Route::controller(SubjectTeacherController::class)->group(function(){
+    Route::get('/subject_teacher/searchresults','searchResults');
+    Route::get('/subject_teacher/{subject}/{sessn}','index');
+    Route::get('/subject_teacher/{subject}/{sessn}/create','create');
+    Route::post('/subject_teacher/{subject}/{sessn}','store');
+    Route::delete('/subject_teacher/{subject_teacher}','destroy');
+});
 
 Route::controller(MassController::class)->group(function(){
     Route::get('/mass/enrollsubject','enrollSubject');

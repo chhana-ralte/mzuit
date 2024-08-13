@@ -2,7 +2,8 @@
     <x-container>
         <x-block>
             <x-slot:heading>
-                Courses that are being offered
+                Courses that are being offered 
+                
             </x-slot:heading>
             <table class="table table-striped pt-2">
                 <tr>
@@ -15,7 +16,7 @@
                 @foreach($subjects as $sj)
                 <tr>
                     <td>{{ $sl++ }}</td>
-                    <td>{{ $sj->code }}</td>
+                    <td><a href="/subject_teacher/{{$sj->id}}/{{$sessn->id}}">{{ $sj->code }}</a></td>
                     <td>{{ $sj->name }}</td>
                     <td>
                         @foreach($sj->teachers($sessn) as $t)

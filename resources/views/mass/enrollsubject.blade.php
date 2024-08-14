@@ -12,19 +12,20 @@
                 @csrf
                 <table class="table table-striped">
                     <tr>
-                        <th>List of students</th>
-                        <th>List of subjects</th>
+                      
+                        <th><input type="checkbox" id="enrollCheckall">List of students</th>
+                        <th><input type="checkbox" id="subjectCheckall">List of subjects</th>
                     </tr>
                     <tr>
                         <td>
                             @foreach($enrolls as $e)
-                            <input type="checkbox" id="e{{ $e->id }}" name="enrolls[]" value="{{ $e->id }}">
+                            <input type="checkbox" class="enrolls" id="e{{ $e->id }}" name="enrolls[]" value="{{ $e->id }}">
                             <label for="e{{ $e->id }}">{{ $e->student->rollno }} : {{ $e->student->person->name }}</label><br>
                             @endforeach
                         </td>
                         <td>
                             @foreach($subjects as $s)
-                            <input type="checkbox" id="s{{ $s->id }}" name="subjects[]" value="{{ $s->id }}">
+                            <input type="checkbox" class="subjects" id="s{{ $s->id }}" name="subjects[]" value="{{ $s->id }}">
                             <label for="s{{ $s->id }}">{{ $s->code }} : {{ $s->name }}</label><br>
                             @endforeach
                         </td>
@@ -38,4 +39,19 @@
             </form>
         </x-block>
     </x-container>
+<script>
+$(document).ready(function(){
+    $.ajaxSetup({
+        headers : {
+            'X-CSRF-TOKEN' : $("meta[name='csrf-token']").attr('content')
+        }
+    });
+    $("#enrollCheckall").click(function(){
+        $("input.enrolls").attr('checked',$(this).is(":checked"));
+    });
+    $("#subjectCheckall").click(function(){
+        $("input.subjects").attr('checked',$(this).is(":checked"));
+    });
+});
+</script>
 </x-layout>

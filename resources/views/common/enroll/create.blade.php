@@ -123,8 +123,11 @@
                     <div class="col-md-4">
                         <select name="type" class="form-control">
                             <option>None</option>
-                            <option value="Regular" {{ $semester==1?' selected ':''}}>Regular</option>
-                            <option value="Lateral" {{ $semester==3?' selected ':''}}>Lateral</option>
+                            @if($semester == 1)
+                                <option value="Regular" {{ $semester==1?' selected ':''}}>Regular</option>
+                            @else
+                                <option value="Lateral" {{ $semester==3?' selected ':''}}>Lateral</option>
+                            @endif
                         </select>
                         <x-input-error class="mt-2" :messages="$errors->get('type')" />
                     </div>
@@ -135,7 +138,7 @@
                         <x-input-label for="batch" value="Batch" />
                     </div>
                     <div class="col-md-4">
-                        <x-text-input name="batch" type="text" class="form-control" value='{{ $sessn->start_yr }}' autocomplete="batch"/>
+                        <x-text-input name="batch" type="text" class="form-control" value='{{ $semester==3?$sessn->start_yr-1:$sessn->start_yr }}' autocomplete="batch"/>
                         <x-input-error class="mt-2" :messages="$errors->get('batch')" />
                     </div>
                 </div>

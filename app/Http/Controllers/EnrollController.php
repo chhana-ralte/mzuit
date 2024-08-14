@@ -7,16 +7,10 @@ use Illuminate\Http\Request;
 
 class EnrollController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         $sessn = \App\Models\Sessn::findOrFail(request()->query('sessn'));
@@ -32,9 +26,6 @@ class EnrollController extends Controller
         return view('common.enroll.create',$data);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -45,10 +36,17 @@ class EnrollController extends Controller
             'phone' => ['nullable', 'regex:/[0-9]{10}/'],
             'address' => ['nullable', 'max:255'],
             'category' => ['nullable'],
-            'rollno' => 'nullable',
+            'rollno' => ['nullable'],
             'registration' => 'nullable',
             'batch' => 'numeric'
         ]);
+
+        if($request->rollno){
+            $rollno = $request->rollno;
+        }
+        else{
+            $rollno = "temp";
+        }
             //dd($validated);
         $person = \App\Models\Person::create([
             'name' => $request->name,
@@ -59,30 +57,30 @@ class EnrollController extends Controller
 
         if($request->email){
             \App\Models\Email::updateOrCreate([
-                'person_id' => $enroll->student->person->id,
+                'person_id' => $person->id,
                 'type' => 'Personal',
             ],[
-                'person_id' => $enroll->student->person->id,
+                'person_id' => $person->id,
                 'type' => 'Personal',
                 'email' => $request->email
             ]);
         }
         if($request->phone){
             \App\Models\Phone::updateOrCreate([
-                'person_id' => $enroll->student->person->id,
+                'person_id' => $person->id,
                 'type' => 'Personal',
             ],[
-                'person_id' => $enroll->student->person->id,
+                'person_id' => $person->id,
                 'type' => 'Personal',
                 'phone' => $request->phone
             ]);
         }
         if($request->address){
             \App\Models\Address::updateOrCreate([
-                'person_id' => $enroll->student->person->id,
+                'person_id' => $person->id,
                 'type' => 'Personal',
             ],[
-                'person_id' => $enroll->student->person->id,
+                'person_id' => $person->id,
                 'type' => 'Personal',
                 'address' => $request->address
             ]);
@@ -90,7 +88,7 @@ class EnrollController extends Controller
          
         $student = \App\Models\Student::create([
             'person_id' => $person->id,
-            'rollno' => $request->rollno,
+            'rollno' => $rollno,
             'type' => $request->type,
             'course_id' => $request->course,
             'registration' => $request->registration,
@@ -105,6 +103,12 @@ class EnrollController extends Controller
             'sessn_id' => $request->sessn,
             'semester' => $request->semester
         ]);
+        if($rollno == "temp"){
+            $student->update([
+                'rollno' => 'roll_' . $enroll->id
+            ]);
+        }
+        
         return redirect('/course/' . $request->course .'?sessn=' . $request->sessn . '&semester=' . $request->semester)
             ->with(['message' => ['type'=>'info', 'text'=>'Student added successfully']]);
     }

@@ -8,14 +8,10 @@ use Illuminate\Http\Request;
 
 class SessnController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         return view('common.sessn.index',['sessns' => Sessn::orderby('start_yr','desc')->orderBy('odd_even')->paginate()]);
     }
-
 
     public function create()
     {
@@ -43,9 +39,6 @@ class SessnController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Sessn $sessn)
     {
         //dd(auth()->user());
@@ -71,25 +64,16 @@ class SessnController extends Controller
         return view('common.sessn.show',$data);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Sessn $sessn)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, Sessn $sessn)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Sessn $sessn)
     {
         //

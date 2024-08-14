@@ -16,25 +16,13 @@
                 <div class="col-md-9">
                     @foreach($semesters as $sem)
                         @if($sem == $semester)
-                            <x-button :selected=true type="a" href="{{ route('course.show',[$course->id,'semester'=>$sem,'sessn'=>$sessn->id]) }}">{{$sem}}</a></x-button>
+                            <x-button :selected=true type="a" href="{{ route('enroll_subject.index',['course'=>$course->id,'semester'=>$sem,'sessn'=>$sessn->id]) }}">{{$sem}}</a></x-button>
                         @else
-                            <x-button type="a" href="{{ route('course.show',[$course->id,'semester'=>$sem,'sessn'=>$sessn->id]) }}">{{$sem}}</a></x-button>
+                            <x-button type="a" href="{{ route('enroll_subject.index',['course'=>$course->id,'semester'=>$sem,'sessn'=>$sessn->id]) }}">{{$sem}}</a></x-button>
                         @endif
                     @endforeach
-                    @if(!$enrollSubjectExists)
-                        <x-button type="a" href="/mass/enrollsubject?course={{ $course->id }}&semester={{ $semester }}&sessn={{ $sessn->id }}">Mass assign subjects</x-button>
-                    @endif
-                    @if(!$nextSemesterExists && $course->max_sem != $semester)
-                        <x-button type="a" href="/mass/promote?course={{ $course->id }}&semester={{ $semester }}&sessn={{ $sessn->id }}">Mass promote</x-button>
-                    @endif
-                    <x-button type="a" href="/enroll_subject?course={{ $course->id }}&semester={{ $semester }}&sessn={{ $sessn->id }}">Enroll subjects</x-button>
                 </div>
             </div>
-            @if($semester <= 3)
-            <div class="pt-2">
-                <x-button type="a" href="/enroll/create?course={{ $course->id }}&semester={{ $semester }}&sessn={{ $sessn->id }}">Add student</x-button>
-            </div>
-            @endif
             <div class="pt-2">
                 @if(count($enrolls)>0)
                     <table class="table table-striped">
@@ -43,6 +31,9 @@
                                 <th>Sl</th>
                                 <th>Roll no</th>
                                 <th>Name</th>
+                                @foreach($subjects as $sj)
+                                    <th>{{$sj->code}}</th>
+                                @endforeach
                             </tr>
                         </thead>
                         <tbody>
@@ -50,8 +41,17 @@
                             @foreach($enrolls as $e)
                                 <tr>
                                     <td>{{ $sl++ }}</td>
-                                    <td><a href="{{ route('enroll.show',$e->id) }}">{{ $e->student->rollno }}</td>
+                                    <td><a href="{{ route('enroll_subject.show',$e->id) }}">{{ $e->student->rollno }}</td>
                                     <td>{{ $e->student->person->name }}</td>
+                                    @foreach($subjects as $sj)
+                                        <td>
+                                            @if(isset($enroll_subjects[$e->id][$sj->id]))
+                                                {{ $enroll_subjects[$e->id][$sj->id]}}
+                                            @else
+                                                <font color="red">X</font>
+                                            @endif
+                                        </td>
+                                    @endforeach
                                 </tr>
                             @endforeach
 
@@ -59,24 +59,6 @@
                     </table>
                 @endif
             </div>
-        </x-block>
-
-        <x-block>
-            <x-slot name="heading">
-                List of Syllabi
-            </x-slot>
-            <table class="table table-striped">
-                <tr>
-                    <th>Syllabus name</th>
-                    <th>Year range for batches</th>
-                </tr>
-                @foreach($course->syllabi as $syl)
-                    <tr>
-                        <td><a href="{{ route('syllabus.show',$syl->id) }}">{{ $syl->name }}</a></td>
-                        <td>{{ $syl->from_batch }} - {{ $syl->to_batch }}</td>
-                    </tr>
-                @endforeach
-            </table>
         </x-block>
     </x-container>
 <script>

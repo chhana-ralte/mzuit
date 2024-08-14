@@ -10,6 +10,7 @@ use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\SubjectcontentController;
 use App\Http\Controllers\EnrollController;
+use App\Http\Controllers\EnrollSubjectController;
 use App\Http\Controllers\SessnController;
 use App\Http\Controllers\SubjectTeacherController;
 use App\Http\Controllers\MassController;
@@ -33,7 +34,16 @@ Route::resource('syllabus.subject', SubjectController::class)->shallow();
 Route::resource('subject.subjectcontent', SubjectcontentController::class)->shallow();
 Route::resource('enroll', EnrollController::class);
 Route::resource('sessn', SessnController::class);
+//Route::resource('enroll_subject', EnrollSubjectController::class);
 //Route::resource('sessn.subject_teacher', SubjectTeacherController::class)->shallow();
+
+Route::controller(EnrollSubjectController::class)->group(function(){
+    Route::get('/enroll_subject','index')->name('enroll_subject.index'); //List of subjects in semester, course, session
+    Route::get('/enroll_subject/{enroll}','show')->name('enroll_subject.show'); //list of subjects for enrollment
+    Route::post('/enroll_subject/{enroll}','store'); // Addition of subject to enrollment
+    Route::get('/enroll_subject/{enroll}/create','create'); // 
+    Route::delete('/enroll_subject/{enroll}','destroy'); // removal of subject from enrollment
+});
 
 Route::controller(SubjectTeacherController::class)->group(function(){
     Route::get('/subject_teacher/searchresults','searchResults');

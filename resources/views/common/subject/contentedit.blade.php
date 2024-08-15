@@ -2,23 +2,24 @@
     <x-container>
         <x-block>
             <x-slot name="heading">
-                <x-button type="a" href="{{ route('syllabus.show',[$subject->syllabus->id]) }}">Back</x-button>
-                {{ $subject->code }}: {{$subject->name}}
+                <x-button type="a" href="{{ route('subject.show',[$subjectcontent->subject->id]) }}">Back</x-button>
+                {{ $subjectcontent->subject->code }}: {{$subjectcontent->subject->name}}
             </x-slot>
-            <form method="post" action="/subject/{{ $subject->id }}/subjectcontent">
+            <form method="post" action="/subjectcontent/{{$subjectcontent->id}}">
                 @csrf
+                @method('PUT')
                 <table class="table table-striped">
                     <tr>
                         <td>
                             <div class="form-group row pt-2">
                                 <div class="col-md-12">
-                                    <input type="text" class="form-control" name="version" placeholder="Version">
+                                    <input type="text" class="form-control" name="version" value="{{ $subjectcontent->version }}" placeholder="Version">
                                 </div>
                             </div>
                             <div class="form-group row pt-2">
                                 <div class="col-md-12">
                                     <textarea id="editor" name="content" rows="10" placeholder="Content">
-                                        <p></p>
+                                    {{ $subjectcontent->content }}
                                     </textarea>
                                 </div>
                             </div>
@@ -27,7 +28,7 @@
                     <tr>
                         <td>
                             <div>
-                                <x-button type="submit" >Submit</x-button>
+                                <x-button type="submit" >Update</x-button>
                             </div>
                         </td>
                     </tr>
@@ -79,6 +80,4 @@
 		            }
 		        };
 		</script>
-
-
 </x-layout>

@@ -7,6 +7,7 @@
                 
             </x-slot>
             <div class="pt-2">
+                <x-button type="a" href="/department/{{ $department->id }}/teacher/create">New teacher</x-button>
                 @if(count($department->teachers)>0)
                 <table class="table table-striped">
                     <tr>
@@ -21,7 +22,7 @@
                     @foreach($department->teachers as $t)
                     <tr>
                         <td>{{ $sl++ }}</td>
-                        <td>{{ $t->person->name }}</td>
+                        <td><a href="/teacher/{{$t->id}}">{{ $t->person->name }}</a></td>
                         <td>{{ $t->designation }}</td>
                         @auth
                         <td>

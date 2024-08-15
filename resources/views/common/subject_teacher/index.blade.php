@@ -2,7 +2,8 @@
     <x-container>
         <x-block>
             <x-slot:heading>
-                Courses that are being offered 
+                <x-button type="a" href="{{ route('sessn.show',$sessn->id)}}">Back</x-button>
+                Subject teachers
             </x-slot:heading>
             <table class="table table-striped pt-2">
                 <tr>
@@ -15,7 +16,6 @@
                     <td>{{ $subject->code }}</td>
                     <td>{{ $subject->name }} </td>
                     <td>
-                        
                         @foreach($subject_teachers as $st)
                         <div>
                         <button class="btn btn-danger btn-sm btn-delete" value='{{$st->id}}'>X</button>

@@ -64,6 +64,7 @@
         <x-block>
             <x-slot name="heading">
                 List of Syllabi
+                <x-button type="a" href="/course/{{$course->id}}/syllabus">Manage</x-button>
             </x-slot>
             <table class="table table-striped">
                 <tr>

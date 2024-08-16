@@ -3,7 +3,7 @@
     <x-container>
         <x-block>
             <x-slot name="heading">
-                <x-button type="a" href="{{ route('course.show',[$syllabus->course_id]) }}">Back</x-button>
+                <x-button type="a" href="{{ route('course.syllabus.index',[$syllabus->course_id]) }}">Back</x-button>
                 Syllabi under {{ $syllabus->course->name }}
             </x-slot>
             <div>

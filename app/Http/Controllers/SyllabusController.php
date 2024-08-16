@@ -14,7 +14,7 @@ class SyllabusController extends Controller
      */
     public function index(Course $course)
     {
-        //
+        return view('common.syllabus.index',['course'=>$course]);
     }
 
     /**
@@ -22,7 +22,7 @@ class SyllabusController extends Controller
      */
     public function create(Course $course)
     {
-        //
+        return view('common.syllabus.create',['course'=>$course]);
     }
 
     /**
@@ -30,7 +30,20 @@ class SyllabusController extends Controller
      */
     public function store(Course $course, Request $request)
     {
-        //
+        $validated = $request->validate([
+            'name' => ['required'],
+            'from_batch' => ['required','numeric','min:2000','max:2050'],
+            'to_batch' => ['required','numeric','min:2000','max:2050']
+        ]);
+
+        Syllabus::create([
+            'course_id' => $course->id,
+            'name' => $request->name,
+            'from_batch' => $request->from_batch,
+            'to_batch' => $request->to_batch
+        ]);
+
+        return redirect('/course/' . $course->id)->with(['message' => ['type'=>'info', 'text'=>'New Syllabus created']]);
     }
 
     /**
@@ -46,24 +59,40 @@ class SyllabusController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Syllabus $syllabus)
+    public function edit(Syllabus $syllabu)
     {
-        //
+        return view('common.syllabus.edit',['syllabus'=>$syllabu]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Syllabus $syllabus)
+    public function update(Request $request, Syllabus $syllabu)
     {
-        //
+        $validated = $request->validate([
+            'name' => ['required'],
+            'from_batch' => ['required','numeric','min:2000','max:2050'],
+            'to_batch' => ['required','numeric','min:2000','max:2050']
+        ]);
+
+       $syllabu->update([
+            'name' => $request->name,
+            'from_batch' => $request->from_batch,
+            'to_batch' => $request->to_batch
+        ]);
+
+        return redirect('/course/' . $syllabu->course->id . '/syllabus')->with(['message' => ['type'=>'info', 'text'=>'Syllabus updated']]);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Syllabus $syllabus)
+    public function destroy($syllabus_id)
     {
-        //
+        $syllabus = Syllabus::findOrFail($syllabus_id);
+        $course_id = $syllabus->course_id;
+        $syllabus->delete();
+
+        return redirect('/course/' . $course_id . '/syllabus')->with(['message' => ['type'=>'info', 'text'=>'Syllabus deleted']]);
     }
 }

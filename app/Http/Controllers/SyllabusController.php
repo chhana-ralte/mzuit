@@ -43,12 +43,9 @@ class SyllabusController extends Controller
             'to_batch' => $request->to_batch
         ]);
 
-        return redirect('/course/' . $course->id)->with(['message' => ['type'=>'info', 'text'=>'New Syllabus created']]);
+        return redirect('/course/' . $course->id . '/syllabus')->with(['message' => ['type'=>'info', 'text'=>'New Syllabus created']]);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show($syllabus_id)
     {
         $syllabus = Syllabus::findOrFail($syllabus_id);
@@ -56,17 +53,11 @@ class SyllabusController extends Controller
         return view('common.syllabus.show',['syllabus'=>$syllabus, 'subjects'=>$subjects]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Syllabus $syllabu)
     {
         return view('common.syllabus.edit',['syllabus'=>$syllabu]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, Syllabus $syllabu)
     {
         $validated = $request->validate([

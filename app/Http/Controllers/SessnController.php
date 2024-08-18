@@ -10,7 +10,7 @@ class SessnController extends Controller
 {
     public function index()
     {
-        return view('common.sessn.index',['sessns' => Sessn::orderby('start_yr','desc')->orderBy('odd_even')->paginate()]);
+        return view('common.sessn.index',['sessns' => Sessn::orderby('start_yr','desc')->orderBy('odd_even','desc')->paginate()]);
     }
 
     public function create()

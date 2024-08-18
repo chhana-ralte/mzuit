@@ -32,9 +32,13 @@
             <a class="nav-link" href="/department/{{auth()->user()->department_id}}">My Department</a>
           </li>
           @endif
-        <li class="nav-item">
-          <a class="nav-link" href="/sessn">Sessions</a>
-        </li>
+          
+          @if(auth()->user()->teacher_id)
+          <li class="nav-item">
+            <a class="nav-link" href="/attendance">Attendance</a>
+          </li>
+          @endif
+
         @endauth
       </ul>
 <!--      <ul class="navbar-nav me-auto"> -->
@@ -44,7 +48,7 @@
             {{ auth()->user()->username }}
           </button>
           <ul class="dropdown-menu">
-            
+            <li><a class="dropdown-item" href="/user/changePassword">Change password</a></li>          
             <li><button class="dropdown-item" form="logout-form">Logout</button></li>          
             <form method="post" id="logout-form" action="/logout" type="hidden">
               @csrf

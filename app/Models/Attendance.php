@@ -7,5 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Attendance extends Model
 {
-    use HasFactory;
+    protected $guarded = [];
+    public function attmaster(){
+        return $this->belongsTo(Attmaster::class);
+    }
+
+    public function student(){
+        return $this->belongsTo(Student::class);
+    }
 }

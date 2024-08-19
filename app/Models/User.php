@@ -72,4 +72,9 @@ class User extends Authenticatable
         return Role_User::where('user_id',$this->id)->where('role_id',$role->id)->exists();
         //return User::where('role', $role->role)->get();
     }
+
+    public function attmasters(){
+        return $this->hasMany(Attmaster::class);
+    }
+
 }

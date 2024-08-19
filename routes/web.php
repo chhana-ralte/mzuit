@@ -13,6 +13,7 @@ use App\Http\Controllers\EnrollController;
 use App\Http\Controllers\EnrollSubjectController;
 use App\Http\Controllers\SessnController;
 use App\Http\Controllers\SubjectTeacherController;
+use App\Http\Controllers\AttmasterController;
 use App\Http\Controllers\MassController;
 use App\Http\Controllers\DikteiController;
 use App\Http\Controllers\UserController;
@@ -32,6 +33,7 @@ Route::resource('course.syllabus', SyllabusController::class)->shallow()->middle
 Route::resource('department.teacher', TeacherController::class)->shallow()->middleware('auth');
 Route::resource('syllabus.subject', SubjectController::class)->shallow()->middleware('auth');
 Route::resource('subject.subjectcontent', SubjectcontentController::class)->shallow()->middleware('auth');
+Route::resource('user.attmaster', AttmasterController::class)->shallow()->middleware('auth');
 Route::resource('enroll', EnrollController::class)->middleware('auth');
 Route::resource('sessn', SessnController::class)->middleware('auth');
 Route::get('/role/{role}', function(App\Models\Role $role){

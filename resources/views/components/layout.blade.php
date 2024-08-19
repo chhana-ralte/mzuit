@@ -35,9 +35,13 @@
           
           @if(auth()->user()->teacher_id)
           <li class="nav-item">
-            <a class="nav-link" href="/attendance">Attendance</a>
+            <a class="nav-link" href="/user/{{ auth()->user()->id }}/attmaster">Attendance</a>
           </li>
           @endif
+
+          <li class="nav-item">
+            <a class="nav-link" href="/sessn">Sessions</a>
+          </li>
 
         @endauth
       </ul>

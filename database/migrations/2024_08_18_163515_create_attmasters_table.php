@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('attmasters', function (Blueprint $table) {
             $table->id();
             $table->date('dt');
+            $table->foreignIdFor(App\Models\Sessn::class);
             $table->foreignIdFor(App\Models\Subject::class);
             $table->foreignIdFor(App\Models\User::class);
             $table->integer('slots')->default(1);

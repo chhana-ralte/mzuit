@@ -13,7 +13,9 @@ return new class extends Migration
     {
         Schema::create('attendances', function (Blueprint $table) {
             $table->id();
-            
+            $table->foreignIdFor(App\Models\Attmaster::class);
+            $table->foreignIdFor(App\Models\Student::class);
+            $table->boolean('status')->default(1);
             $table->timestamps();
         });
     }

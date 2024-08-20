@@ -19,4 +19,9 @@ class Attmaster extends Model
     public function sessn(){
         return $this->belongsTo(Sessn::class);
     }
+
+    public function attendances(){
+        return $this->hasMany(Attendance::class);
+    }
+
 }

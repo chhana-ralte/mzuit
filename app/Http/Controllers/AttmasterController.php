@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Attmaster;
+use App\Models\Attendance;
 use App\Models\Sessn;
 use App\Models\Subject;
 use App\Models\Teacher;
@@ -106,10 +107,23 @@ class AttmasterController extends Controller
         $students = Student::whereIn('id',$student_ids)->get();
 
         $attendances = $attmaster->attendances;
+        $atts = [];
+        $id=0;
+        foreach($attendances as $att){
+            $atts[$att->student_id] = $att->status;
+        }
+        $stds = [];
+        foreach($students as $st){
+            array_push($stds,[
+                'id'=>$st->id,
+                'rollno'=>$st->rollno,
+                'name' => $st->person->name,
+                'status' => isset($atts[$st->id])?$atts[$st->id]:0
+            ]);
+        }
         $data = [
             'attmaster' => $attmaster,
-            'students' => $students,
-            'attendances' => $attendances
+            'students' => $stds,
         ];
         return view('attmaster.show',$data);
 
@@ -120,9 +134,28 @@ class AttmasterController extends Controller
         //
     }
 
-    public function update(Request $request, string $id)
+    public function update(Request $request, Attmaster $attmaster)
     {
-        dd($request->all());
+        foreach($request->students as $key=>$value){
+            if($value == 1){
+                Attendance::updateOrCreate([
+                    'attmaster_id' => $attmaster->id,
+                    'student_id' => $key
+                ],[
+                    'attmaster_id' => $attmaster->id,
+                    'student_id' => $key,
+                    'status' => 1
+                ]);    
+            }
+            else{
+                Attendance::where('attmaster_id',$attmaster->id)
+                    ->where('student_id',$key)
+                    ->delete();
+            }
+        }
+        return redirect("/attmaster/" . $attmaster->id)
+            ->with(['message' => ['type'=>'info', 'text'=>"Attendance updated"]]);
+
     }
 
     public function destroy(string $id)

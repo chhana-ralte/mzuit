@@ -2,31 +2,41 @@
     <x-container>
         <x-block>
             <x-slot:heading>
-                Attendance master
+                @if($subject)
+                    Attendance master for {{$subject->code}}: {{$subject->name}}
+                @else
+                    Select the subject
+                @endif
             </x-slot:heading>
             <div class="pt-2">
-                @if(count($attmasters)>0)
+                <div>
+                @if(count($subjects)>0)
+                    @foreach($subjects as $sj)
+                        <x-button type="a" href="/user/{{ auth()->user()->id }}/attmaster?subject={{$sj->id}}">{{ $sj->code }}</x-button>
+                    @endforeach
+                @else
+                    No subject assigned to you
+                @endif
+                </div>
+                @if($attmasters && count($attmasters)>0)
                 <table class="table  table-hover">
                     <tr>
                         <th>Date</th>
-                        <th>Subject</th>
                         <th>Slots</th>
                     </tr>
                     @foreach($attmasters as $am)
                     <tr id="{{ $am->id }}">
                         <td>{{ date_format(date_create($am->dt),'d-m-Y') }}</td>
-                        <td>{{ $am->subject->code }}: {{ $am->subject->name }}</td>
                         <td>{{ $am->slots }}</td>
                     </tr>
                     @endforeach
                 </table>
-                @else
-                    No data
                 @endif
+                @if($subject)
                 <div>
-                    <x-button type="a" href="/user/{{ auth()->user()->id }}/attmaster/create">Add attendance</x-button>
+                    <x-button type="a" href="/user/{{ auth()->user()->id }}/attmaster/create?subject={{ $subject->id }}">Add attendance</x-button>
                 </div>
-                <button>Click me</button>
+                @endif
             </div>
         </x-block>
     </x-container>

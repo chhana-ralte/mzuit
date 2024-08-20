@@ -18,6 +18,6 @@ class Teacher extends Model
     }
     
     public function subjects(){
-        return $this->belongsToMany(Teacher::class)->withPivot('sessn_id');
+        return $this->belongsToMany(Subject::class);//->withPivot('sessn_id');
     }
 }

@@ -2,7 +2,7 @@
     <x-container>
         <x-block>
             <x-slot:heading>
-                <x-button type="a" href="/user/{{ auth()->user()->id }}/attmaster">Back</x-button>
+                <x-button type="a" href="/user/{{ auth()->user()->id }}/attmaster?subject={{ $subject->id }}">Back</x-button>
                 Attendance master
             </x-slot:heading>
             <div class="pt-2">
@@ -15,11 +15,8 @@
                             <label for="subject_id">Subject</label>
                         </div>
                         <div class="col-md-4">
-                            <select name="subject_id" class="form-control">
-                                @foreach($subjects as $sj)
-                                <option value="{{$sj->id}}">{{ $sj->code }}: {{ $sj->name }}</option>
-                                @endforeach
-                            </select>
+                        <input type="text" name="sj" class="form-control" value="{{$subject->code}}: {{$subject->name}}" disabled>
+                        <input type="hidden" name="subject_id" value="{{ $subject->id }}">
                         </div>
                     </div>
                     <div class="form-group row pt-2">
@@ -27,7 +24,7 @@
                             <label for="dt">Date</label>
                         </div>
                         <div class="col-md-4">
-                            <input type="date" name="dt" class="form-control">
+                            <input type="date" name="dt" class="form-control" required>
                         </div>
                     </div>
 

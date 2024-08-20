@@ -2,32 +2,34 @@
     <x-container>
         <x-block>
             <x-slot:heading>
-                Attendance for {{ $subject->code }}: {{ $subject->name }}
+                Attendance for {{ $attmaster->subject->code }}: {{ $attmaster->subject->name }}
             </x-slot:heading>
             <div class="pt-2">
-                @if(count($attendance)>0)
-                <table class="table table-hover">
-                    <tr>
-                        <th>Rollno</th>
-                        <th>Name</th>
-                        <th>Existing</th>
-                        <th>Attendance</th>
-                    </tr>
-                    @foreach($attendance as $att)
-                    <tr>
-                        <td>{{ $student->rollno }}</td>
-                        <td>{{ $student->person->name }}</td>
-                        <td>{{  }}</td>
-                        <td>{{  }}</td>
-                    </tr>
-                    @endforeach
-                </table>
-                @else
-                    No data
-                @endif
-                <div>
-                    <x-button type="submit">Update</x-button>
-                </div>
+                @if(count($students)>0)
+                <form method="post" action="/attmaster/{{ $attmaster->id }}">
+                    @csrf
+                    @method('put')
+                    <table class="table table-hover">
+                        <tr>
+                            <th>Rollno</th>
+                            <th>Name</th>
+                            <th>Attendance</th>
+                        </tr>
+                        @foreach($students as $st)
+                        <tr class="rowdata" value="{{ $st->id }}">
+                            <td>{{ $st->rollno }}</td>
+                            <td>{{ $st->person->name }}</td>
+                            <td><input type="checkbox" value="{{ $st->id }}" name="students[]" id="{{ $st->id }}"></td>
+                        </tr>
+                        @endforeach
+                    </table>
+                    @else
+                        No data
+                    @endif
+                    <div>
+                        <x-button type="submit">Update</x-button>
+                    </div>
+                </form>
             </div>
         </x-block>
     </x-container>
@@ -38,9 +40,9 @@ $(document).ready(function(){
             'X-CSRF-TOKEN' : $("meta[name='csrf-token']").attr('content')
         }
     });
-    $("tr").click(function(){
-        //alert($(this).attr('id'));
-        location.replace("/attmaster/" + $(this).attr('id'));
+    $("tr.rowdata").click(function(){
+        var checked = $("input#"+$(this).attr('value')).is('checked');
+        $("input#"+$(this).attr('value')).attr('checked',!checked);
     });
 });
 </script>

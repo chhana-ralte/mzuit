@@ -7,6 +7,9 @@ use App\Models\User;
 use App\Models\Attmaster;
 use App\Models\Sessn;
 use App\Models\Subject;
+use App\Models\Teacher;
+use App\Models\Student;
+use App\Models\Enroll;
 use App\Models\Subject_Teacher;
 use App\Models\Enroll_Subject;
 
@@ -20,11 +23,31 @@ class AttmasterController extends Controller
         else{
             $sessn = Sessn::current_sessn();
         }
-        $attmasters = Attmaster::where('user_id',$user->id)
+        if(isset($_GET['subject'])){
+            $subject = Subject::findOrFail($_GET['subject']);
+        }
+        else{
+            $subject = false;
+        }
+
+        $teacher = Teacher::find($user->teacher_id);
+
+        $subjects = $teacher->subjects()
             ->where('sessn_id',$sessn->id)
+            ->get();
+        if($subject){
+            $attmasters = Attmaster::where('user_id',$user->id)
+            ->where('sessn_id',$sessn->id)
+            ->where('subject_id',$subject->id)
             ->orderBy('dt')
             ->get();
+        }
+        else{
+            $attmasters = false;
+        }
         $data = [
+            'subject' => $subject,
+            'subjects' => $subjects,
             'attmasters' => $attmasters
         ];
         return view('attmaster.index',$data);
@@ -38,14 +61,16 @@ class AttmasterController extends Controller
         else{
             $sessn = Sessn::current_sessn();
         }
-        $subject_teachers = Subject_Teacher::where('teacher_id',$user->teacher_id)
-            ->where('sessn_id',$sessn->id)
-            ->get();
-        $subjects = Subject::whereIn('id',$subject_teachers->pluck('subject_id'))->get();
+        if(isset($_GET['subject'])){
+            $subject = Subject::findOrFail($_GET['subject']);
+        }
+        else{
+            abort(404);
+        }
         $data = [
             'sessn' => $sessn,
             'user' => $user,
-            'subjects' => $subjects
+            'subject' => $subject,
         ];
         return view('attmaster.create',$data);
     }
@@ -61,7 +86,7 @@ class AttmasterController extends Controller
         ]);
         //dd($validated);
         Attmaster::create($validated);
-        return redirect("/user/" . $user->id . "/attmaster")
+        return redirect("/user/" . $user->id . "/attmaster?subject=" . $request->subject_id)
             ->with(['message'=>['type'=>'info', 'text'=>'Attendance master created']]);
     }
 
@@ -74,16 +99,19 @@ class AttmasterController extends Controller
             $sessn = Sessn::current_sessn();
         }
         $enroll_ids = Enroll_Subject::where('subject_id',$attmaster->subject_id)
-            ->where('sessn_id',$sessn->id)
             ->pluck('enroll_id');
-        $student_ids = Enroll::whereIn('id',$enroll_ids)->pluck('student_id');
+        $student_ids = Enroll::whereIn('id',$enroll_ids)
+            ->where('sessn_id',$sessn->id)
+            ->pluck('student_id');
         $students = Student::whereIn('id',$student_ids)->get();
 
+        $attendances = $attmaster->attendances;
         $data = [
-            'subject' => $attmaster->subject,
-            'students' => $students
+            'attmaster' => $attmaster,
+            'students' => $students,
+            'attendances' => $attendances
         ];
-        return $data;
+        return view('attmaster.show',$data);
 
     }
 
@@ -94,7 +122,7 @@ class AttmasterController extends Controller
 
     public function update(Request $request, string $id)
     {
-        //
+        dd($request->all());
     }
 
     public function destroy(string $id)

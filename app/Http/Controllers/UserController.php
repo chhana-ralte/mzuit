@@ -33,7 +33,7 @@ class UserController extends Controller
             'email' => request()->email,
             'password' => Hash::make('password')
         ]);
-        $user->roles()->sync(request()->roles);
+        //$user->roles()->sync(request()->roles);
         return redirect('/user')->with(['message' => ['type'=>'info', 'text'=>'User created']]);
     }
 

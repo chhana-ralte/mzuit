@@ -35,7 +35,7 @@
                 <x-button type="a" href="/department/{{$department->id}}/teacher">Manage</x-button>
             </x-slot>
             <div class="pt-2">
-                @if(count($department->teachers)>0)
+                @if(count($teachers)>0)
                 <table class="table table-striped">
                     <tr>
                         <th>Sl</th>
@@ -43,7 +43,7 @@
                         <th>Designation</th>
                     </tr>
                     <?php $sl=1 ?>
-                    @foreach($department->teachers as $t)
+                    @foreach($teachers as $t)
                     <tr>
                         <td>{{ $sl++ }}</td>
                         <td>{{ $t->person->name }}</td>

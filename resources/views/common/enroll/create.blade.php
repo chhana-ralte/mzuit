@@ -15,7 +15,7 @@
                         <x-input-label for="name" :value="__('Name')" />
                     </div>
                     <div class="col-md-4">
-                        <x-text-input id="name" name="name" type="text" class="form-control" :value="old('name')" required autofocus autocomplete="name" />
+                        <x-text-input id="name" name="name" type="text" class="form-control" :value="old('name')" autofocus required autocomplete="name" />
                         <x-input-error class="mt-2" :messages="$errors->get('name')" />
                     </div>
                 </div>
@@ -102,6 +102,7 @@
                     <div class="col-md-4">
                         <x-text-input name="rollno" type="text" class="form-control" autocomplete="rollno" />
                         <x-input-error class="mt-2" :messages="$errors->get('rollno')" />
+                        
                     </div>
                 </div>
 

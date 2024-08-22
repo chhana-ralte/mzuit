@@ -12,7 +12,8 @@
                         <label for="name">Name</label>
                     </div>
                     <div class="col-md-4">
-                        <input type="text" class="form-control" name="name" required>
+                        <input type="text" class="form-control" name="name" >
+                        <x-input-error class="mt-2" :messages="$errors->get('name')" />
                     </div>
                 </div>
 
@@ -21,7 +22,8 @@
                         <label for="username">Username</label>
                     </div>
                     <div class="col-md-4">
-                        <input type="text" class="form-control" name="username" required>
+                        <input type="text" class="form-control" name="username" >
+                        <x-input-error class="mt-2" :messages="$errors->get('username')" />
                     </div>
                 </div>
 
@@ -30,21 +32,11 @@
                         <label for="email">Email</label>
                     </div>
                     <div class="col-md-4">
-                        <input type="email" class="form-control" name="email" required>
+                        <input type="email" class="form-control" name="email" >
+                        <x-input-error class="mt-2" :messages="$errors->get('email')" />
                     </div>
                 </div>
 
-                <div class="form-group row pt-2">
-                    <div class="col-md-3">
-                        Roles
-                    </div>
-                    <div class="col-md-4">
-                        @foreach(\App\Models\Role::all() as $rl)
-                            <input type="checkbox" id="{{ $rl->id }}" name="roles[]" value="{{ $rl->id }}">
-                            <label for="{{ $rl->id }}">{{ $rl->role}}</label><br>
-                        @endforeach
-                    </div>
-                </div>
                 <div class="form-group row pt-2">
                     <div class="col-md-3">
                     </div>

@@ -10,10 +10,12 @@ class TeacherController extends Controller
 {
     public function index(Department $department)
     {
-        $teachers  = $department->teachers;
+        $teachers  = Teacher::where('department_id',$department->id)->where('deleted',0)->get();
+        $hiddenteachers  = Teacher::where('department_id',$department->id)->where('deleted',1)->get();
         $data = [
             'department' => $department,
-            'teachers' => $teachers
+            'teachers' => $teachers,
+            'hiddenteachers' => $hiddenteachers,
         ];
         return view('common.teacher.index',$data);
     }
@@ -89,17 +91,11 @@ class TeacherController extends Controller
             ->with(['message'=>['type'=>'info', 'text'=>'Teacher Added']]);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Teacher $teacher)
     {
         return view('common.teacher.show',['teacher'=>$teacher]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Teacher $teacher)
     {
         $person = $teacher->person;
@@ -196,12 +192,21 @@ class TeacherController extends Controller
 
     public function destroy(Teacher $teacher)
     {
-        //return request()->ajaxed;
-        $teacher->delete();
-        if(request()->ajax=='yes'){
-            return "Teacher deleted";
+        if(request()->type == 'hide'){
+            $teacher->update(['deleted'=>1]);
+            if(request()->ajax=='yes'){
+                return "Teacher hidden";
+            }
+            return redirect('/department/' . $teacher->department->id)
+                ->with(['message' => ['type'=>'info', 'text'=>'Teacher hidden']]);    
         }
-        return redirect('/department/' . $teacher->department->id)
-            ->with(['message' => ['type'=>'info', 'text'=>'Teacher deleted']]);
+        else{
+            $teacher->update(['deleted'=>0]);
+            if(request()->ajax=='yes'){
+                return "Teacher shown";
+            }
+            return redirect('/department/' . $teacher->department->id)
+                ->with(['message' => ['type'=>'info', 'text'=>'Teacher shown']]);    
+        }
     }
 }

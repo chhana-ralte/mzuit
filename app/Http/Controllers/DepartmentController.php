@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Department;
 use App\Models\School;
+use App\Models\Teacher;
 use Illuminate\Http\Request;
 
 class DepartmentController extends Controller
@@ -33,7 +34,13 @@ class DepartmentController extends Controller
 
     public function show(Department $department)
     {
-        return view('common.department.show',['department' => $department]);
+        $data = [
+            'department' => $department,
+            'teachers' => Teacher::where('department_id',$department->id)
+                ->where('deleted',0)
+                ->get()
+        ];
+        return view('common.department.show',$data);
     }
 
     public function edit(Department $department)

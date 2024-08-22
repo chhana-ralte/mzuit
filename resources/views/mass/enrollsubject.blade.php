@@ -5,7 +5,14 @@
                 <x-button type="a" href="/course/{{ $course->id }}?sessn={{ $sessn->id }}&semester={{ $semester }}">Back</x-button>
                 Mass assignment of subjects
             </x-slot:heading>
-            <form method="post" action="/mass/enrollsubject">
+            @if($enrollSubjectExists)
+                <form method="post" action"/mass/enrollsubject?exists=1">
+                    <input type="hidden" name="course" value="{{ $course->id }}">
+                    <input type="hidden" name="sessn" value="{{ $sessn->id }}">
+                    <input type="hidden" name="semester" value="{{ $semester }}">
+                    
+            @else
+            <form method="post" action="/mass/enrollsubject?exists=0">
                 <input type="hidden" name="course" value="{{ $course->id }}">
                 <input type="hidden" name="sessn" value="{{ $sessn->id }}">
                 <input type="hidden" name="semester" value="{{ $semester }}">
@@ -37,6 +44,7 @@
                     </tr>
                 </table>
             </form>
+            @endif
         </x-block>
     </x-container>
 <script>

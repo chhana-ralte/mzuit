@@ -21,11 +21,11 @@
                             <x-button type="a" href="{{ route('course.show',[$course->id,'semester'=>$sem,'sessn'=>$sessn->id]) }}">{{$sem}}</a></x-button>
                         @endif
                     @endforeach
-                    @if(!$enrollSubjectExists)
+                    @if(auth()->user()->hasRole('Admin'))
                         <x-button type="a" href="/mass/enrollsubject?course={{ $course->id }}&semester={{ $semester }}&sessn={{ $sessn->id }}">Mass assign subjects</x-button>
-                    @endif
-                    @if(!$nextSemesterExists && $course->max_sem != $semester)
-                        <x-button type="a" href="/mass/promote?course={{ $course->id }}&semester={{ $semester }}&sessn={{ $sessn->id }}">Mass promote</x-button>
+                        @if($course->max_sem != $semester)
+                            <x-button type="a" href="/mass/promote?course={{ $course->id }}&semester={{ $semester }}&sessn={{ $sessn->id }}">Mass promote</x-button>
+                        @endif
                     @endif
                     <x-button type="a" href="/enroll_subject?course={{ $course->id }}&semester={{ $semester }}&sessn={{ $sessn->id }}">Enroll subjects</x-button>
                 </div>

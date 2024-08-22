@@ -8,6 +8,7 @@ use App\Models\Course;
 use App\Models\Enroll;
 use App\Models\Syllabus;
 use App\Models\Subject;
+use App\Models\Enroll_Subject;
 
 class MassController extends Controller
 {
@@ -30,6 +31,11 @@ class MassController extends Controller
         else{
             abort(403);
         }
+
+        $enrollSubjectExists = Enroll_Subject::whereIn('enroll_id',$enrolls->pluck('id'))->exists();
+
+        return view('mass.enrollsubject',['enrollSubjectExists'=>$enrollSubjectExists]);
+
         $enrolls = Enroll::where('sessn_id',$sessn->id)
             ->where('semester',$semester)
             ->where('course_id',$course->id)
@@ -45,6 +51,7 @@ class MassController extends Controller
             ->where('semester',$semester)
             ->get();
         $data = [
+            'enrollSubjectExists' => false,
             'subjects' => $subjects,
             'enrolls' => $enrolls,
             'course' => $course,

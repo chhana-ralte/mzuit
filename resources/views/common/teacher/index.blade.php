@@ -84,7 +84,7 @@ $(document).ready(function(){
         }
     });
     $("button.btn-danger").click(function(){
-        if(confirm('Are you sure you want to hide?')){
+        //if(confirm('Are you sure you want to hide?')){
             $.ajax({
                 type : 'post',
                 url : '/teacher/' + $(this).val(),
@@ -94,14 +94,14 @@ $(document).ready(function(){
                     'type' : 'hide'
                 },
                 success : function(data,status){
-                    alert(data);
+                    //alert(data);
                     location.replace('/department/' + {{$department->id}} +'/teacher');
                 },
                 error : function(){
                     alert("Error");
                 }
             });
-        }
+        //}
     });
     $("button.btn-unhide").click(function(){
         $.ajax({

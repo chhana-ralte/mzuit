@@ -3,7 +3,7 @@
         <x-block>
             <x-slot name="heading">
                 <x-button type="a" href="{{ route('course.show',[$course->id,'semester'=>$semester,'sessn'=>$sessn->id]) }}">Back</x-button>
-                List of {{ $course->name }} Students
+                List of subjects taken by students of {{$course->name}}
             </x-slot>
             <div class="form-group row pt-2">
                 <div class="col-md-3">

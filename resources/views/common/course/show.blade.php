@@ -23,7 +23,7 @@
                     @endforeach
                     @if(auth()->user()->hasRole('Admin'))
                         <x-button type="a" href="/mass/enrollsubject?course={{ $course->id }}&semester={{ $semester }}&sessn={{ $sessn->id }}">Mass assign subjects</x-button>
-                        @if($course->max_sem != $semester)
+                        @if($course->max_sem != $semester && $sessn->nextSessn())
                             <x-button type="a" href="/mass/promote?course={{ $course->id }}&semester={{ $semester }}&sessn={{ $sessn->id }}">Mass promote</x-button>
                         @endif
                     @endif
@@ -43,6 +43,7 @@
                                 <th>Sl</th>
                                 <th>Roll no</th>
                                 <th>Name</th>
+                                <th>Count</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -52,6 +53,7 @@
                                     <td>{{ $sl++ }}</td>
                                     <td><a href="{{ route('enroll.show',$e->id) }}">{{ $e->student->rollno }}</td>
                                     <td>{{ $e->student->person->name }}</td>
+                                    <td>{{ $e->subjects->count() }}</td>
                                 </tr>
                             @endforeach
 

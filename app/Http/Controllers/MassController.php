@@ -12,7 +12,7 @@ use App\Models\Enroll_Subject;
 
 class MassController extends Controller
 {
-    public function enrollSubject(){
+    public function checking(){
         if(isset($_GET['course'])){
             $course = Course::findOrFail($_GET['course']);
         }
@@ -31,15 +31,26 @@ class MassController extends Controller
         else{
             abort(403);
         }
-
+        return ['course'=>$course,'sessn'=>$sessn,'semester'=>$semester];
+    }
+    public function enrollSubject(){
+        $check = $this->checking();
+        $enrolls = Enroll::where('sessn_id',$check['sessn']->id)
+        ->where('semester',$check['semester'])
+        ->where('course_id',$check['course']->id)
+        ->get();
         $enrollSubjectExists = Enroll_Subject::whereIn('enroll_id',$enrolls->pluck('id'))->exists();
+        if($enrollSubjectExists){
+            $data = [
+                'course' => $check['course'],
+                'semester' => $check['semester'],
+                'sessn' =>$check['sessn'],
+                'enrollSubjectExists'=>$enrollSubjectExists
+            ];
+            return view('mass.enrollsubject',$data);    
+        }
 
-        return view('mass.enrollsubject',['enrollSubjectExists'=>$enrollSubjectExists]);
-
-        $enrolls = Enroll::where('sessn_id',$sessn->id)
-            ->where('semester',$semester)
-            ->where('course_id',$course->id)
-            ->get();
+        
         $batch = $sessn->start_yr - ($semester - $sessn->odd_even)/2;
 
         $syllabus = Syllabus::where('course_id',$course->id)
@@ -54,52 +65,44 @@ class MassController extends Controller
             'enrollSubjectExists' => false,
             'subjects' => $subjects,
             'enrolls' => $enrolls,
-            'course' => $course,
-            'semester' => $semester,
-            'sessn' =>$sessn
+            'course' => $check['course'],
+            'semester' => $check['semester'],
+            'sessn' =>$check['sessn']
         ];
         return view('mass.enrollsubject',$data);
     }
     public function enrollSubjectStore(){
-        
-        $enrolls = Enroll::whereIn('id',request()->enrolls)->get();
-        foreach($enrolls as $e){
-            $e->subjects()->detach(request()->subjects);
-            $e->subjects()->attach(request()->subjects);
+        if(request()->exists){ // Clear the existing enroll_subjects
+            $enrolls = Enroll::where('sessn_id',request()->sessn)
+                ->where('semester',request()->semester)
+                ->where('course_id',request()->course)
+                ->get();
+            Enroll_Subject::whereIn('enroll_id',$enrolls->pluck('id'))->delete();
+            return redirect('/mass/enrollsubject?course=' . request()->course . '&sessn=' . request()->sessn . '&semester=' . request()->semester)
+                ->with(['message' => ['type'=>'info', 'text'=>'Cleared subject enrolments']]);
         }
-
-        return redirect('/course/' . request()->course . '?sessn=' . request()->sessn . '&semester=' . request()->semester)
-            ->with(['message' => ['type'=>'info', 'text'=>'Mass assignment of subjects completed']]);
+        else{
+            $enrolls = Enroll::whereIn('id',request()->enrolls)->get();
+            foreach($enrolls as $e){
+                $e->subjects()->detach(request()->subjects);
+                $e->subjects()->attach(request()->subjects);
+            }
+    
+            return redirect('/course/' . request()->course . '?sessn=' . request()->sessn . '&semester=' . request()->semester)
+                ->with(['message' => ['type'=>'info', 'text'=>'Mass assignment of subjects completed']]);
+            }
     }
     public function promote(){
-        if(isset($_GET['course'])){
-            $course = Course::findOrFail($_GET['course']);
-        }
-        else{
-            abort(403);
-        }
-        if(isset($_GET['sessn'])){
-            $sessn = Sessn::findOrFail($_GET['sessn']);
-        }
-        else{
-            abort(403);
-        }
-        if(isset($_GET['semester'])){
-            $semester = $_GET['semester'];
-        }
-        else{
-            abort(403);
-        }
-        $enrolls = Enroll::where('sessn_id',$sessn->id)
-            ->where('semester',$semester)
-            ->where('course_id',$course->id)
+        $check = $this->checking();
+        $enrolls = Enroll::where('sessn_id',$check['sessn']->id)
+            ->where('semester',$check['semester'])
+            ->where('course_id',$check['course']->id)
             ->get();
         $data = [
-            
             'enrolls' => $enrolls,
-            'course' => $course,
-            'semester' => $semester,
-            'sessn' =>$sessn
+            'course' => $check['course'],
+            'semester' => $check['semester'],
+            'sessn' =>$check['sessn']
         ];
         return view('mass.promote',$data);
 

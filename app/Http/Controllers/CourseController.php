@@ -37,9 +37,6 @@ class CourseController extends Controller
         //
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Course $course)
     {
         $enrolls_ssn = Enroll::where('course_id',$course->id)
@@ -70,10 +67,12 @@ class CourseController extends Controller
         {
             array_push($semesters,$i);
         }
-        $enrolls = Enroll::where('sessn_id',$sessn->id)
-            ->where('course_id',$course->id)
-            ->where('semester',$semester)
-            ->get();
+        $enrolls = Enroll::join('students','students.id','=','enrolls.student_id')
+            ->where('enrolls.sessn_id',$sessn->id)
+            ->where('enrolls.course_id',$course->id)
+            ->where('enrolls.semester',$semester)
+            ->orderBy('students.rollno')
+            ->get(['enrolls.*']);
         
         $data = [
             'sessns' => $sessns,
@@ -82,7 +81,6 @@ class CourseController extends Controller
             'sessn' => $sessn,
             'enrolls' => $enrolls,
             'course' => $course,
-            'enrollSubjectExists' => Enroll_Subject::whereIn('enroll_id',$enrolls->pluck('id'))->exists(),
             'nextSemesterExists' => Enroll::whereIn('student_id',$enrolls->pluck('student_id'))->where('semester',$semester+1)->where('sessn_id',$sessn->nextSessn()?$sessn->nextSessn()->id:0)->exists()
         ];
 

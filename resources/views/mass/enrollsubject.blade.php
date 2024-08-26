@@ -6,13 +6,18 @@
                 Mass assignment of subjects
             </x-slot:heading>
             @if($enrollSubjectExists)
-                <form method="post" action"/mass/enrollsubject?exists=1">
+                <form method="post" action"/mass/enrollsubject">
+                    @csrf
+                    <input type="hidden" name="exists" value="1">
                     <input type="hidden" name="course" value="{{ $course->id }}">
                     <input type="hidden" name="sessn" value="{{ $sessn->id }}">
                     <input type="hidden" name="semester" value="{{ $semester }}">
-                    
+                    There are already existing registrations. Do you want to clear them?
+                    <x-button type="submit">Clear</x-button>
+                </form>
             @else
-            <form method="post" action="/mass/enrollsubject?exists=0">
+            <form method="post" action="/mass/enrollsubject">
+                <input type="hidden" name="exists" value="0">
                 <input type="hidden" name="course" value="{{ $course->id }}">
                 <input type="hidden" name="sessn" value="{{ $sessn->id }}">
                 <input type="hidden" name="semester" value="{{ $semester }}">

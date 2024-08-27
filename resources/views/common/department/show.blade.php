@@ -31,8 +31,10 @@
         
         <x-block>
             <x-slot name="heading">
-                Teachers in the department 
-                <x-button type="a" href="/department/{{$department->id}}/teacher">Manage</x-button>
+                Teachers in the department
+                @if(auth()->user()->hasRole('Admin'))
+                    <x-button type="a" href="/department/{{$department->id}}/teacher">Manage</x-button>
+                @endif
             </x-slot>
             <div class="pt-2">
                 @if(count($teachers)>0)

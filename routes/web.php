@@ -18,6 +18,8 @@ use App\Http\Controllers\MassController;
 use App\Http\Controllers\DikteiController;
 use App\Http\Controllers\UserController;
 
+use App\Http\Controllers\SampleController;
+
 Route::get('/', function () {
     return view('home');
 });
@@ -41,6 +43,9 @@ Route::get('/role/{role}', function(App\Models\Role $role){
 });
 //Route::resource('enroll_subject', EnrollSubjectController::class);
 //Route::resource('sessn.subject_teacher', SubjectTeacherController::class)->shallow();
+Route::controller(SampleController::class)->group(function(){
+    Route::get('/sample/create','create');
+});
 
 Route::controller(EnrollSubjectController::class)->group(function(){
     Route::get('/enroll_subject','index')->name('enroll_subject.index'); //List of subjects in semester, course, session

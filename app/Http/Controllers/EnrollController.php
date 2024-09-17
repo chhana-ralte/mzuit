@@ -113,17 +113,11 @@ class EnrollController extends Controller
             ->with(['message' => ['type'=>'info', 'text'=>'Student added successfully']]);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Enroll $enroll)
     {
         return view('common.enroll.show',['enroll'=>$enroll]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Enroll $enroll)
     {
         $student = $enroll->student;
@@ -132,20 +126,25 @@ class EnrollController extends Controller
         $phone = \App\Models\Phone::where('person_id',$person->id)->first();
         $address = \App\Models\Address::where('person_id',$person->id)->first();
 
-        $data = [
-            'student' => $student,
-            'person' => $person,
-            'enroll' => $enroll,
-            'email' => $email,
-            'phone' => $phone,
-            'address' => $address
-        ];
-        return view('common.enroll.edit',$data);
+        if($_GET['type'] == "personal"){
+            $data = [
+                'person' => $person,
+                'enroll' => $enroll,
+                'email' => $email,
+                'phone' => $phone,
+                'address' => $address
+            ];
+            return view('common.enroll.edit-personal',$data);
+        }
+        else if($_GET['type'] == "student"){
+            $data = [
+                'student' => $student,
+                'enroll' => $enroll,
+            ];
+            return view('common.enroll.edit-student',$data);
+        }
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, Enroll $enroll)
     {
         if($request->updateType == "personal"){
@@ -153,6 +152,7 @@ class EnrollController extends Controller
                 'name' => 'required',
                 'father' => 'nullable',
                 'dob' => ['nullable', 'date'],
+                'gender' => ['nullable'],
                 'email' =>['nullable', 'email'],
                 'phone' => ['nullable', 'regex:/[0-9]{10}/'],
                 'address' => ['nullable', 'max:255'],
@@ -163,6 +163,7 @@ class EnrollController extends Controller
                 'name' => $request->name,
                 'father' => $request->father,
                 'dob' => $request->dob,
+                'gender' => $request->gender,
                 'category' => $request->category
             ]);
 
@@ -196,6 +197,7 @@ class EnrollController extends Controller
                     'address' => $request->address
                 ]);
             }
+            $msg = "Personal details updated";
         }
         else if($request->updateType == "student"){
             $sessn = \App\Models\Sessn::where('start_yr',$request->batch)->first();
@@ -207,8 +209,9 @@ class EnrollController extends Controller
                 'dropout' => $request->status=="Dropped out",
                 'completed' => $request->status=="Completed",
             ]);
+            $msg = "Student details updated";
         }
-        return redirect('/enroll/' . $enroll->id)->with(['message' => ['type'=>'info', 'text'=>"Updated..."]]);
+        return redirect('/enroll/' . $enroll->id)->with(['message' => ['type'=>'info', 'text'=>$msg]]);
     }
 
     /**

@@ -4,7 +4,7 @@
             <x-slot name="heading">
                 <x-button type="a" href="{{ route('course.show',[$enroll->course_id,'sessn'=>$enroll->sessn_id,'semester'=>$enroll->semester]) }}">Back</x-button>
                     Personal Details
-                <x-button type="a" href="{{ route('enroll.edit', $enroll->id) }}">Edit</x-button>
+                <x-button type="a" href="{{ route('enroll.edit', [$enroll->id,'type'=>'personal']) }}">Edit</x-button>
             </x-slot>
             
             <table class="table table-striped">
@@ -12,14 +12,27 @@
                     <td><strong>Name</strong></td>
                     <td>{{ $enroll->student->person->name }}</td>
                 </tr>
+                @if($enroll->student->person->father)
                 <tr>
                     <td><strong>Father's name</strong></th>
                     <td>{{ $enroll->student->person->father }}</td>
                 </tr>
+                @endif
+                @if($enroll->student->person->dob)
                 <tr>
                     <td><strong>Date of Birth</strong></th>
                     <td>{{ $enroll->student->person->dob?date_format(date_create($enroll->student->person->dob),'d-m-Y'):'' }}</td>
                 </tr>
+                @endif
+                @if($enroll->student->person->gender)
+                <tr>
+                    <td><strong>Gender</strong></th>
+                    <td>
+                    {{ $enroll->student->person->gender }}
+                    </td>
+                </tr>
+                @endif
+                @if(count($enroll->student->person->emails) >0)
                 <tr>
                     <td><strong>Email(s)</strong></th>
                     <td>
@@ -28,6 +41,8 @@
                         @endforeach
                     </td>
                 </tr>
+                @endif
+                @if(count($enroll->student->person->phones) >0)
                 <tr>
                     <td><strong>Phone(s)</strong></th>
                     <td>
@@ -36,6 +51,8 @@
                         @endforeach
                     </td>
                 </tr>
+                @endif
+                @if(count($enroll->student->person->addresses) >0)
                 <tr>
                     <td><strong>Address(s)</strong></th>
                     <td>
@@ -44,17 +61,21 @@
                         @endforeach
                     </td>
                 </tr>
+                @endif
+                @if($enroll->student->person->category)
                 <tr>
                     <td><strong>Category</strong></th>
                     <td>
                     {{ $enroll->student->person->category }}
                     </td>
                 </tr>
+                @endif
             </table>
         </x-block>
         <x-block>
             <x-slot name="heading">
                 Student's Details
+                <x-button type="a" href="{{ route('enroll.edit', [$enroll->id,'type'=>'student']) }}">Edit</x-button>
             </x-slot>
             <table class="table table-striped">
                 <tr>

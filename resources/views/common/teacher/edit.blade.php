@@ -125,7 +125,7 @@
                             <option value="Professor" {{$teacher->designation=="Professor"?' selected ':''}}>Professor</option>
                             <option value="Asso. Professor" {{$teacher->designation=="Asso. Professor"?' selected ':''}}>Asso. Professor</option>
                             <option value="Asst. Professor" {{$teacher->designation=="Asst. Professor"?' selected ':''}}>Asst. Professor</option>
-                            <option value="Guest Faculty" {{$teacher->designation=="guest Faculty"?' selected ':''}}>Guest Faculty</option>
+                            <option value="Guest Faculty" {{$teacher->designation=="Guest Faculty"?' selected ':''}}>Guest Faculty</option>
                         </select>
                         <x-input-error class="mt-2" :messages="$errors->get('designation')" />
                     </div>

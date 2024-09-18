@@ -107,7 +107,7 @@ class TeacherController extends Controller
         }
 
         if(\App\Models\Phone::where('person_id',$person->id)->exists()){
-            $email = \App\Models\Phone::where('person_id',$person->id)->first()->phone;
+            $phone = \App\Models\Phone::where('person_id',$person->id)->first()->phone;
         }
         else{
             $phone = "";

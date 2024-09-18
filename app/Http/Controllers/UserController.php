@@ -116,6 +116,10 @@ class UserController extends Controller
             if(auth()->user()->department_id){
                 return redirect('/department/' . auth()->user()->department_id);
             }
+            //return auth()->user()->name;
+            if(auth()->user()->name == 'Diktei'){
+                return redirect('/diktei');
+            }
             return redirect('/');
         }
         else{

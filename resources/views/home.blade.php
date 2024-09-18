@@ -1,4 +1,4 @@
-<x-diktei>
+<x-layout>
     <x-container class="text-center">
         <x-block align="center">
             <x-slot:heading>

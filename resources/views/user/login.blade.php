@@ -1,4 +1,4 @@
-<x-diktei>
+<x-layout>
   <x-slot:heading>
     Login page
   </x-slot:heading>
@@ -43,4 +43,4 @@
     </x-container>
   </form>
 
-</x-diktei>
+</x-layout>

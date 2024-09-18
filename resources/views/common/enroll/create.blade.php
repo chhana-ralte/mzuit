@@ -40,6 +40,21 @@
                     </div>  
                 </div>
 
+                
+                <div class="form-group row pt-2">
+                    <div class="col-md-3">
+                        <x-input-label for="gender" :value="__('Gender')" />
+                    </div>
+                    <div class="col-md-4">
+                        <x-select name='gender' class="form-control">
+                            <option value="">Select Gender</option>
+                            <option value="M">Male</option>
+                            <option value="F">Female</option>
+                        </x-select>
+                        <x-input-error class="mt-2" :messages="$errors->get('gender')" />    
+                    </div>
+                </div>
+
                 <div class="form-group row pt-2">
                     <div class="col-md-3">
                         <x-input-label for="email" :value="__('Email')" />

@@ -32,6 +32,7 @@ class EnrollController extends Controller
             'name' => 'required',
             'father' => 'nullable',
             'dob' => ['nullable', 'date'],
+            'gender' => ['nullable'],
             'email' =>['nullable', 'email'],
             'phone' => ['nullable', 'regex:/[0-9]{10}/'],
             'address' => ['nullable', 'max:255'],
@@ -52,6 +53,7 @@ class EnrollController extends Controller
             'name' => $request->name,
             'father' => $request->father,
             'dob' => $request->dob,
+            'gender' => $request->gender,
             'category' => $request->category
         ]);
 
@@ -126,7 +128,7 @@ class EnrollController extends Controller
         $phone = \App\Models\Phone::where('person_id',$person->id)->first();
         $address = \App\Models\Address::where('person_id',$person->id)->first();
 
-        if($_GET['type'] == "personal"){
+        if(request()->query('type') == "personal"){
             $data = [
                 'person' => $person,
                 'enroll' => $enroll,
@@ -136,7 +138,7 @@ class EnrollController extends Controller
             ];
             return view('common.enroll.edit-personal',$data);
         }
-        else if($_GET['type'] == "student"){
+        else if(request()->query('type') == "student"){
             $data = [
                 'student' => $student,
                 'enroll' => $enroll,

@@ -9,13 +9,20 @@ use App\Models\Department;
 use App\Models\School;
 use App\Models\Deptslot;
 use App\Models\Allot;
+use App\Models\Dtcourse;
+use App\Models\Dtoption;
 
 class DikteiController extends Controller
 {
     public function index(){
-        $departments = Department::whereNotIn('school_id',[4,8])
+        //return "Hehe";
+        //$departments = Department::whereNotIn('school_id',[4,8])
+        //    ->orderBy('name')
+        //    ->get();
+        $departments = Department::has('dtcourses')
             ->orderBy('name')
             ->get();
+        //return $departments;
         return view('diktei.dashboard',['departments'=>$departments]);
     }
 
@@ -66,49 +73,73 @@ class DikteiController extends Controller
     }
 
     public function option(Diktei $diktei){
-        if(Option::where('diktei_id',$diktei->id)->exists()){
-            return view('diktei.option',['diktei'=>$diktei,'done'=>1]);
+        if(Dtoption::where('diktei_id',$diktei->id)->exists()){
+            $imjoptions = Dtoption::where('diktei_id',$diktei->id)
+                ->where('major', 1)
+                ->orderBy('option')
+                ->get();
+            $imnoptions = Dtoption::where('diktei_id',$diktei->id)
+                ->where('major', 0)
+                ->orderBy('option')
+                ->get();
+            //return $options;
+            $data = [
+                'diktei'=>$diktei,
+                'done'=>1, 
+                'imjoptions'=>$imjoptions,
+                'imnoptions'=>$imnoptions
+            ];
+            return view('diktei.option',$data);
         }
         else{
-            $departments = Department::whereNot('school_id',$diktei->department->school->id)
-                ->whereNotIn('school_id',[4,8])
+            $departments = Department::whereNot('id',$diktei->department->id)
                 ->orderBy('name')->get();
+            $majors = Dtcourse::whereNot('department_id',$diktei->department->id)->where('major',1)->get();
+            $minors = Dtcourse::whereNot('department_id',$diktei->department->id)->where('major',0)->get();
+            $data = [
+                'diktei' => $diktei,
+                'majors' => $majors,
+                'minors' => $minors,
+                'done' => 0
+            ];
+            return view('diktei.option',$data);
             return view('diktei.option',['diktei'=>$diktei, 'departments'=>$departments, 'done'=>0]);
         }
         
     }
 
     public function store(){
-        foreach(request()->department as $key=>$dep){
-            if($dep ==0)
+        //return ['imj'=>request()->imj, 'imn'=>request()->imn ];
+        foreach(request()->imj as $key=>$imj){
+            if($imj ==0)
                 break;
-            Option::updateOrCreate([
+            Dtoption::updateOrCreate([
                 'diktei_id' => request()->diktei_id,
-                'option' => $key+1
+                'option' => $key+1,
+                'major' => 1,
             ],
             [
                 'diktei_id' => request()->diktei_id,
                 'option' => $key+1,
-                'department_id' => $dep
+                'dtcourse_id' => $imj,
+                'major' =>1
             ]);
         }
-        $options = Option::where('diktei_id',request()->diktei_id)->orderBy('option')->get();
-        $allot_dept = null;
-        foreach($options as $opt){
-            $department = Department::find($opt->department_id);
-            $allotted = $department->allotted();
-            if($allotted < $department->slot()){
-                Allot::updateOrCreate([
-                    'diktei_id' => request()->diktei_id
-                ],
-                [
-                    'diktei_id' => request()->diktei_id,
-                    'department_id' => $department->id
-                ]
-                );
-                $allot_dept = $department;
+        //{"imj":["5","17","11","0","0","0","0","0","0","0"],"imn":["8","12","20","0","0","0","0","0","0","0"]}
+        foreach(request()->imn as $key=>$imn){
+            if($imn ==0)
                 break;
-            }
+            Dtoption::updateOrCreate([
+                'diktei_id' => request()->diktei_id,
+                'option' => $key+1,
+                'major' => 0
+            ],
+            [
+                'diktei_id' => request()->diktei_id,
+                'option' => $key+1,
+                'dtcourse_id' => $imn,
+                'major' => 0
+            ]);
         }
         return redirect('/diktei/entry/' . request()->diktei_id);
     }

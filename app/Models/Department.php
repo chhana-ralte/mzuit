@@ -33,4 +33,8 @@ class Department extends Model
     public function allotted(){
         return Allot::where('department_id',$this->id)->count();
     }
+
+    public function dtcourses(){
+        return $this->hasMany(Dtcourse::class);
+    }
 }

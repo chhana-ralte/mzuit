@@ -11,16 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('dtcourses', function (Blueprint $table) {
+        Schema::create('dtoptions', function (Blueprint $table) {
             $table->id();
-            $table->string('dept');
-            $table->string('code');
-            $table->string('title');
-            $table->boolean('major');
-            $table->integer('credit');
-            $table->integer('intake');
-            $table->string('faculty');
-            $table->string('contact');
+            $table->foreignIdFor(App\Models\Diktei::class);
+            $table->foreignIdFor(App\Models\Dtcourse::class);
+            $table->integer('option');
             $table->timestamps();
         });
     }
@@ -30,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('dtcourses');
+        Schema::dropIfExists('dtoptions');
     }
 };

@@ -30,7 +30,7 @@
                 <div class="col-md-3"></div>
                 <div class="col-md-4">
                     <x-button type='a' href="/school/{{ $school->id }}/edit">{{ __('Edit') }}</x-button>
-                    <x-button type="delete" form="delete-form">Delete</x-button>
+                    <!-- <x-button type="delete" form="delete-form">Delete</x-button> -->
                     <form method="post" id="delete-form" action="/school/{{ $school->id }}" onsubmit="return confirm('Are you sure you want to delete?')">
                         @csrf
                         @method('delete')

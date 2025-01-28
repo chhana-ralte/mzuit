@@ -15,7 +15,7 @@
                         <x-input-label>School Code</x-input-label>
                     </div>
                     <div class="col-md-4">
-                        <x-text-input class="form-control" disabled value="{{ $school->code }}"/>
+                        <x-text-input class="form-control" name="code" value="{{ $school->code }}"/>
                     </div>
                 </div>
                 <div class="form-group row pt-2">
@@ -23,7 +23,7 @@
                         <x-input-label>School Name</x-input-label>
                     </div>
                     <div class="col-md-4">
-                        <x-text-input class="form-control" disabled value="{{ $school->name }}"/>
+                        <x-text-input class="form-control" name="name" value="{{ $school->name }}"/>
                     </div>
                 </div>
                 <div class="form-group row pt-2">

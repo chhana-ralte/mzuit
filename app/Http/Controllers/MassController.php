@@ -51,15 +51,15 @@ class MassController extends Controller
         }
 
         
-        $batch = $sessn->start_yr - ($semester - $sessn->odd_even)/2;
+        $batch = $check['sessn']->start_yr - ($check['semester'] - $check['sessn']->odd_even)/2;
 
-        $syllabus = Syllabus::where('course_id',$course->id)
+        $syllabus = Syllabus::where('course_id',$check['course']->id)
             ->where('from_batch','<=',$batch)
             ->where('to_batch','>=',$batch)
             ->first();
 
         $subjects = Subject::where('syllabus_id',$syllabus->id)
-            ->where('semester',$semester)
+            ->where('semester',$check['semester'])
             ->get();
         $data = [
             'enrollSubjectExists' => false,

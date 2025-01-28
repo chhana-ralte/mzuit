@@ -42,7 +42,6 @@ class CourseController extends Controller
         $enrolls_ssn = Enroll::where('course_id',$course->id)
             ->groupBy('sessn_id')
             ->distinct('sessn_id')
-            //->get();
             ->pluck('sessn_id');
         $sessns = Sessn::orderBy('start_yr')
             ->orderBy('odd_even')
@@ -81,7 +80,10 @@ class CourseController extends Controller
             'sessn' => $sessn,
             'enrolls' => $enrolls,
             'course' => $course,
-            'nextSemesterExists' => Enroll::whereIn('student_id',$enrolls->pluck('student_id'))->where('semester',$semester+1)->where('sessn_id',$sessn->nextSessn()?$sessn->nextSessn()->id:0)->exists()
+            'nextSemesterExists' => Enroll::whereIn('student_id',$enrolls->pluck('student_id'))
+                ->where('semester',$semester+1)
+                ->where('sessn_id',$sessn->nextSessn()?$sessn->nextSessn()->id:0)
+                ->exists()
         ];
 
         return view('common.course.show',$data);

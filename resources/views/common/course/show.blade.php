@@ -40,6 +40,7 @@
                     <table class="table table-striped">
                         <thead>
                             <tr>
+                                <th>#</th>
                                 <th>Sl</th>
                                 <th>Roll no</th>
                                 <th>Name</th>
@@ -50,14 +51,26 @@
                             <?php $sl=1 ?>
                             @foreach($enrolls as $e)
                                 <tr>
+                                    <td><input type="checkbox" name="check" value="{{ $e->id }}"></td>
                                     <td>{{ $sl++ }}</td>
                                     <td><a href="{{ route('enroll.show',$e->id) }}">{{ $e->student->rollno }}</td>
                                     <td>{{ $e->student->person->name }}</td>
                                     <td>{{ $e->subjects->count() }}</td>
                                 </tr>
                             @endforeach
-
                         </tbody>
+                        <tr>
+                            <td colspan=3>
+                                <form>
+                                    <select name="option" class="form-control">
+                                        <option value="">[With Selected]</option>
+                                        <option value="delete">Delete</option>
+                                    </select>
+                                    <button class="btn btn-danger delete" name="delete">Delete</button>
+                                </form>
+                            </td>
+
+                        </tr>
                     </table>
                 @endif
             </div>
@@ -91,16 +104,17 @@ $(document).ready(function(){
     });
     $("select#sessn_id").change(function(){
         location.replace('/course/{{ $course->id }}?sessn=' + $(this).val());
-        //alert('chaged' + $(this).val());
     });
     $("button[name='delete']").click(function(){
-        //alert($(this).attr('id'));
+        //alert($("select[name='option']").val());
+        alert()
+
         if(confirm("I delete duh tak tak em?")){
             $.ajax({
-                url : "/user/" + $(this).attr('id'),
+                url : "asd",
                 type : "delete",
                 data : {
-                    user_id : $(this).attr('id'),
+                    asd: "asd",
                 },
                 success : function(data,status){
                     alert(data);

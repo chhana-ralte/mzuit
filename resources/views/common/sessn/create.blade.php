@@ -25,7 +25,7 @@
                     <div class="col-md-3">
                         <select name="odd_even" class="form-control">
                             <option value="1">Odd</option>
-                            <option value="1">Even</option>
+                            <option value="2">Even</option>
                         </select>
                     </div>
                 </div>

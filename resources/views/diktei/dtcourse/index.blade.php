@@ -3,7 +3,9 @@
         <x-block>
             <x-slot name="heading">
                 Interdisciplinary Course Details 
-                <a class="btn btn-primary" href="/dtcourse/create">Create new course</a>
+                <p>
+                    <a class="btn btn-primary" href="/dtcourse/create">Create new course</a>
+                </p>
             </x-slot>
             <div>
                 <table class="table table-striped">
@@ -14,9 +16,8 @@
                             <th>Course code</th>
                             <th>Title</th>
                             <th>Type</th>
-                            <th>Total seat</th>
-                            <th>Filled</th>
-                            <th>Available</th>
+                            <th>Credit</th>
+                            <th>Intake</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -28,9 +29,8 @@
                                 <td><a href="/dtcourse/{{$c->id}}">{{ $c->code }}</td>
                                 <td>{{ $c->title }}</td>
                                 <td>{{ $c->type() }}</td>
-                                <td>{{ $c->intake }}</td>
                                 <td>{{ $c->credit }}</td>
-                                
+                                <td>{{ $c->intake }}</td>
                             </tr>
                         @endforeach
                     </tbody>

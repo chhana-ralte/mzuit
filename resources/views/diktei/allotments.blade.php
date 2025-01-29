@@ -1,40 +1,41 @@
 <x-diktei>
     <x-container>
         <x-block>
-            <x-slot:heading>
-                Departmental allotment details.
-            </x-slot:heading>
+            <x-slot name="heading">
+                Allotments in Courses
+            </x-slot>
             <div>
-                <form method="post" action="/diktei/algorithm" onsubmit="return confirm('Rerunning the algorithm will re-allot based on the predefined algorithm. Are you sure you want to run?')">
-                    @csrf
-                    <x-button type="submit">Rerun algorithm</x-button>
-                </form>
-            </div>
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>Sl</th>
-                        <th>Department</th>
-                        <th>Slots</th>
-                        <th>Allotted</th>
-                        <th>Vacant</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php $sl=1 ?>
-                    @foreach($departments as $dep)
-                        @if($dep->slot())
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Sl</th>
+                            <th>Department</th>
+                            <th>Course code</th>
+                            <th>Title</th>
+                            <th>Type</th>
+                            <th>Total seat</th>
+                            <th>Filled</th>
+                            <th>Available</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php $sl=1 ?>
+                        @foreach($dtcourses as $c)
                             <tr>
                                 <td>{{ $sl++ }}</td>
-                                <td><a href="/diktei/allotments/{{$dep->id}}">{{ $dep->name }}</td>
-                                <td>{{ $dep->slot() }}</td>
-                                <td>{{ $dep->allotted() }}</td>
-                                <td {{ $dep->slot()-$dep->allotted()<0?" class=bg-danger":""}}>{{ $dep->slot()-$dep->allotted() }}</td>
+                                <td>{{ $c->department->name }}</td>
+                                <td><a href="/diktei/allotments/{{$c->id}}">{{ $c->code }}</td>
+                                <td>{{ $c->title }}</td>
+                                <td>{{ $c->type() }}</td>
+                                <td>{{ $c->intake }}</td>
+                                <td>{{ $c->filled() }}</td>
+                                <td>{{ $c->vacant() }}</td>
+                                
                             </tr>
-                        @endif
-                    @endforeach
-                </tbody>
-            </table>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
         </x-block>
     </x-container>
 </x-diktei>

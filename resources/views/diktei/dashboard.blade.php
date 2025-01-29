@@ -17,7 +17,7 @@
                 </div>
                 <div class="form-group row p-2">
                     <div class="col-md-3">
-                        <x-input-label for="name" value="Enter your rollno/registration/admission no" />
+                        <x-input-label for="name" value="Enter your rollno as written exactly in your ID" />
                     </div>
                     <div class="col-md-4">
                         <x-text-input id="rollno" name="rollno" type="text" class="form-control" value="" required autocomplete="rollno" />

@@ -8,31 +8,43 @@
                 
                     <tr>
                         <th>Department</th>
-                        <th>{{ $dtcourse->department->name }}</th>
+                        <td>{{ $dtcourse->department->name }}</td>
                     </tr>
                     <tr>
                         <th>Course code</th>
-                        <th>{{ $dtcourse->code }}</th>
+                        <td>{{ $dtcourse->code }}</td>
                     </tr>
                     <tr>
                         <th>Title</th>
-                        <th>{{ $dtcourse->title }}</th>
+                        <td>{{ $dtcourse->title }}</td>
                     </tr>
                     <tr>
                         <th>Type</th>
-                        <th>{{ $dtcourse->type() }}</th>
+                        <td>{{ $dtcourse->type() }}</td>
                     </tr>
                     <tr>
-                        <th>Total seat</th>
-                        <th>{{ $dtcourse->intake }}</th>
+                        <th>Credit</th>
+                        <td>{{ $dtcourse->credit }}</th>
+                    </tr>
+                    <tr>
+                        <th>Total intake</th>
+                        <td>{{ $dtcourse->intake }}</td>
+                    </tr>
+                    <tr>
+                        <th>Faculty incharge</th>
+                        <td>{{ $dtcourse->faculty }}</td>
+                    </tr>
+                    <tr>
+                        <th>Contact</th>
+                        <td>{{ $dtcourse->contact }}</td>
                     </tr>
                     <tr>
                         <th>Filled</th>
-                        <th>{{ $dtcourse->type() }}</th>
+                        <td>{{ $dtcourse->filled() }}</td>
                     </tr>
                     <tr>
                         <th>Available</th>
-                        <th>{{ $dtcourse->type() }}</th>
+                        <td>{{ $dtcourse->vacant() }}</td>
                     </tr>
                 <tbody>
                     <tr>

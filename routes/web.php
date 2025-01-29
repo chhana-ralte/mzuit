@@ -22,7 +22,8 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\SampleController;
 
 Route::get('/', function () {
-    return view('home');
+    //return view('home');
+    return redirect('/diktei');
 });
 
 // Route::get('/dashboard', function () {
@@ -73,7 +74,7 @@ Route::controller(MassController::class)->group(function(){
 
 Route::controller(DikteiController::class)->group(function(){
     Route::get('/diktei','index');
-    Route::get('/diktei/home','home')->middleware(['auth']);
+    Route::get('/diktei/list','list')->middleware(['auth']);
     Route::post('/diktei/entry','entry');
     Route::get('/diktei/entry/{diktei}','option');
     Route::post('/diktei/store/','store');
@@ -85,15 +86,15 @@ Route::controller(DikteiController::class)->group(function(){
 
     Route::get('/diktei/allotments','allotments')->middleware(['auth']);
     Route::get('/diktei/unallotted','unallotted')->middleware(['auth']);
-    Route::get('/diktei/allotments/{department}','allotments_dept')->middleware(['auth']);
+    Route::get('/diktei/allotments/{dtcourse}','allotments_dtcourse')->middleware(['auth']);
 
     Route::get('/diktei/{diktei}','show')->middleware(['auth']);
-    Route::post('/diktei/{diktei}/assigndept','assigndept')->middleware('auth');
+    Route::post('/diktei/{diktei}/assigncourse','assigncourse')->middleware('auth');
     Route::post('/diktei/{diktei}/clear','clear')->middleware('auth');
     Route::delete('/diktei/{diktei}','destroy')->middleware('auth');
 });
 
-Route::resource('dtcourse',DtcourseController::class);
+Route::resource('dtcourse',DtcourseController::class)->middleware(['auth']);
 
 Route::controller(UserController::class)->group(function(){
     Route::get('/user','index')->middleware(['auth']);

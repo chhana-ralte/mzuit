@@ -10,10 +10,10 @@
                     <li class="nav-item">
                         <a class="nav-link">Dept</a>
                     </li>
-                    @foreach(App\Models\Department::orderBy('name')->get() as $dept)
+                    @foreach($departments as $dept)
                         @if($dept->slot())
                             <li class="nav-item">
-                                <a class="nav-link" href="/diktei/home?dept_id={{$dept->id}}">{{ $dept->code }}</a>
+                                <a class="nav-link" href="/diktei/list?dept_id={{$dept->id}}">{{ $dept->code }}</a>
                             </li>
                         @endif
                     @endforeach
@@ -21,12 +21,14 @@
             </div>
             <table class="table table-striped">
                 <tr>
-                    <td>Sl</td>
-                    <td>Name</td>
-                    <td>Rollno</td>
-                    <td>Department</td>
-                    <td>Options</td>
-                    <td>Allotted?</td>
+                    <th>Sl</th>
+                    <th>Name</th>
+                    <th>Rollno</th>
+                    <th>Department</th>
+                    <th>IMJ Options</th>
+                    <th>IMJ Allotted?</th>
+                    <th>IMN Options</th>
+                    <th>IMN Allotted?</th>
                 </tr>
                 <?php 
                     if(isset($_GET['page'])){
@@ -44,18 +46,32 @@
                     <td>{{ $dik->department->name }}</td>
                     <td>
                         <select class="form-control">
-                            @foreach($dik->options as $opt)
-                                <option>{{$opt->option}} - {{$opt->department->name}}</option>
+                            @foreach($dik->dtoptions as $opt)
+                                @if($opt->major)
+                                    <option>{{$opt->option}} - {{$opt->dtcourse->code}}</option>
+                                @endif
                             @endforeach
                         </select>
                     </td>
                     <td>
-                        {{ $dik->allotted()?$dik->allotted()->department->name:'None' }}
+                        {{ $dik->mjallotted()?$dik->mjallotted()->dtcourse->code:'None' }}
+                    </td>
+                    <td>
+                        <select class="form-control">
+                            @foreach($dik->dtoptions as $opt)
+                                @if($opt->major == 0)
+                                    <option>{{$opt->option}} - {{$opt->dtcourse->code}}</option>
+                                @endif
+                            @endforeach
+                        </select>
+                    </td>
+                    <td>
+                        {{ $dik->mnallotted()?$dik->mnallotted()->dtcourse->code:'None' }}
                     </td>
                 </tr>
                 @endforeach
                 <tr>
-                    <td colspan="5">{{ $dikteis->links() }}</td>
+                    <td colspan="8">{{ $dikteis->links() }}</td>
                 </tr>
             </table>
         </x-block>

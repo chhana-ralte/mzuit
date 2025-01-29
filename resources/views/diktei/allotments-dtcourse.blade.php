@@ -2,7 +2,10 @@
     <x-container>
         <x-block>
             <x-slot:heading>
-                Students allotted in {{$department->name}}.
+                Students allotted in {{$dtcourse->code}} - {{$dtcourse->title}}.
+                <p>
+                    <a class="btn btn-secondary" href="/diktei/allotments">Back</a>
+                </p>
             </x-slot:heading>
             <table class="table table-striped">
                 <thead>
@@ -15,13 +18,12 @@
                 </thead>
                 <tbody>
                     <?php $sl=1 ?>
-                    @foreach($allots as $allot)
+                    @foreach($dtallots as $dtallot)
                         <tr>
                             <td>{{ $sl++ }}</td>
-                            <td>{{ $allot->diktei->name }}</td>
-                            <td>{{ $allot->diktei->rollno }}</td>
-                            <td>{{ $allot->diktei->department->name }}</td>
-                            
+                            <td>{{ $dtallot->diktei->name }}</td>
+                            <td>{{ $dtallot->diktei->rollno }}</td>
+                            <td>{{ $dtallot->diktei->department->name }}</td>
                         </tr>
                     @endforeach
                 </tbody>

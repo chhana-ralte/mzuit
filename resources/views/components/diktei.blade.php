@@ -31,13 +31,10 @@
           <a class="nav-link" href="/dtcourse">Courses</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/diktei/deptslotentry">Department seats</a>
-        </li>
-        <li class="nav-item">
           <a class="nav-link" href="/diktei/allotments">Allotments</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/diktei/home">List</a>
+          <a class="nav-link" href="/diktei/list">List</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/diktei/search">Search</a>

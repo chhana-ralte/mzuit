@@ -18,6 +18,14 @@ class Dtcourse extends Model
         return $this->hasMany(Dtoption::class);
     }
 
+    public function filled(){
+        return Dtallot::where('dtcourse_id',$this->id)->count();
+    }
+
+    public function vacant(){
+        return $this->intake - Dtallot::where('dtcourse_id',$this->id)->count();
+    }
+    
     public function dtallots(){
         return $this->hasMany(Dtallot::class);
     }

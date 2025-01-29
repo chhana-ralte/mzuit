@@ -11,11 +11,9 @@
                         <a class="nav-link">Dept</a>
                     </li>
                     @foreach($departments as $dept)
-                        @if($dept->slot())
-                            <li class="nav-item">
-                                <a class="nav-link" href="/diktei/list?dept_id={{$dept->id}}">{{ $dept->code }}</a>
-                            </li>
-                        @endif
+                        <li class="nav-item">
+                            <a class="nav-link" href="/diktei/list?dept_id={{$dept->id}}">{{ $dept->code }}</a>
+                        </li>
                     @endforeach
                 </ul>
             </div>

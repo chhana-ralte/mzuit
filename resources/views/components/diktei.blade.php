@@ -28,6 +28,9 @@
         </li>
         @auth
         <li class="nav-item">
+          <a class="nav-link" href="/dtcourse">Courses</a>
+        </li>
+        <li class="nav-item">
           <a class="nav-link" href="/diktei/deptslotentry">Department seats</a>
         </li>
         <li class="nav-item">

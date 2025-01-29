@@ -19,6 +19,14 @@ class Diktei extends Model
         return $this->hasMany(Option::class);
     }
 
+    public function dtoptions(){
+        return $this->hasMany(Dtoption::class);
+    }
+
+    public function dtallot(){
+        return $this->hasMany(Dtallot::class);
+    }
+
     public function allotted(){
         if(Allot::where('diktei_id',$this->id)->exists()){
             return Allot::where('diktei_id',$this->id)->first();

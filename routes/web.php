@@ -16,6 +16,7 @@ use App\Http\Controllers\SubjectTeacherController;
 use App\Http\Controllers\AttmasterController;
 use App\Http\Controllers\MassController;
 use App\Http\Controllers\DikteiController;
+use App\Http\Controllers\DtcourseController;
 use App\Http\Controllers\UserController;
 
 use App\Http\Controllers\SampleController;
@@ -90,8 +91,9 @@ Route::controller(DikteiController::class)->group(function(){
     Route::post('/diktei/{diktei}/assigndept','assigndept')->middleware('auth');
     Route::post('/diktei/{diktei}/clear','clear')->middleware('auth');
     Route::delete('/diktei/{diktei}','destroy')->middleware('auth');
-
 });
+
+Route::resource('dtcourse',DtcourseController::class);
 
 Route::controller(UserController::class)->group(function(){
     Route::get('/user','index')->middleware(['auth']);

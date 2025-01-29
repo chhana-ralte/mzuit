@@ -17,5 +17,12 @@ class Dtcourse extends Model
     public function dtoptions(){
         return $this->hasMany(Dtoption::class);
     }
-    
+
+    public function dtallots(){
+        return $this->hasMany(Dtallot::class);
+    }
+
+    public function type(){
+        return $this->major?"IMJ":"IMN";
+    }
 }

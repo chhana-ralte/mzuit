@@ -1,8 +1,8 @@
 <x-diktei>
     <x-container>
         <x-block>
-        <x-slot name="block_header">
-                Student's Details
+            <x-slot name="heading">
+                Student's Details here
             </x-slot>
             <form method="post" action="/diktei/entry">
                 @csrf
@@ -32,23 +32,5 @@
                 </div>
             </form>
         </x-block>
-        <x-block>
-            <x-slot:heading>
-                Select the subjects in order of preference.
-            </x-slot:heading>
-            <form method="post" action="/diktei/store">
-                <div>
-                    @for($i=1;$i<=10;$i++)
-                        <x-input-label for="department" value="{{ 'Option: ' . $i }}" />
-                        <x-select name="department[]" class="mt-1 block w-full">
-                            @foreach(App\Models\Department::orderBy('name')->get() as $dept)
-                                <option value="{{ $dept->id }}">{{ $dept->name }}</option>
-                            @endforeach
-                        </x-select>
-                    @endfor
-                </div>
-            </form>
-        </x-block>
     </x-container>
-
 </x-diktei>

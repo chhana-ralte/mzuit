@@ -75,7 +75,8 @@ Route::controller(MassController::class)->group(function(){
 Route::controller(DikteiController::class)->group(function(){
     Route::get('/diktei','index');
     Route::get('/diktei/list','list')->middleware(['auth']);
-    Route::post('/diktei/entry','entry');
+    Route::get('/diktei/entry','entry');
+    Route::post('/diktei/entry','post_entry');
     Route::get('/diktei/entry/{diktei}','option');
     Route::post('/diktei/store/','store');
     Route::get('/diktei/search/','search');

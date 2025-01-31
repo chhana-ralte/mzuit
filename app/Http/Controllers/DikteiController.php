@@ -13,6 +13,8 @@ use App\Models\Dtcourse;
 use App\Models\Dtoption;
 use App\Models\Dtallot;
 
+use Carbon;
+
 class DikteiController extends Controller
 {
     public function index(){
@@ -20,10 +22,13 @@ class DikteiController extends Controller
         //$departments = Department::whereNotIn('school_id',[4,8])
         //    ->orderBy('name')
         //    ->get();
-        $departments = Department::has('dtcourses')
-            ->orderBy('name')
-            ->get();
+
+        //$departments = Department::has('dtcourses')
+        //    ->orderBy('name')
+        //    ->get();
+            
         //return $departments;
+        return view('diktei.index');
         return view('diktei.dashboard',['departments'=>$departments]);
     }
 
@@ -65,25 +70,31 @@ class DikteiController extends Controller
     }
 
     public function entry(){
+        return view('diktei.entry');
+    }
+
+    public function post_entry(){
         $validated = request()->validate([
-            'name' => ['required'],
+            //'name' => ['required'],
             'rollno' => ['required'],
-            'department' => ['required']
+            //'department' => ['required']
         ]);
+
         $diktei = Diktei::where('rollno',request()->rollno)->first();
         if(!$diktei){
-            $diktei = Diktei::create([
-                'rollno' => request()->rollno,
-                'name' => request()->name,
-                'department_id' => request()->department
-            ]);
+            // $diktei = Diktei::create([
+            //    'rollno' => request()->rollno,
+            //    'name' => request()->name,
+            //    'department_id' => request()->department
+            // ]);
+            return redirect('/diktei/entry')->with(['message' => ['type' => 'info', 'text' => 'Roll number is not found']])->withInput();
         }
-        else{
-            $diktei->update([
-                'name' => request()->name,
-                'department_id' => request()->department
-            ]);
-        }
+        // else{
+        //     $diktei->update([
+        //         'name' => request()->name,
+        //         'department_id' => request()->department
+        //     ]);
+        // }
 
         return redirect('/diktei/entry/' . $diktei->id);
     }
@@ -125,6 +136,7 @@ class DikteiController extends Controller
 
     public function store(){
         //return ['imj'=>request()->imj, 'imn'=>request()->imn ];
+        $diktei = Diktei::find(request()->diktei_id);
         $imjallotted = 0;
         foreach(request()->imj as $key=>$imj){
             if($imj ==0)
@@ -182,6 +194,9 @@ class DikteiController extends Controller
             }
 
         }
+        $diktei->update([
+            'dt_time' => Carbon\Carbon::now()
+        ]);
         return redirect('/diktei/entry/' . request()->diktei_id);
     }
 

@@ -2,33 +2,27 @@
     <x-container>
         <x-block>
             <x-slot name="heading">
-                Student's Details here
+                Student's Details
             </x-slot>
             <form method="post" action="/diktei/entry">
                 @csrf
-                <div>
-                    <x-input-label for="name" value="Enter your name" />
-                    <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" value="" required autofocus autocomplete="name" />
-                    <x-input-error class="mt-2" :messages="$errors->get('name')" />
+                <div class="form-group row p-2">
+                    <div class="col-md-3">
+                        <x-input-label for="name" value="Enter your rollno as written exactly in your ID" />
+                    </div>
+                    <div class="col-md-4">
+                        <x-text-input id="rollno" name="rollno" type="text" class="form-control" value="{{old('rollno')}}" required autocomplete="rollno" />
+                        <x-input-error class="mt-2" :messages="$errors->get('rollno')" />
+                    </div>
                 </div>
-                <div>
-                    <x-input-label for="name" value="Enter your rollno/registration/admission no" />
-                    <x-text-input id="rollno" name="rollno" type="text" class="mt-1 block w-full" value="" required autocomplete="rollno" />
-                    <x-input-error class="mt-2" :messages="$errors->get('rollno')" />
-                </div>
-                <div>
-                    <x-input-label for="department" value="Select your department" />
-                    <x-select name="department" class="mt-1 block w-full">
-                        @foreach(App\Models\Department::orderBy('name')->get() as $dept)
-                            <option value="{{ $dept->id }}">{{ $dept->name }}</option>
-                        @endforeach
-                    </x-select>
 
-                    <x-input-error class="mt-2" :messages="$errors->get('department')" />
-                </div>
-                <div class="flex items-center gap-4 pt-4">
-                    There will be option to select your choice after this page.
-                    <x-button type="submit">{{ __('Proceed') }}</x-button>
+                <div  class="form-group row p-3">
+                    <div class="col-md-3">
+                    </div>
+                    <div class="col-md-4">
+                        There will be option to select your options after this page.
+                        <x-button type="submit">{{ __('Proceed') }}</x-button>
+                    </div>
                 </div>
             </form>
         </x-block>

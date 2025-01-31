@@ -336,4 +336,9 @@ class DikteiController extends Controller
         }
         return redirect('/diktei/' . $diktei->id)->with(['message' => ['type' => 'info', 'text' => 'Allotted to new ' . $str . ' course']]);
     }
+
+    public function imjs(){
+        $imjs = Dtcourse::where('major',1)->get();
+        return $imjs;
+    }
 }

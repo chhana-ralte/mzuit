@@ -74,6 +74,7 @@ Route::controller(MassController::class)->group(function(){
 
 Route::controller(DikteiController::class)->group(function(){
     Route::get('/diktei','index');
+    Route::get('/diktei/imjs','imjs');
     Route::get('/diktei/list','list')->middleware(['auth']);
     Route::get('/diktei/entry','entry');
     Route::post('/diktei/entry','post_entry');
@@ -93,6 +94,8 @@ Route::controller(DikteiController::class)->group(function(){
     Route::post('/diktei/{diktei}/assigncourse','assigncourse')->middleware('auth');
     Route::post('/diktei/{diktei}/clear','clear')->middleware('auth');
     Route::delete('/diktei/{diktei}','destroy')->middleware('auth');
+
+    
 });
 
 Route::resource('dtcourse',DtcourseController::class)->middleware(['auth']);

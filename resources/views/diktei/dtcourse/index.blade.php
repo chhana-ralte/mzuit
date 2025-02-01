@@ -3,9 +3,11 @@
         <x-block>
             <x-slot name="heading">
                 Interdisciplinary Course Details 
+                @auth
                 <p>
                     <a class="btn btn-primary" href="/dtcourse/create">Create new course</a>
                 </p>
+                @endauth
             </x-slot>
             <div>
                 <table class="table table-striped">

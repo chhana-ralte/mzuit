@@ -26,10 +26,11 @@
         <li class="nav-item">
           <a class="nav-link" href="/diktei">Entry</a>
         </li>
-        @auth
+        
         <li class="nav-item">
           <a class="nav-link" href="/dtcourse">Courses</a>
         </li>
+        @auth
         <li class="nav-item">
           <a class="nav-link" href="/diktei/allotments">Allotments</a>
         </li>

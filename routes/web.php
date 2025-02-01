@@ -75,16 +75,21 @@ Route::controller(MassController::class)->group(function(){
 Route::controller(DikteiController::class)->group(function(){
     Route::get('/diktei','index');
     Route::get('/diktei/imjs','imjs');
+    Route::get('/diktei/create','create');
+    Route::post('/diktei/store','store');
+    Route::get('/diktei/{diktei}/edit','edit');
+    Route::put('/diktei/{diktei}','update');
     Route::get('/diktei/list','list')->middleware(['auth']);
     Route::get('/diktei/entry','entry');
     Route::post('/diktei/entry','post_entry');
     Route::get('/diktei/entry/{diktei}','option');
-    Route::post('/diktei/store/','store');
+    Route::post('/diktei/option_store/','option_store');
     Route::get('/diktei/search/','search');
 
     Route::get('/diktei/deptslotentry','deptslotentry')->middleware(['auth']);
     Route::post('/diktei/deptslotentry','deptslotentrystore');
-    Route::post('/diktei/algorithm','algorithm');
+    Route::get('/diktei/algorithm','algorithm');
+    Route::post('/diktei/algorithm','algorithm_execute');
 
     Route::get('/diktei/allotments','allotments')->middleware(['auth']);
     Route::get('/diktei/unallotted','unallotted')->middleware(['auth']);
@@ -98,7 +103,7 @@ Route::controller(DikteiController::class)->group(function(){
     
 });
 
-Route::resource('dtcourse',DtcourseController::class)->middleware(['auth']);
+Route::resource('dtcourse',DtcourseController::class);
 
 Route::controller(UserController::class)->group(function(){
     Route::get('/user','index')->middleware(['auth']);

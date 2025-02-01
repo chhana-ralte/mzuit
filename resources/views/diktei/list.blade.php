@@ -3,6 +3,15 @@
         <x-block>
             <x-slot name="heading">
                 List
+                @auth
+                <p>
+                    @if(isset($department))
+                        <a href="/diktei/create?dept_id={{ $department->id }}" class="btn btn-primary btn-sm">Add Student</a>
+                    @else
+                        <a href="/diktei/create" class="btn btn-primary btn-sm">Add Student</a>
+                    @endif
+                </p>
+                @endauth
             </x-slot>
             <div>
 

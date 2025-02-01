@@ -16,7 +16,7 @@
                 </div>
                 <div class="form-group row pt-2">
                     <div class="col-md-3">
-                        <x-input-label for="name" value="Rollno/registration/admission no" />
+                        <x-input-label for="name" value="Rollno" />
                     </div>
                     
                     <div class="col-md-4">
@@ -50,7 +50,7 @@
                     @endforeach
             </x-block>
         @else
-            <form method="post" action="/diktei/store">
+            <form method="post" action="/diktei/option_store">
                 @csrf
                 <input type="hidden" name="diktei_id" value="{{ $diktei->id }}">
                 <x-block>

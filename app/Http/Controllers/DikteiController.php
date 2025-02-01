@@ -33,6 +33,7 @@ class DikteiController extends Controller
     }
 
     public function list(){
+
         if(isset($_GET['dept_id'])){
             $department = Department::findOrFail($_GET['dept_id']);
             $dikteis = Diktei::where('department_id',$department->id)->paginate()->withQueryString();
@@ -41,12 +42,60 @@ class DikteiController extends Controller
             $dikteis = Diktei::paginate()->withQueryString();
         }
         $data = [
-            'dikteis'=>$dikteis,
+            'dikteis' => $dikteis,
             'departments' => Department::has('dtcourses')->orderBy('code')->get()
-        ];
+        ];    
+        
+        if(isset($department)){
+            $data['department'] = $department;
+        }
+        
         return view('diktei.list',$data);
     }
 
+    public function create(){
+        if(isset($_GET['dept_id'])){
+            $dept = Department::find($_GET['dept_id']);
+        }
+        $departments = Department::orderBy('name')->get();
+        $data = [
+            'departments' => $departments
+        ];
+        if(isset($dept)){
+            $data['department'] = $dept;
+        }
+        return view('diktei.create', $data);
+    }
+
+    public function store(Request $request){
+        $rollno = trim($request->rollno);
+
+        while($rollno != str_replace(' ','',$rollno)){
+            $rollno = str_replace(' ','',$rollno);
+        }
+
+        if(Diktei::where('rollno',$rollno)->exists()){
+            return redirect('/diktei/create')
+                ->with(['message' => ['type' => 'info', 'text' => 'Student already exists']])
+                ->withInput();
+        }
+
+        $request->validate([
+            'name' => 'required',
+            'rollno' => 'required',
+            'department' => 'required'
+        ]);
+
+        Diktei::create([
+            'name' => $request->name,
+            'rollno' => $request->rollno,
+            'department_id' => $request->department
+        ]);
+    
+        return redirect('/diktei/create?dept_id=' . $request->department)
+            ->with(['message' => ['type' => 'info', 'text' => 'Successfully inserted']]);
+        
+    }
     public function show(Diktei $diktei){
         $imjoptions = Dtoption::where('diktei_id',$diktei->id)->where('major',1)->get();
         $imnoptions = Dtoption::where('diktei_id',$diktei->id)->where('major',0)->get();
@@ -60,6 +109,41 @@ class DikteiController extends Controller
             'diktei' => $diktei
         ];
         return view('diktei.show',$data);
+    }
+
+    public function edit(Diktei $diktei){
+        $departments = Department::orderBy('name')->get();
+
+        return view('diktei.edit',['diktei' => $diktei,'departments' => $departments]);
+    }
+
+    public function update(Request $request, Diktei $diktei){
+        
+        $rollno = trim($request->rollno);
+
+        while($rollno != str_replace(' ','',$rollno)){
+            $rollno = str_replace(' ','',$rollno);
+        }
+
+        if(Diktei::where('rollno',$rollno)->where('rollno','<>',$diktei->rollno)->exists()){
+            return redirect('/diktei/' . $diktei->id . '/edit')
+                ->with(['message' => ['type' => 'info', 'text' => 'Student already exists']]);
+        }
+
+        $request->validate([
+            'name' => 'required',
+            'rollno' => 'required',
+            'department' => 'required'
+        ]);
+
+        $diktei->update([
+            'name' => $request->name,
+            'rollno' => $request->rollno,
+            'department_id' => $request->department
+        ]);
+    
+        return redirect('/diktei/' . $diktei->id)
+            ->with(['message' => ['type' => 'info', 'text' => 'Successfully updated']]);
     }
 
     public function destroy(Diktei $diktei){
@@ -134,7 +218,7 @@ class DikteiController extends Controller
         
     }
 
-    public function store(){
+    public function option_store(){
         //return ['imj'=>request()->imj, 'imn'=>request()->imn ];
         $diktei = Diktei::find(request()->diktei_id);
         $imjallotted = 0;
@@ -192,12 +276,12 @@ class DikteiController extends Controller
                     $imnallotted = 1;
                 }
             }
-
         }
         $diktei->update([
             'dt_time' => Carbon\Carbon::now()
         ]);
-        return redirect('/diktei/entry/' . request()->diktei_id);
+        return redirect('/diktei/entry/' . request()->diktei_id)
+            ->with(['message' => ['type' => 'info', 'text' => 'Successfully done']]);
     }
 
     public function deptslotentry(){
@@ -232,21 +316,41 @@ class DikteiController extends Controller
     }
 
     public function algorithm(){
-        Allot::truncate();
-        foreach(Diktei::orderBy('id')->get() as $diktei){
-            foreach(Option::where('diktei_id',$diktei->id)->orderBy('option')->get() as $opt){
-                $department = Department::find($opt->department_id);
-                $allotted = $department->allotted();
-                if($allotted < $department->slot()){
-                    Allot::updateOrCreate([
-                        'diktei_id' => $diktei->id
+        return view('diktei.algorithm');
+    }
+
+    public function algorithm_execute(){
+        Dtallot::truncate();
+        foreach(Diktei::orderBy('dt_time')->get() as $diktei){
+            foreach(Dtoption::where('diktei_id',$diktei->id)->where('major',1)->orderBy('option')->get() as $opt){
+                $dtcourse = Dtcourse::find($opt->dtcourse_id);
+                if($dtcourse->vacant() > 0){
+                    Dtallot::updateOrCreate([
+                        'diktei_id' => $diktei->id,
+                        'major' => 1
                     ],
                     [
                         'diktei_id' => $diktei->id,
-                        'department_id' => $department->id
+                        'major' => 1,
+                        'dtcourse_id' => $dtcourse->id
                     ]
                     );
-                    $allot_dept = $department;
+                    break;
+                }
+            }
+            foreach(Dtoption::where('diktei_id',$diktei->id)->where('major',0)->orderBy('option')->get() as $opt){
+                $dtcourse = Dtcourse::find($opt->dtcourse_id);
+                if($dtcourse->vacant() > 0){
+                    Dtallot::updateOrCreate([
+                        'diktei_id' => $diktei->id,
+                        'major' => 0
+                    ],
+                    [
+                        'diktei_id' => $diktei->id,
+                        'major' => 0,
+                        'dtcourse_id' => $dtcourse->id
+                    ]
+                    );
                     break;
                 }
             }
@@ -311,8 +415,10 @@ class DikteiController extends Controller
     }
     
     public function clear(Diktei $diktei){
+        $diktei->update(['dt_time' => NULL]);
         Dtallot::where('diktei_id',$diktei->id)->delete();
         Dtoption::where('diktei_id',$diktei->id)->delete();
+
         return redirect('/diktei/' . $diktei->id)->with(['message' => ['type' => 'info', 'text' => 'Cleared the options.']]);
     }
 

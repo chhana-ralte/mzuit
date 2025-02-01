@@ -3,6 +3,11 @@
         <x-block>
             <x-slot name="heading">
                 Student's details
+                @auth()
+                <p>
+                    <a href="/diktei/{{ $diktei->id }}/edit" class="btn btn-primary btn-sm">Edit student</a>
+                </p>
+                @endauth
             </x-slot>
             <table class="table table-striped">
                 <tr>

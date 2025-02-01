@@ -50,12 +50,14 @@
                     <tr>
                         <td colspan=2>
                             <a class="btn btn-secondary" href="/dtcourse">Back</a>
-                            <x-button type="a" href="/dtcourse/{{$dtcourse->id}}/edit">Edit</x-button>
-                            <x-button type="delete" class="delete" form='delete-form'>Delete</x-button>
-                            <form id='delete-form' action='/dtcourse/{{ $dtcourse->id }}' method='post' onsubmit="return confirm('I delete duh tak tak em?');" class='hidden'>
-                                @csrf
-                                @method('DELETE')
-                            </form>
+                            @auth
+                                <x-button type="a" href="/dtcourse/{{$dtcourse->id}}/edit">Edit</x-button>
+                                <x-button type="delete" class="delete" form='delete-form'>Delete</x-button>
+                                <form id='delete-form' action='/dtcourse/{{ $dtcourse->id }}' method='post' onsubmit="return confirm('I delete duh tak tak em?');" class='hidden'>
+                                    @csrf
+                                    @method('DELETE')
+                                </form>
+                            @endauth
                         </td>
                     </tr>
                 </tbody>

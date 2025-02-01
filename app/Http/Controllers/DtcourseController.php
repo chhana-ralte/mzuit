@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Dtcourse;
 use App\Models\Department;
+
 
 class DtcourseController extends Controller
 {
@@ -17,7 +19,12 @@ class DtcourseController extends Controller
     }
 
     public function create(){
-        return view('diktei.dtcourse.create',['departments'=>Department::all()]);
+        if(Auth::user()){
+            return view('diktei.dtcourse.create',['departments'=>Department::all()]);
+        }
+        else{
+            return redirect('/');
+        }
     }
 
     public function store(Request $request){
@@ -47,13 +54,17 @@ class DtcourseController extends Controller
     }
 
     public function edit(Dtcourse $dtcourse){
-        $departments = Department::all();
-
-        $data = [
-            'departments' => $departments,
-            'dtcourse' => $dtcourse
-        ];
-        return view('diktei.dtcourse.edit',$data);
+        if(Auth::user()){
+            $departments = Department::all();
+            $data = [
+                'departments' => $departments,
+                'dtcourse' => $dtcourse
+            ];
+            return view('diktei.dtcourse.edit',$data);
+        }
+        else{
+            return redirect('/');
+        }
     }
 
     public function update(Request $request, Dtcourse $dtcourse){

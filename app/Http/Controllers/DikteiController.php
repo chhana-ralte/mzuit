@@ -220,10 +220,54 @@ class DikteiController extends Controller
 
     public function option_store(){
         //return ['imj'=>request()->imj, 'imn'=>request()->imn ];
+        
+        $imjs = array();
+        $err = 0;
+        foreach(request()->imj as $key => $imj){
+            if($imj == 0){
+                $err = 1;
+                $text = "Choose all 10 options in IMJ";
+                break;
+            }
+            else if(isset($imjs[$imj])){
+                $err =1;
+                $text = "Duplicate entry detected in IMJ";
+                break;
+            }
+            else{
+                $imjs[$imj] = 1;
+            }
+        }
+        //return $str;
+        if(!$err){
+
+    
+            $imns = array();
+            $err = 0;
+            foreach(request()->imn as $key=>$imn){
+                if($imn == 0){
+                    $err = 1;
+                    $text = "Choose all 10 options in IMN";
+                    break;
+                }
+                else if(isset($imns[$imn])){
+                    $err = 1;
+                    $text = "Duplicate entry detected in IMN";
+                }
+                else{
+                    $imns[$imn] = 1;
+                }
+            }
+        }
+        if($err){
+            return redirect()->back()->with(['message' => ['type' => 'info', 'text' => $text]])->withInput();
+        }
+
+
         $diktei = Diktei::find(request()->diktei_id);
         $imjallotted = 0;
         foreach(request()->imj as $key=>$imj){
-            if($imj ==0)
+            if($imj == 0)
                 break;
             Dtoption::updateOrCreate([
                 'diktei_id' => request()->diktei_id,
@@ -282,26 +326,6 @@ class DikteiController extends Controller
         ]);
         return redirect('/diktei/entry/' . request()->diktei_id)
             ->with(['message' => ['type' => 'info', 'text' => 'Successfully done']]);
-    }
-
-    public function deptslotentry(){
-        $departments = Department::whereNotIn('school_id',[4,8])->orderBy('name')->get();
-        return view('diktei.deptslotentry',['departments'=>$departments]);
-    }
-
-    public function deptslotentrystore(){
-        //dd(request()->all());
-
-        foreach(request()->department as $dep_id=>$slot){
-            Deptslot::updateOrCreate([
-                'department_id' => $dep_id
-            ],
-            [
-                'department_id' => $dep_id,
-                'slot' => $slot
-            ]);
-        }
-        return redirect('/diktei/deptslotentry')->with(['message' => ['type'=>'info', 'text'=>'Updated']]);
     }
 
     public function allotments(){
@@ -370,41 +394,32 @@ class DikteiController extends Controller
     }
 
     public function unallotted(){
-        /*
-        if(isset($_GET['dept_id'])){
-            $department = Department::findOrFail($_GET['dept_id']);
-            $dikteis = Diktei::whereNotIn('id',Allot::all()->pluck('diktei_id'))
-            ->where('department_id',$department->id)
-            ->paginate()
-            ->withQueryString();
-        }
-        else{
-            $dikteis = Diktei::whereNotIn('id',Allot::all()->pluck('diktei_id'))
-            ->paginate()
-            ->withQueryString();
-        }
-        */
         $departments = Department::has('dtcourses')->orderBy('code')->get();
+
+        $dtalotted = Diktei::whereIn('id',Dtallot::where('major',1)->pluck('diktei_id'))
+            ->whereIn('id',Dtallot::where('major',0)->pluck('diktei_id'));
+        
         if(isset($_GET['dept_id'])){
             $department = Department::findOrFail($_GET['dept_id']);
-            $dtunalotted = Diktei::whereNotIn('id',Dtallot::where('major',1)->pluck('diktei_id'))
-                ->orWhereNotIn('id',Dtallot::where('major',0)->pluck('diktei_id'))
+
+            $dtunalotted = Diktei::whereNotIn('id',$dtalotted->pluck('id'))
                 ->where('department_id',$department->id)
                 ->paginate()
                 ->withQueryString();
         }
         else{
-            $dtunalotted = Diktei::whereNotIn('id',Dtallot::where('major',1)->pluck('diktei_id'))
-                ->orWhereNotIn('id',Dtallot::where('major',0)->pluck('diktei_id'))
+            $dtunalotted = Diktei::whereNotIn('id',$dtalotted->pluck('id'))
                 ->paginate()
                 ->withQueryString();
         }
-        //$imnunallotted = Diktei::whereNotIn('id',Dtallot::where('major',0)->pluck('diktei_id'));
-        
+
         $data = [
             'departments' => $departments,
             'dtunalotted' => $dtunalotted,
         ];
+        if(isset($department)){
+            $data['department'] = $department;
+        }
         return view('diktei.unallotted',$data);
     }
 

@@ -2,13 +2,16 @@
     <x-container>
         <x-block>
             <x-slot name="heading">
-                List
+                List of unallotted students 
+                @if(isset($department))
+                    from {{ $department->name }}
+                @endif
             </x-slot>
             <div>
 
                 <ul class="nav nav-tabs">
                     <li class="nav-item">
-                        <a class="nav-link">Dept</a>
+                        <a class="nav-link" href="/diktei/unallotted">Dept</a>
                     </li>
                     @foreach($departments as $dept)
                         <li class="nav-item">

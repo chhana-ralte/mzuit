@@ -33,15 +33,12 @@
                             <?php
                             if(old('department')){
                                 $did = old('department');
-                                echo "<option>Dummy</option>";
                             }
                             else if(isset($department)){
                                 $did = $department->id;
-                                echo "<option>Dummy2</option>";
                             }
                             else{
                                 $did = 0;
-                                echo "<option>Dummy3</option>";
                             }
                             ?>
                         @foreach($departments as $dept)

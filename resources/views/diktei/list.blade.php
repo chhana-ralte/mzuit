@@ -2,7 +2,10 @@
     <x-container>
         <x-block>
             <x-slot name="heading">
-                List
+                List of students
+                @if(isset($department))
+                    from {{ $department->name }}
+                @endif
                 @auth
                 <p>
                     @if(isset($department))
@@ -17,7 +20,7 @@
 
                 <ul class="nav nav-tabs">
                     <li class="nav-item">
-                        <a class="nav-link">Dept</a>
+                        <a class="nav-link" href="/diktei/list">Dept</a>
                     </li>
                     @foreach($departments as $dept)
                         <li class="nav-item">

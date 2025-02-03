@@ -4,6 +4,7 @@
             <x-slot name="heading">
                 Student's Details
             </x-slot>
+ 
                 @csrf
                 <div class="form-group row pt-2">
                     <div class="col-md-3">
@@ -68,7 +69,9 @@
                                     <option value='0'>None</option>
                                     @foreach($majors as $maj)
                                         @if($maj->intake > 0)
-                                            <option value="{{ $maj->id }}">{{ $maj->code }}: {{ $maj->title }}</option>
+                                            <option value="{{ $maj->id }}" {{ isset(old('imj')[$i-1]) && old('imj')[$i-1]>0 && old('imj')[$i-1] == $maj->id?' selected ':'' }}>
+                                            {{ $maj->code }}: {{ $maj->title }}
+                                            </option>
                                         @endif
                                     @endforeach
                                 </x-select>
@@ -94,7 +97,9 @@
                                     <option value='0'>None</option>
                                     @foreach($minors as $min)
                                         @if($min->intake > 0)
-                                            <option value="{{ $min->id }}">{{ $min->code }}: {{ $min->title }}</option>
+                                            <option value="{{ $min->id }}" {{ isset(old('imn')[$i-1]) && old('imn')[$i-1]>0 && old('imn')[$i-1] == $min->id?' selected ':'' }}>
+                                                {{ $min->code }}: {{ $min->title }}
+                                            </option>
                                         @endif
                                     @endforeach
                                 </x-select>

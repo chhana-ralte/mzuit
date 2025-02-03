@@ -220,7 +220,7 @@ class DikteiController extends Controller
 
     public function option_store(){
         //return ['imj'=>request()->imj, 'imn'=>request()->imn ];
-        
+
         $imjs = array();
         $err = 0;
         foreach(request()->imj as $key => $imj){
@@ -459,7 +459,19 @@ class DikteiController extends Controller
     }
 
     public function imjs(){
-        $imjs = Dtcourse::where('major',1)->get();
+        if(isset($_GET['str'])){
+            $str = explode(',',$_GET['str']);
+        }
+
+        $imjs = Dtcourse::where('major',1)->whereNotIn('id',$str)->get();
         return $imjs;
+    }
+    public function imns(){
+        if(isset($_GET['str'])){
+            $str = explode(',',$_GET['str']);
+        }
+
+        $imns = Dtcourse::where('major',0)->whereNotIn('id',$str)->get();
+        return $imns;
     }
 }

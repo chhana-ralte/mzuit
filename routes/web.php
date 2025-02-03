@@ -75,6 +75,7 @@ Route::controller(MassController::class)->group(function(){
 Route::controller(DikteiController::class)->group(function(){
     Route::get('/diktei','index');
     Route::get('/diktei/imjs','imjs');
+    Route::get('/diktei/imns','imns');
     Route::get('/diktei/create','create');
     Route::post('/diktei/store','store');
     Route::get('/diktei/{diktei}/edit','edit');

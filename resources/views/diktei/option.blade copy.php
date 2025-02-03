@@ -4,6 +4,7 @@
             <x-slot name="heading">
                 Student's Details
             </x-slot>
+ 
                 @csrf
                 <div class="form-group row pt-2">
                     <div class="col-md-3">
@@ -16,7 +17,7 @@
                 </div>
                 <div class="form-group row pt-2">
                     <div class="col-md-3">
-                        <x-input-label for="name" value="Rollno/registration/admission no" />
+                        <x-input-label for="name" value="Rollno" />
                     </div>
                     
                     <div class="col-md-4">
@@ -50,65 +51,72 @@
                     @endforeach
             </x-block>
         @else
-            <form method="post" action="/diktei/store">
+            <form method="post" action="/diktei/option_store">
                 @csrf
                 <input type="hidden" name="diktei_id" value="{{ $diktei->id }}">
                 <x-block>
                     <x-slot:heading>
                         Select the IMJ courses in order of your preference.
                     </x-slot:heading>
-                    <div id="imj_select">
-                        
+                    <div>
+                        @for($i=1;$i<=10;$i++)
                         <div class="form-group row pt-2">
                             <div class="col-md-3">
-                                <x-input-label for="subject" value="{{ 'Option: ' . 1 }}" />
+                                <x-input-label for="subject" value="{{ 'Option: ' . $i }}" />
                             </div>
                             <div class="col-md-4">
-                                <x-select name="imj[]" class="form-control imj">
+                                <x-select name="imj[]" class="form-control">
                                     <option value='0'>None</option>
                                     @foreach($majors as $maj)
                                         @if($maj->intake > 0)
-                                            <option value="{{ $maj->id }}">{{ $maj->code }}: {{ $maj->title }}</option>
+                                            <option value="{{ $maj->id }}" {{ isset(old('imj')[$i-1]) && old('imj')[$i-1]>0 && old('imj')[$i-1] == $maj->id?' selected ':'' }}>
+                                            {{ $maj->code }}: {{ $maj->title }}
+                                            </option>
                                         @endif
                                     @endforeach
                                 </x-select>
                             </div>
                         </div>
-                        
+                        @endfor
                     </div>
                 </x-block>
 
 
+                <x-block>
+                    <x-slot:heading>
+                        Select the IMN courses in order of your preference.
+                    </x-slot:heading>
+                    <div>
+                        @for($i=1;$i<=10;$i++)
+                        <div class="form-group row pt-2">
+                            <div class="col-md-3">
+                                <x-input-label for="subject" value="{{ 'Option: ' . $i }}" />
+                            </div>
+                            <div class="col-md-4">
+                                <x-select name="imn[]" class="form-control">
+                                    <option value='0'>None</option>
+                                    @foreach($minors as $min)
+                                        @if($min->intake > 0)
+                                            <option value="{{ $min->id }}" {{ isset(old('imn')[$i-1]) && old('imn')[$i-1]>0 && old('imn')[$i-1] == $min->id?' selected ':'' }}>
+                                                {{ $min->code }}: {{ $min->title }}
+                                            </option>
+                                        @endif
+                                    @endforeach
+                                </x-select>
+                            </div>
+                        </div>
+                        @endfor
+                        <div class="form-group row pt-2">
+                            <div class="col-md-3">
+                            
+                            </div>
+                            <div class="col-md-4">
+                                <x-button type="submit">{{ __('Submit') }}</x-button>
+                            </div>
+                        </div>
+                    </div>
+                </x-block>
             </form>
         @endif
     </x-container>
-<script>
-$(document).ready(function(){
-    $.ajaxSetup({
-        headers : {
-            'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content')
-        }
-    });
-    $("select.imj").change(function(){
-        alert("Hehe");
-        
-    });
-    $("input.form-check-input").click(function(){
-        //alert($(this).attr('id'));
-        $.ajax({
-            url : "/ajaxtest",
-            type : "post",
-            data : {
-                attmaster_id : $(this).attr('id')
-            },
-            success : function(data,status){
-                //alert(data);
-            },
-            error : function(){
-                alert("error");
-            }
-        })
-    });
-});
-</script>
 </x-diktei>

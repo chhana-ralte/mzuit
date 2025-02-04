@@ -177,7 +177,7 @@ $(document).ready(function(){
                 str += "," + $("select.imj[name='" + nm +"']").val();
             }
             $.ajax({
-                url : "/diktei/imns?str=" + str,
+                url : "/diktei/imjs?str=" + str,
                 type : "GET",
                 success : function(data,status){
                     s = "<option value='0'>None</option>"

@@ -218,6 +218,23 @@ class DikteiController extends Controller
         
     }
 
+    public function students(){
+        //return "Hehe";
+        if(isset($_GET['dept_id'])){
+            $department = Department::findOrFail($_GET['dept_id']);
+            $dikteis = Diktei::where('department_id',$department->id)->paginate()->withQueryString();
+        }
+        $data = [
+            'departments' => Department::has('dtcourses')->orderBy('name')->get()
+        ];    
+        
+        if(isset($department)){
+            $data['department'] = $department;
+            $data['dikteis'] = $dikteis;
+        }
+        
+        return view('diktei.student',$data);
+    }
     public function option_store(){
         //return ['imj'=>request()->imj, 'imn'=>request()->imn ];
 

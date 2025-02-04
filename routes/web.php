@@ -80,6 +80,7 @@ Route::controller(DikteiController::class)->group(function(){
     Route::post('/diktei/store','store');
     Route::get('/diktei/{diktei}/edit','edit');
     Route::put('/diktei/{diktei}','update');
+    Route::get('/diktei/students','students');
     Route::get('/diktei/list','list')->middleware(['auth']);
     Route::get('/diktei/entry','entry');
     Route::post('/diktei/entry','post_entry');

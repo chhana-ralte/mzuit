@@ -30,6 +30,9 @@
         <li class="nav-item">
           <a class="nav-link" href="/dtcourse">Courses</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/diktei/students">Students</a>
+        </li>
         @auth
         <li class="nav-item">
           <a class="nav-link" href="/diktei/allotments">Allotments</a>
@@ -38,10 +41,10 @@
           <a class="nav-link" href="/diktei/list">List</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/diktei/search">Search</a>
+          <a class="nav-link" href="/diktei/unallotted">Unallotted</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/diktei/unallotted">Unallotted</a>
+          <a class="nav-link" href="/diktei/search">Search</a>
         </li>
         @endauth
       </ul>

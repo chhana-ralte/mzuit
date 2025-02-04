@@ -137,13 +137,30 @@ $(document).ready(function(){
     });
 
     $("button.ok").click(function(){
-        if($("select.imj[name='imj[9]'").val() == 0){
+        var flag = 0;
+        for(i=0;i<10;i++){
+            if($("select.imj[name='imj[" + i + "]'").val() == 0){
+                flag = 1;
+                break;
+            }
+        }
+        if(flag){
             alert("Select all 10 IMJ courses");
+            exit();
         }
-        else if($("select.imn[name='imn[9]'").val() == 0){
+        flag = 0;
+        for(i=0;i<10;i++){
+            if($("select.imn[name='imn[" + i + "]'").val() == 0){
+                flag = 1;
+                break;
+            }
+        }
+        if(flag){
             alert("Select all 10 IMN courses");
+            exit();
         }
-        else if(confirm("Are you sure you want to submit?")){
+
+        if(confirm("Are you sure you want to submit?")){
             $("form[name='submit_form']").submit();
         }
     })
@@ -185,9 +202,6 @@ $(document).ready(function(){
                 $("#imjrow_" + i).hide();
             }
         }
-        
-        
-        
     });
 
 
@@ -213,19 +227,17 @@ $(document).ready(function(){
                     $("select[name='" + next_name +"']").html(s);
                     $("#imnrow_" + next_id).show();
                     for(i=next_id+1;i<10;i++){
-                        $("#row_" + i).hide();
+                        $("#imnrow_" + i).hide();
                     }                
                 },
                 error : function(){
                     alert("error");
                 }
-            });
-            
-
+            });            
         }
         else{
             for(i=next_id;i<10;i++){
-                $("#row_" + i).hide();
+                $("#imnrow_" + i).hide();
             }
         }
         

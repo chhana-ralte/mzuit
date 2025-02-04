@@ -222,7 +222,7 @@ class DikteiController extends Controller
         //return "Hehe";
         if(isset($_GET['dept_id'])){
             $department = Department::findOrFail($_GET['dept_id']);
-            $dikteis = Diktei::where('department_id',$department->id)->paginate()->withQueryString();
+            $dikteis = Diktei::where('department_id',$department->id)->get();
         }
         $data = [
             'departments' => Department::has('dtcourses')->orderBy('name')->get()

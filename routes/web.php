@@ -76,11 +76,13 @@ Route::controller(DikteiController::class)->group(function(){
     Route::get('/diktei','index');
     Route::get('/diktei/imjs','imjs');
     Route::get('/diktei/imns','imns');
+    Route::get('/diktei/begin','begin');
     Route::get('/diktei/create','create');
     Route::post('/diktei/store','store');
     Route::get('/diktei/{diktei}/edit','edit');
     Route::put('/diktei/{diktei}','update');
     Route::get('/diktei/students','students');
+    Route::post('/diktei/begin','begin_store');
     Route::get('/diktei/list','list')->middleware(['auth']);
     Route::get('/diktei/entry','entry');
     Route::post('/diktei/entry','post_entry');

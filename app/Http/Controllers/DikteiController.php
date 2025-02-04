@@ -491,4 +491,21 @@ class DikteiController extends Controller
         $imns = Dtcourse::where('major',0)->whereNotIn('id',$str)->get();
         return $imns;
     }
+
+    public function begin(){
+        return view('diktei.begin');
+    }
+    public function begin_store(){
+        Dtallot::truncate();
+        Dtoption::truncate();
+        $dikteis = Diktei::whereNotNull('dt_time')->get();
+        foreach($dikteis as $dt)
+        {
+            $dt->update([
+                'dt_time' => null
+            ]);
+        }
+        return redirect("/diktei")->with(['message' => ['type' => 'info', 'text' => "Can now start"]]);
+    }
+
 }

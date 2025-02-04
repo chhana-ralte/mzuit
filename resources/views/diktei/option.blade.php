@@ -163,7 +163,7 @@ $(document).ready(function(){
         if(confirm("Are you sure you want to submit?")){
             $("form[name='submit_form']").submit();
         }
-    })
+    });
 
     $("select.imj").change(function(){
         var name = $(this).attr("name");

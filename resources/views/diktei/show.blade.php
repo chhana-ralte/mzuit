@@ -39,7 +39,7 @@
                 </tr>
                 <tr>
                     <td>Currently allotted in</td>
-                    <td>{{ $diktei->mjallotted()?$diktei->mjallotted()->dtcourse->code:'None'}}
+                    <td>
                         @if($diktei->mjallotted())
                             {{$diktei->mjallotted()->dtcourse->code}}: {{$diktei->mjallotted()->dtcourse->title}}
                         @else
@@ -81,7 +81,7 @@
                 </tr>
                 <tr>
                     <td>Currently allotted in</td>
-                    <td>{{ $diktei->mnallotted()?$diktei->mnallotted()->dtcourse->code:'None'}}
+                    <td>
                         @if($diktei->mnallotted())
                             {{$diktei->mnallotted()->dtcourse->code}}: {{$diktei->mnallotted()->dtcourse->title}}
                         @else

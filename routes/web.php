@@ -78,6 +78,8 @@ Route::controller(DikteiController::class)->group(function(){
     Route::get('/diktei/imns','imns');
     Route::get('/diktei/begin','begin');
     Route::get('/diktei/create','create');
+    Route::get('/diktei/check','check');
+    Route::post('/diktei/check','check_allotment');
     Route::post('/diktei/store','store');
     Route::get('/diktei/{diktei}/edit','edit');
     Route::put('/diktei/{diktei}','update');
@@ -99,7 +101,7 @@ Route::controller(DikteiController::class)->group(function(){
     Route::get('/diktei/unallotted','unallotted')->middleware(['auth']);
     Route::get('/diktei/allotments/{dtcourse}','allotments_dtcourse')->middleware(['auth']);
 
-    Route::get('/diktei/{diktei}','show')->middleware(['auth']);
+    Route::get('/diktei/{diktei}','show');
     Route::post('/diktei/{diktei}/assigncourse','assigncourse')->middleware('auth');
     Route::post('/diktei/{diktei}/clear','clear')->middleware('auth');
     Route::delete('/diktei/{diktei}','destroy')->middleware('auth');

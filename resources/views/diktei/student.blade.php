@@ -8,13 +8,10 @@
                 @endif
             </x-slot>
             <div>
-
                 <div class="form-group row pt-2">
                     <div class="col-md-4">
                         <x-select name="department" class="form-control imn">
                             <option value='0' selected>Select Department</option>
-                            
-                                
                                 @foreach($departments as $dep)
                                     <option value="{{ $dep->id }}" {{ isset($department) && $department->id==$dep->id?' selected ':'' }}>
                                         {{ $dep->name }}
@@ -23,12 +20,10 @@
                             
                         </x-select>
                     </div>
-
                 </div>
-
-
             </div>
             @if(isset($department))
+            <div>
                 <table class="table table-striped">
                     <tr>
                         <th>Sl</th>
@@ -49,6 +44,7 @@
                     </tr>
                     @endforeach
                 </table>
+            </div>
             @endif
         </x-block>
     </x-container>
@@ -62,7 +58,9 @@ $(document).ready(function(){
 
     $("select[name='department']").change(function(){
         //alert($(this).val());
-        location.replace('/diktei/students?dept_id=' + $(this).val());
+        if($(this).val() != 0){
+            location.replace('/diktei/students?dept_id=' + $(this).val());
+        }
     });
 });
 </script>

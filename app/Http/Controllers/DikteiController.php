@@ -36,10 +36,10 @@ class DikteiController extends Controller
 
         if(isset($_GET['dept_id'])){
             $department = Department::findOrFail($_GET['dept_id']);
-            $dikteis = Diktei::where('department_id',$department->id)->paginate()->withQueryString();
+            $dikteis = Diktei::where('department_id',$department->id)->get();;
         }
         else{
-            $dikteis = Diktei::paginate()->withQueryString();
+            $dikteis = Diktei::all();
         }
         $data = [
             'dikteis' => $dikteis,
@@ -421,13 +421,15 @@ class DikteiController extends Controller
 
             $dtunalotted = Diktei::whereNotIn('id',$dtalotted->pluck('id'))
                 ->where('department_id',$department->id)
-                ->paginate()
-                ->withQueryString();
+                ->get();
+                // ->paginate()
+                // ->withQueryString();
         }
         else{
             $dtunalotted = Diktei::whereNotIn('id',$dtalotted->pluck('id'))
-                ->paginate()
-                ->withQueryString();
+            ->get();
+                // ->paginate()
+                // ->withQueryString();
         }
 
         $data = [
@@ -507,5 +509,16 @@ class DikteiController extends Controller
         }
         return redirect("/diktei")->with(['message' => ['type' => 'info', 'text' => "Can now start"]]);
     }
+    public function check(){
+        return view('diktei.check');
+    }
 
+    public function check_allotment(){
+        $diktei = Diktei::where('rollno',request()->rollno)->first();
+        //return $diktei;
+        if(isset($diktei)){
+            return redirect('/diktei/' . $diktei->id);
+        }
+        return redirect()->back()->with(['message' => ['type' => 'info', 'text' => 'Your roll number is not found']])->withInput();
+    }
 }

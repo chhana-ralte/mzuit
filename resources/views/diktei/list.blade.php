@@ -17,18 +17,21 @@
                 @endauth
             </x-slot>
             <div>
-
-                <ul class="nav nav-tabs">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/diktei/list">Dept</a>
-                    </li>
-                    @foreach($departments as $dept)
-                        <li class="nav-item">
-                            <a class="nav-link" href="/diktei/list?dept_id={{$dept->id}}">{{ $dept->code }}</a>
-                        </li>
-                    @endforeach
-                </ul>
+                <div class="form-group row pt-2">
+                    <div class="col-md-4">
+                        <x-select name="department" class="form-control imn">
+                            <option value='0' selected>Select Department</option>
+                                @foreach($departments as $dep)
+                                    <option value="{{ $dep->id }}" {{ isset($department) && $department->id==$dep->id?' selected ':'' }}>
+                                        {{ $dep->name }}
+                                    </option>
+                                @endforeach
+                            
+                        </x-select>
+                    </div>
+                </div>
             </div>
+            @if(isset($department))
             <table class="table table-striped">
                 <tr>
                     <th>Sl</th>
@@ -80,10 +83,24 @@
                     </td>
                 </tr>
                 @endforeach
-                <tr>
-                    <td colspan="8">{{ $dikteis->links() }}</td>
-                </tr>
             </table>
+            @endif
         </x-block>
     </x-container>
+    <script>
+$(document).ready(function(){
+    $.ajaxSetup({
+        headers : {
+            'X-CSRF-TOKEN' : $('meta[name="csrf_token"]').attr("content")
+        }
+    });
+
+    $("select[name='department']").change(function(){
+        //alert($(this).val());
+        if($(this).val() != 0){
+        location.replace('/diktei/list?dept_id=' + $(this).val());
+        }
+    });
+});
+</script>
 </x-diktei>

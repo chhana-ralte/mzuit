@@ -47,6 +47,7 @@
                         @endif
                     </td>
                 </tr>
+                @auth
                 <tr>
                     <td>Newly allot to..</td>
                     <td>
@@ -62,6 +63,7 @@
                         </form>
                     </td>
                 </tr>      
+                @endauth
             </table>
         </x-block>
 
@@ -89,6 +91,7 @@
                         @endif
                     </td>
                 </tr>
+                @auth
                 <tr>
                     <td>Newly allot to..</td>
                     <td>
@@ -103,13 +106,14 @@
                             <x-button type="submit" form="assign-imn">Assign</x-button>
                         </form>
                     </td>
-                </tr>      
+                </tr>     
+                @endauth 
             </table>
         </x-block>
 
 
 
-
+        @auth
         <x-block>
             <table class="table table-striped">
                 <tr>
@@ -133,5 +137,6 @@
                     </td>
             </table>
         </x-block>
+        @endauth
     </x-container>
 </x-diktei>

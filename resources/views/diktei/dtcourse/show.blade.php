@@ -38,6 +38,7 @@
                         <th>Contact</th>
                         <td>{{ $dtcourse->contact }}</td>
                     </tr>
+                    @auth
                     <tr>
                         <th>Filled</th>
                         <td>{{ $dtcourse->filled() }}</td>
@@ -46,6 +47,7 @@
                         <th>Available</th>
                         <td>{{ $dtcourse->vacant() }}</td>
                     </tr>
+                    @endauth
                 <tbody>
                     <tr>
                         <td colspan=2>

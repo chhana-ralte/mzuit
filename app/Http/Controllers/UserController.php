@@ -123,7 +123,7 @@ class UserController extends Controller
             return redirect('/');
         }
         else{
-            return redirect('/login')->with(['message' => ['type'=>'danger','text'=>'Login Failed...']]);
+            return redirect('/login')->with(['message' => ['type'=>'danger','text'=>'Login Failed...']])->withInput();
         }
     }
 
